@@ -13,6 +13,7 @@ import { LoginModule } from './stork_features/login/login.module';
 import { PhoneDirectiveModule } from './stork_features/shared/validations/phone.directive.module';
 import { PhonePipe } from './stork_features/shared/validations/phone.pipe';
 import { FullLayoutComponent } from './stork_layout/full-layout/full-layout.component';
+import { AuthGuardService } from './core/guard/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FullLayoutComponent } from './stork_layout/full-layout/full-layout.comp
     AppHeaderModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

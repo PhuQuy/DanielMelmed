@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FullLayoutComponent } from './stork_layout/full-layout/full-layout.component';
+import { AuthGuardService } from './core/guard/auth-guard.service';
 // Import Containers
 
 
 export const routes: Routes = [
     {
+        path: '',
+        redirectTo: 'appointments',
+        pathMatch: 'full',
+    },
+    {
         path: 'login',
         loadChildren: './stork_features/login/login.module#LoginModule'
     },
-  
+
     {
         path: '',
         component: FullLayoutComponent,
+        canActivate: [AuthGuardService],
 
         children: [
 
