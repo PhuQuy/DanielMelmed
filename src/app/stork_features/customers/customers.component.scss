@@ -1,0 +1,355 @@
+
+    .account{max-width: 700px;}
+    span.error{color:#FF6470!important; margin: 0 0 10px 13px; float: left;}
+    .rnf{
+	padding: 100px;
+	width: 100%;
+	text-align: center;
+	font-size: 20px;
+    }
+    .nmrf{
+	padding:20px 0;
+    }
+.sidebr-card{
+  background-color:white;
+  width: 104%;
+  padding: 11px;
+  height: auto;
+  box-shadow: 0 0 10px #999;
+  margin-bottom: 12px;
+  
+
+}
+mat-row:nth-child(even) {
+    background-color: #e2dede;
+    border-bottom-style: none;
+    border-top-style: none;
+    
+}
+mat-row {
+    
+    border-bottom-style: none !important;
+    border-top-style: none;
+    
+
+    
+}
+.mat-header-row1{
+    margin-bottom: 0px; 
+    border-bottom-color: #9e9898;
+    border-bottom-width: 2px;
+    background-color:#54598C;
+}
+hr{
+    width: 100%;
+   
+    border-top: 2px solid #9e9898
+}
+
+
+hr {
+     margin-bottom: 0rem; 
+}
+.cropimage{
+    background:#54598c;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+}
+ .customertable{
+  box-shadow: 0 0 10px #999; 
+  background-color: white;
+  margin-top:35px;
+  width:104%;
+ }
+.sidebr-card h2{
+    font-weight: 500 !important;
+    color: #212121;
+}
+.sidebr-card-two{
+  background-color: white;
+    width: 25%;
+    padding: 16px;
+    height: auto;
+    box-shadow: 0 0 10px #999;
+    margin-bottom: 12px;
+    margin-top: -395px;
+    margin-left: 836px;
+    margin-right: 114px;
+}
+.sidebr-card-two h2{
+    font-weight: 500 !important;
+    color: #212121;
+}
+.sidebr-card-two hr{
+    border: 0.5px solid grey;
+}
+.filters i {
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    color: #54598c;
+}
+.centrepanel1 .fa{
+    color:#54598c !important;
+    margin-right: 80px;
+}
+.rowhead{
+    margin-top:0px;
+}
+
+.plussquare{
+    // margin-left: 137px; 
+    font-size:30px;
+        background-color: white;
+        border: none
+}
+.search{
+    margin-left: -166px;
+height: 33px;
+/* margin-top: 1px; */
+width: 144%;
+
+}
+.example-tooltip-host {
+  display: inline-flex;
+  align-items: center;
+  margin: 50px;
+}
+
+.example-select {
+  margin: 0 10px;
+}
+
+/* Structure */
+.example-container1 {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  margin-left: -10px;
+}
+
+.example-header {
+//   min-height: 80px;
+  padding: 3px  0;
+  margin-top:30px;
+  padding-left: 24px;
+  
+    // background-color: white;
+
+}
+
+
+.colsm11{
+    margin-top: -1.2%;
+}
+.colsm3{
+    margin-left:-45px;
+    
+    margin-top: -19px;
+}
+.colsm4{
+    // margin-left:-45px;
+    // text-align:right;
+    margin-top: -19px;
+}
+.result{
+    margin-right:45px;
+    text-align:right;
+    margin-top: -19px;
+}
+.addtext{
+     border:1px solid #999;
+    box-shadow: 0 0 10px #999;
+    background-color: white;
+     margin-left: 70px;
+
+}
+.fasearch{
+    border: none;
+    background-color: white;
+  }
+.search{
+       margin-left: -166px;
+    height: 33px;
+    /* margin-top: 1px; */
+    width: 144%;
+     
+}
+
+.mat-form-field {
+     
+    font-size: 21px;
+    width: 145%;
+    border: 1px solid #999;
+    box-shadow: 0 0 10px #999;
+    background-color: white;
+    height: 34px;
+    text-align: left;
+    margin-left: -167px;
+     border:none;
+}
+
+.mat-table {
+  overflow: auto;
+ height: 413px;
+}
+mat-header-cell {
+    font-size: 18px;
+    font-weight: bold;
+    color:  rgba(0, 0, 0, 0.54);
+}
+
+ span.error {
+        color: #f00 !important;
+        font-size: 14px !important;
+    }
+
+    .account table.account2_tbl td {
+        text-align: left !important;
+    }
+
+    .address i.check {
+        color: #FF6470!important
+    }
+
+    .tgl-light:checked+.tgl-btn {
+        background: #54598C
+    }
+
+    .address i.edit {
+        font-size: 21px;
+        position: absolute;
+        color: #00BB59;
+        font-size: 25px;
+        right: 35px;
+        color: #004ea6!important
+    }
+
+    .address i.delete {
+        font-size: 21px;
+        position: absolute;
+        color: #00BB59;
+        font-size: 25px;
+        right: 5px;
+        color: #FF6470!important
+    }
+
+    .tgl-light+.tgl-btn {
+        background: #ddd;
+        border-radius: 2em;
+        padding: 4px 9px 0 6px;
+        -webkit-transition: all .4s ease;
+        transition: all .4s ease;
+        text-align: right;
+    }
+
+    .tgl+.tgl-btn {
+        outline: 0;
+        display: block;
+        width: 4.5em !important;
+        height: 2em !important;
+        position: relative;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        color: #fff;
+    }
+
+    .tgl-light:checked+.tgl-btn {
+        background: #54598C !important;
+        text-align: left;
+        color: #fff;
+    }
+
+    .tgl:checked+.tgl-btn:after {
+        left: 70%;
+    }
+
+    .tgl+.tgl-btn:after {
+        left: 5%;
+        top: -112%;
+        width: 33%;
+        height: 77%;
+    }
+
+    .text {
+        position: relative;
+        top: -1px;
+    }
+
+    .modal-title {
+        font-weight: bold;
+    }
+
+.act_fom2{
+           width: 156%;
+   }
+   .act_fom1{
+         width: 113%;
+   }
+       
+     .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #54598C;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #54598C;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+    

@@ -1,0 +1,340 @@
+<div class=" row panels custom my_cust rowhead fontclr">
+    <div class="col-sm-12 centrepanel">
+        <!--<div style="float: right;">Result <span></span> found of <span></span></div>-->
+        <div class="allcustoms">
+            <div class="example-container mat-elevation-z8 customertable">
+                <div class="example-header">
+                    <div class="row">
+                        <div class="col-sm-4 colsm4">
+                            <div class="row ">
+                                <div class="col-sm-1">
+                                    <button class="fa fa-plus-square plussquaretherapist circle" matTooltip="Add New Therapist" matTooltipClass="primary-tooltip"
+                                        [matTooltipPosition]="position" (click)="openModal(template)"></button>
+                                </div>
+                                <div class="col-sm-11">
+                                    <!--<label>Add Customer</label>-->
+                                </div>
+                            </div>
+                            <ng-template #template>
+                                <!-- Modal -->
+                                <div id="myModal">
+                                    <div class="headertherapist">
+                                        Add New Therapist
+                                        <a id="closeNewTherapistForm" style="float:right;  cursor: pointer;" (click)="modalRef.hide()">
+                                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="modal-body fontclr">
+                                    <section style="padding-top:20px;">
+                                        <form class="form-horizontal" (submit)="openConfirmModal(SaveTemplate)" [formGroup]="therapistform">
+                                            <div class="row">
+
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-5">
+                                                    <table class="table_details table_back">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th colspan="3">
+                                                                    <i class="fa fa-globe"></i> Personal Information</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td>
+                                                                    <div class="thapp_c">
+                                                                        <!-- no-image -->
+                                                                        <!--<img class="thapp_c" ng-src="{{(therapist.pImage) ? therapist.pImage : therapist.ProfileImage }}" type="{{therapist.pImageType}}" alt="{{therapist.pImageName}}" id="profileImage"  />-->
+                                                                        <img *ngIf="image==null" class="thapp_c" src="../../../assets/img/custom.jpg">
+                                                                        <img *ngIf="image!=null" class="thapp_c" [src]="image">
+
+
+
+                                                                    </div>
+                                                                    <div>
+                                                                        <label class="custom-file-upload file_upload" (click)="openConfirmModal(ImageTemplate)">
+                                                                            <div style="color:#4B889A;text-shadow: 1px 1px #E6FFFF;">
+                                                                                <i class="fa fa-cloud-upload"></i> UPLOAD PROFILE PICTURE
+                                                                            </div>
+                                                                        </label>
+                                                                        <ng-template #ImageTemplate>
+                                                                            <div class="modal-body">
+                                                                                <div class="cropimage">
+                                                                                    Image Crop
+                                                                                    <a id="closeNewTherapistForm" style="float:right;  cursor: pointer;" (click)="confirmModalRef.hide()">
+                                                                                        <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                                                                    </a>
+
+                                                                                </div>
+                                                                                <div class="row" style="margin-top: 5%">
+                                                                                    <div class="col-sm-2">
+
+                                                                                    </div>
+                                                                                    <div class="col-sm-6">
+                                                                                        <img-cropper class="thapp_c" [image]="data" [settings]="cropperSettings"></img-cropper>
+
+                                                                                    </div>
+                                                                                    <div class="col-sm-4">
+                                                                                        <img [src]="data.image">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="modalfooter fontclr">
+                                                                                <button type="button" class="btn btn-default" id="modal-btn-si" (click)="Imageupload(data.image)">Yes</button>
+                                                                                <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                                                                            </div>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </td>
+                                                                <td>&nbsp;</td>
+                                                            </tr>
+                                                            <tr class="trrow">
+                                                                <td class="tdpersonal">First Name:</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control textbox" placeholder="Enter first name" formControlName="firstname" [ngModel]="firstname">
+                                                                    <control-messages [control]="therapistform.controls.firstname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tdpersonal">Last Name:</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control textbox" placeholder="Enter last name" formControlName="lastname" [ngModel]="lastname">
+                                                                    <control-messages [control]="therapistform.controls.lastname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="trrow">
+                                                                <td class="tdpersonal">Email:</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control textbox" placeholder="Enter email address" formControlName="email" [ngModel]="email">
+                                                                    <control-messages [control]="therapistform.controls.email" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+                                                                </td>
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td class="tdpersonal">phone:</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control textbox" placeholder="Enter phone number" formControlName="phone" [ngModel]="phone">
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="trrow">
+                                                                <td class="tdpersonal">Gender</td>
+                                                                <td>
+                                                                    <div class="multibtns textbox">
+                                                                        <button type="button" title="Male" id="Gender" (click)="selectGender('Male')">
+                                                                            <i class="fa fa-male"></i>
+                                                                        </button>
+                                                                        <button type="button" title="Female" id="Gender" (click)="selectGender('Female')">
+                                                                            <i class="fa fa-female"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                                <td>&nbsp;</td>
+                                                            </tr>
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6" style="margin-top: 40px;">
+                                                            <table class="table_details therapisttable">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th colspan="3">
+                                                                            <i class="fa fa-globe"></i> Location</th>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td class="tdpersonal">Region:</td>
+                                                                        <td>
+                                                                            <select id="regionn" placeholder="Select Region" class="textbox form-control" name="region" type="text" [ngModel]="region"
+                                                                                (change)="selectedregionRow(regions[$event.target.selectedIndex])"
+                                                                                formControlName="region" [(ngModel)]="region">
+                                                                                <option *ngFor="let region of regions" [value]="region">{{region.name}}</option>
+                                                                            </select>
+                                                                            <control-messages [control]="therapistform.controls.region" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="trrow">
+                                                                        <td class="tdpersonal">Sub-Region:</td>
+                                                                        <td>
+                                                                            <select class="textbox form-control" placeholder="Select Region" type="text" formControlName="sub_region" [ngModel]="sub_region"
+                                                                                value={{sub_region}} [ngModel]="sub_region">
+                                                                                <option *ngFor="let subregion of subregions" [ngValue]="subregion">{{subregion.name}}</option>
+                                                                            </select>
+
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tdpersonal">Street Address: </td>
+                                                                        <td>
+                                                                            <input class="form-control textbox" type="text" placeholder="Enter Street Address" formControlName="street" maxlength="100"
+                                                                                [ngModel]="street" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="trrow">
+                                                                        <td class="tdpersonal">City:</td>
+                                                                        <td>
+                                                                            <input class="form-control textbox" type="text" placeholder="Enter City" formControlName="city" maxlength="100" title="City"
+                                                                                [ngModel]="city" id="tpCity">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tdpersonal">State:</td>
+                                                                        <td>
+                                                                            <input class="form-control textbox" type="text" placeholder="Enter State" formControlName="state" maxlength="100" title="State"
+                                                                                [ngModel]="state" id="tpState">
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr class="trrow">
+                                                                        <td class="tdpersonal">Zip:</td>
+                                                                        <td>
+                                                                            <input class="form-control textbox" type="text" formControlName="zip" placeholder="Enter Zip Code" valid-number maxlength="6"
+                                                                                [ngModel]="zip" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+
+                                                    <table class="table_details table_back">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th colspan="3">
+                                                                    <i class="fa fa-globe"></i> Regions Served</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tdpersonal">
+                                                                    <div class="served_regions">
+                                                                        <ul>
+                                                                            <li *ngFor="let region of regions">
+                                                                                <div class="region_btn_section">
+                                                                                    <input type="checkbox" id="sr_{{region._id}}" formControlName="servedRegion" [value]="region" [ngModel]="region.selected"
+                                                                                        (change)="checkIfAllSelected(region,$event.target.checked);">
+                                                                                    <label for="sr_{{region._id}}"> {{region.name}}</label>
+                                                                                </div>
+                                                                                <div class="served_subregions">
+                                                                                    <ul *ngFor="let subregion of sub_regions">
+                                                                                        <li *ngIf="(subregion.regionId==region._id)">
+
+                                                                                            <input type="checkbox" id="ssr_{{subregion._id}}" class="sr_{{subregion.regionId}}" formControlName="servedsubRegion" [value]="subregion"
+                                                                                                [ngModel]="subregion.selected"
+                                                                                                (change)="checkIfAllSelected(subregion,$event.target.checked);">
+                                                                                            <label for="ssr_{{subregion._id}}"> {{subregion.name}}</label>
+
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+                                            <div style="width:100%; margin: 25px 0 0 0; text-align: center;">
+                                                <div class="flash_messages_div" style="left: 3%; width:100%; top:900px;">
+                                                    <!--<flash-message duration="300000" show-close="flase" on-dismiss="myCallback(flash)" ></flash-message>-->
+                                                </div>
+                                                <button class="btn therapist-savebtn" id="saveTherapist" type="submit" [disabled]="!therapistform.valid">
+                                                    <i class="fa fa-check-circle"></i> Save Therapist
+                                                </button>
+
+
+                                                <!--Open confirm  modal window-->
+                                                <ng-template #SaveTemplate>
+                                                    <div class="modal-body">
+                                                        <div class="modal-head"> Do you want to save? </div>
+                                                    </div>
+                                                    <div class="modalfooter fontclr">
+                                                        <button type="button" class="btn btn-default" id="modal-btn-si" (click)="create_therapist()">Yes</button>
+                                                        <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                                                    </div>
+                                                </ng-template>
+                                                <!--Close confirm setup modal window-->
+                                            </div>
+                                        </form>
+                                    </section>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div class="col-sm-4 colsm3">
+                            <input class="form-control search" #titleInput>
+                        </div>
+                        <div class="col-sm-1 colsm1">
+                            <button class="fa fa-search fasearch" matInput (click)="applyFilter(titleInput.value)" style="  color:#17B4C2 !important;"></button>
+                        </div>
+
+                        <div class="col-sm-3 result"></div>
+                    </div>
+                </div>
+                <hr class="hr">
+                <mat-table #table [dataSource]="therapistDataSource" matSort>
+                    <ng-container matColumnDef="firstname">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> TherapistName </mat-header-cell>
+                        <mat-cell *matCellDef="let therapist">{{therapist.firstname}} {{therapist.lastname}}
+                            <!-- <a [routerLink]="['/therapist/profile/',therapist._id]"> {{therapist.firstname}} {{therapist.lastname}} </a> -->
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Region">
+                        <mat-header-cell *matHeaderCellDef > Region </mat-header-cell>
+                        <mat-cell *matCellDef="let therapist"> {{therapist.address.region.name}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="SubRegion">
+                        <mat-header-cell *matHeaderCellDef > SubRegion </mat-header-cell>
+                        <mat-cell *matCellDef="let therapist">{{therapist.address.subregion.name}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="City">
+                        <mat-header-cell *matHeaderCellDef > City </mat-header-cell>
+                        <mat-cell *matCellDef="let therapist"> {{therapist.address.city}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Phone">
+                        <mat-header-cell *matHeaderCellDef > Phone </mat-header-cell>
+                        <mat-cell *matCellDef="let  therapist"> {{therapist.phone[0].phone}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Email">
+                        <mat-header-cell *matHeaderCellDef > Email </mat-header-cell>
+                        <mat-cell *matCellDef="let therapist"> {{therapist.email}} </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns" class="mat-header-row1"></mat-header-row>
+
+                    <mat-row (click)="redirect(therapist._id)" style="text-align: left;" [ngClass]="{'highlight': selectedRowIndex == therapist._id}"
+                        *matRowDef="let therapist; columns: displayedColumns;"></mat-row>
+
+                </mat-table>
+                <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 30,40,50]" [showFirstLastButtons]="true">
+                </mat-paginator>
+
+
+
+            </div>
+            <div id="fountainG">
+                <div id="fountainG_1" class="fountainG"></div>
+                <div id="fountainG_2" class="fountainG"></div>
+                <div id="fountainG_3" class="fountainG"></div>
+                <div id="fountainG_4" class="fountainG"></div>
+                <div id="fountainG_5" class="fountainG"></div>
+                <div id="fountainG_6" class="fountainG"></div>
+                <div id="fountainG_7" class="fountainG"></div>
+                <div id="fountainG_8" class="fountainG"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

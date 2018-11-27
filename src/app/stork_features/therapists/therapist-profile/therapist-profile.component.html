@@ -1,0 +1,288 @@
+<div class="row fontclr">
+    <div class="col-sm-3">
+        <div class="leftside" style="box-shadow: 0 0 10px #999;margin-top: 37px;    margin-left: -13px;">
+            <div class="profile profiletherapist">
+                <img *ngIf="!therapist.imagename" src="../../../../assets/img/custom.jpg">
+                <img *ngIf="therapist.imagename" [src]="therapist.imagename" style="width:160px;height:150px;">
+                <h1 class="name">
+                    {{firstname}} {{lastname}}
+                </h1>
+                <ul class="tab-links">
+                    <li>
+                        <a [routerLink]="['/therapist/profile',therapistId]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                            id="acAppointments">
+                            <i class="icon fa fa-user"></i> Profile</a>
+                    </li>
+                    <li>
+                        <a routerLinkActive="active" [routerLink]="['/therapist/appointment',therapistId]" id="acAppointments">
+                            <i class="icon fa fa-calendar-o"></i> Appointments</a>
+                    </li>
+                    <li>
+                        <a routerLinkActive="active" [routerLink]="['/therapist/setup' ,therapistId]" id="acSetup">
+                            <i class="icon fa fa-cog"></i> Setup</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-9 custominfo " style="padding-right:15px;">
+        <div>
+            <div class="cust_cng" style="position:relative;">
+                <div style="position:absolute;right: 226px;;color:red;">
+                    <div class="radio">
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span style="float:left;  padding-right: 10px;font-size: 16px; color: #FF5A5A">Delete
+
+                        </span>
+                    </div>
+                </div>
+                <div style="position:absolute;margin-top: 10px;left:25px;">
+                    <span>
+                        <b> {{therapist?.firstname}} {{therapist?.lastname}}</b>
+                    </span>
+                    <br>
+                    <span> {{therapist?.email}} </span>
+                </div>
+                <div style="position:absolute;right: 0px;color:red;">
+                    <div class="radio">
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span style="float:left;  padding-right: 10px;font-size: 16px; color: #FF5A5A">System Access:</span>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: -8px;">
+                    <b>
+                    </b>
+                    <br>
+                    <b style="font-weight: 200; font-size: 16px; margin-left: -5px;">
+                    </b>
+                </h3>
+                <div class="row therapistrow" style="margin-left:1%;">
+                    <div class="col-md-3" *ngIf="therapist != undefined && therapist.isactive">
+                        Employment Status : Active
+                    </div>
+                    <div class="col-md-3" *ngIf="therapist != undefined && !therapist.isactive">
+                        Employment Status : InActive
+                    </div>
+
+                    <div class="col-md-3" title="Region">
+                        <i class="fa fa-globe"></i> &nbsp; {{therapist?.address.region.name}}
+                    </div>
+                    <div class="col-md-5" title="Sub Region">
+                        <i class="fa fa-map-marker"></i> &nbsp; {{therapist?.address.subregion.name}}
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <form (submit)="openConfirmModal(SaveTemplate)" [formGroup]="therapistform">
+                <div class=" btnAlign" style="margin-left:2%;text-align: left;">
+                    <button type="submit" class="btn savebtn">Save</button>
+                    <button type="button" class="btn canclebtn">Cancel</button>
+                </div>
+                <!--Open confirm  modal window-->
+                <ng-template #SaveTemplate>
+                    <div class="modal-body">
+                        <div class="modal-head"> Do you want to save? </div>
+                    </div>
+                    <div class="modalfooter fontclr">
+                        <button type="button" class="btn btn-default" id="modal-btn-si" (click)="update_therapist(therapist)">Yes</button>
+                        <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                    </div>
+                </ng-template>
+                <!--Close confirm setup modal window-->
+                <div class="profile-inner custProfTab-inner">
+                    <div class="profile-inner-left">
+                        <div class="left-inputs contactSectionHeading">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h3 class="heading2">
+                                        <i class="fa fa-cog"></i> Enter Address Details</h3>
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>Address </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input name="address" class="text-left tdWidthProfile form-control" formControlName="street" [(ngModel)]="therapist.address.street">
+                                        </div>
+                                    </div>
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>City </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input name="city" class="text-left tdWidthProfile form-control" formControlName="city" [(ngModel)]="therapist.address.city">
+                                        </div>
+                                    </div>
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>State</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input name="state" class="text-left tdWidthProfile form-control" formControlName="state" [(ngModel)]="therapist.address.state">
+                                        </div>
+                                    </div>
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>Zipcode </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input name="zip" class="text-left tdWidthProfile form-control" formControlName="zip" [(ngModel)]="therapist.address.zipcode">
+                                        </div>
+                                    </div>
+
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>Region</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <select name="region" formControlName="region" class="text-left tdWidthProfile form-control" [(ngModel)]="therapist.address.region"
+                                                (change)="selectedregionRow(regions[$event.target.selectedIndex])">
+                                                <option *ngFor="let region of regions" [value]="region">{{region.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>Sub Region</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <select name="subregion" formControlName="subregion" class="text-left tdWidthProfile form-control" [(ngModel)]="therapist.address.subregion">
+                                                <option *ngFor="let subregion of subregions" [ngValue]="subregion">{{subregion.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    &nbsp;
+                                    <h3 class="heading1">
+                                        <i class="fa fa-phone"></i> Enter Contact Details</h3>
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>Main Email </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input name="email" class="text-left tdWidthProfile form-control" formControlName="email" [(ngModel)]="therapist.email">
+                                        </div>
+                                    </div>
+                                    <div class=" row street">
+                                        <div class="col-sm-5"></div>
+
+                                        <div class="col-sm-7">
+                                            <control-messages [control]="therapistform.controls.email" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                                        </div>
+                                    </div>
+
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>Phone Number </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input name="phnnumber" phoneFormatter (ngModelChange)="changeModel1($event)" maxlength="14" class="text-left tdWidthProfile form-control"
+                                                formControlName="phnnumber" [(ngModel)]="therapist.primaryphone" value="{{therapist.primaryphone}}">
+                                        </div>
+                                    </div>
+                                    <div class=" row street">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4 col-margin">
+                                            <label>
+                                                <b>Secondary Phone Number </b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input name="secondarynumber" phoneFormatter (ngModelChange)="changeModel2($event)" maxlength="14" class="text-left tdWidthProfile form-control"
+                                                formControlName="secondarynumber" [(ngModel)]="therapist.secondaryphone" value="{{therapist.secondaryphone}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-sm-6">
+                                    <div class="right-inputs account">
+                                        <h3 class="heading ">
+                                            <i class="fa fa-sticky-note-o"></i> Admin Notes
+                                        </h3>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <div class="manual-box">
+                                                    <textarea name="adminnotes" placeholder="Admin Notes" title="Admin Notes" class="textarea form-control" id="tpAdminNotes"
+                                                        formControlName="admin_notes" [(ngModel)]="therapist.admin_notes"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <h3 class="heading">
+                                            <i class="fa fa-sticky-note-o"></i> Therapist Notes
+                                        </h3>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <div class="manual-box">
+                                                    <textarea name="therapist_notes" placeholder="Therapist Notes" class="textarea form-control" title="Customer Notes" id="tpCustomerNotes"
+                                                        formControlName="therapist_notes" [(ngModel)]="therapist.therapist_notes"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div>
+                                        <mat-tab-group style="margin-top:5px;">
+                                            <mat-tab label="Admin">
+                                                <textarea class="txtarea form-control" ng-readonly="staticPage" style="height: 395px!important;width: 450px;" ng-model="apt.work_order_notes" placeholder="Admin Notes"></textarea>
+                                            </mat-tab>
+                                            <mat-tab label="Therapist">
+                                                <textarea class="txtarea form-control" ng-readonly="staticPage" style="height: 395px!important;width: 450px;" ng-model="apt.work_order_notes" placeholder="Therapist Notes"></textarea>
+                                            </mat-tab>
+                
+                                        </mat-tab-group>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-sm-6">
+                                    
+                                </div>
+                                <div class="col-sm-6"></div>
+                            </div> -->
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

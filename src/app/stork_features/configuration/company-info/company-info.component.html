@@ -1,0 +1,118 @@
+<div id="tab2" class="tab" ng-controller="companyInfoCtrl">
+  <!--<app-error-message></app-error-message>-->
+  <h1 class="h1">
+    Company Info
+  </h1>
+  <form (ngSubmit)="company_info()" [formGroup]="companyform" #form="ngForm">
+    <div class="box" style="margin-left: 10px;">
+      <label class="header1">Company Info</label>
+
+
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>Company Name : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="name" formControlName="name"
+            required>
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>First Name : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="firstname" formControlName="firstname"
+            required>
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>Last Name : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="lastname" formControlName="lastname"
+            required>
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>Title : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="title" formControlName="title">
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>Phone : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="phone" value="{{phone}}"
+            formControlName="phone" phoneFormatter (ngModelChange)="changeModel($event)" maxlength="14" required>
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>Email : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="email" formControlName="email"
+            [email]="validateEmail">
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>Street Address : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="street" formControlName="street"
+            required>
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>City : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="city" formControlName="city"
+            required>
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>State : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="state" formControlName="state"
+            required>
+        </div>
+      </div>
+      <div class="row rowmargin">
+        <div class="col-md-2 colsm3">
+          <label>Zip Code : </label>
+        </div>
+        <div class="col-md-9 colsm9">
+          <input type="text" class="form-control" style="float: left; width: 85% !important;" [ngModel]="zipcode" formControlName="zipcode">
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <button type="submit" class="btn savebtn" [disabled]="!companyform.valid || !companyform.dirty || disable">Save</button>
+        <button type="button" class="btn canclebtn" [disabled]="!companyform.valid || !companyform.dirty || disable" (click)="get_company_info()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!--delete confirm template modal window-->
+<ng-template #confirmtemplate>
+  <div class="modal-body">
+    <div class="modal-head"> Do you want to save company info? </div>
+  </div>
+  <div class="modalfooter fontclr">
+    <button type="button" class="btn btn-default" id="modal-btn-si" (click)="update_company_info()">Yes</button>
+    <button type="button" class="btn btn-no" id="modal-btn-no" (click)="cancel_company_info()">No</button>
+  </div>
+</ng-template>
+<!--close confirmtemplate modal window-->

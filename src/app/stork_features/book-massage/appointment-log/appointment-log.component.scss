@@ -1,0 +1,82 @@
+
+hr{
+    width: 100%;
+   
+    border-top: 1px solid #9e9898
+}
+
+
+hr {
+
+     margin-bottom: 0rem; 
+    //  border: 0 !important;
+    // border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+.save{
+        background-color: #5cb85c;
+    width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+.edit{
+background-color: #5bc0de;
+ width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+
+}
+.cancle1{
+background-color: #f0ad4e;
+width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+.delete{
+  background-color: #d9534f;
+  width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+.table{    
+	font-family: 'Lato', sans-serif !important;
+}
+th,td{padding: 1px 10px;}
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #ddd;
+}
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #eefafb;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 10px 12px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    border:none; 
+}
+table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 1px;
+    border-color: grey;
+   
+}
+.main-div-section {
+    // max-width: 1000px !important;
+        // overflow-x: scroll;
+    margin:0 auto;
+
+}
+.service_total input {
+    width: 24%;
+    text-align: right;
+    padding: 0px 7px !important;
+}
+// .table tr th{
+//     color: #fff;
+// }

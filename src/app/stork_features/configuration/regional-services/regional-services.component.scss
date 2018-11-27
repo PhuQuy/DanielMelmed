@@ -1,0 +1,111 @@
+//angular material
+  mat-header-cell {
+        font-size: 18px;
+        font-weight: bold;
+    }
+.mat-table {
+      overflow: auto;
+    height: 536px;
+  
+}
+
+.input-icon > i {
+  position: absolute;
+  display: block;
+  transform: translate(0, -50%);
+  top: 50%;
+  pointer-events: none;
+  width: 25px;
+  text-align: center; 
+  font-style: normal;
+  left: 2%;
+  }
+
+.mat-tooltip {
+  color: white !important;
+  background-color: rgba(0, 187, 89, 0.73);
+  font-size: 14px;
+  font-weight: bold;
+}
+mat-header-row{
+      background-color: rgba(0, 187, 89, 0.73); color:white;
+      border-bottom-width: 0px;
+}
+mat-row{
+   border:none;
+
+}
+mat-row:nth-child(even) {
+    background-color: #e2dede;
+    border-bottom-style: none;
+    border-top-style: none;
+    
+}
+mat-row:nth-child(odd) {
+    background-color: white;
+    border-bottom-style: none;
+    border-top-style: none;
+    
+}
+.example-container {
+
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+  
+}
+  .plussquare{
+   font-size: 30px;
+    color: rgba(0, 187, 89, 0.73);
+    border: none;
+    background: none;
+}
+.colsm3{
+    // margin-left:-45px;
+    margin-left: -20px;
+    
+  
+}
+
+mat-form-field{
+  width:100%;
+}
+.hr{
+  margin-top: 8px; 
+     margin-bottom: 0rem;
+}
+.inputtext{
+  background-color: white;
+  height: 34px;
+}
+
+
+    span.error{color:#FF6470!important; margin: 0 0 10px 13px; float: left;}
+    .rnf{
+	padding: 100px;
+	width: 100%;
+	text-align: center;
+	font-size: 20px;
+    }
+    .row-text{
+    width: 100%;
+    border-radius: 5px;
+    }
+ .row-service{
+     margin-bottom: 5px;
+ } 
+
+
+ @media ( min-width:1365px){
+  
+  .mat-table{
+    height:425px;
+  }
+  
+}
+@media ( min-width:1600px){
+
+.mat-table{
+  height:560px;
+}
+}

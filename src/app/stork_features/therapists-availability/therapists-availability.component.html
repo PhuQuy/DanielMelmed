@@ -1,0 +1,106 @@
+<div class="row" style="margin-top: 20px">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-4" style="text-align: left">
+        <div class=" filter" id="locfilters_wrapper">
+            <span class=" lbl">Region: </span>
+
+            <select class="txt form-control" name="filter_region_id" id="filterRegionId" ng-options="Region as Region.name for Region in Regions | orderBy:'name' track by Region._id"
+                ng-model="filterRegionId" ng-change="setFiltersWithRegion(filterRegionId);" style="width:50%;">
+                <option value="">Select Region</option>
+            </select>
+        </div>
+
+
+
+    </div>
+    <div class="col-sm-3" style="text-align: left">
+        <div class="filter">
+            <span class=" lbl">Sub Region: </span>
+            <select class="txt custom form-control" name="filter_sub_region_id" id="filterSubRegionId" ng-options="SubRegion as SubRegion.name for SubRegion in FilterSubRegions | orderBy:'name' track by SubRegion._id"
+                ng-model="filterSubRegionId" ng-change="setFiltersBySubRegion(filterSubRegionId);">
+                <option value="">Select Sub-region</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="col-sm-3" style="text-align: left">
+        <div class="filter">
+            <span class=" lbl">Service: </span>
+            <select class="txt custom form-control" name="filter_service_id" id="filterServiceId" ng-options="FilterService as FilterService.duration + ' Minutes ' + FilterService.service_type.name + ' ' + FilterService.service_location_type_name + ' ' + FilterService.currency.symbol + FilterService.cost for FilterService in FilterServices | orderBy:'service_type.name' track by FilterService.service_type._id"
+                ng-model="filterServiceId" ng-change="setFiltersWithService(filterServiceId);" style="margin-left:15px;">
+                <option value="">Select Service</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+<div class="row">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-4" style="text-align: left">
+
+        <div class="locfilters_wrapper filter" id="locfilters_wrapper">
+            <span class=" lbl">Gender: </span>
+            <div class="multibtns" style="margin:0 20px 0 0;">
+                <button class="gender_filter" id="EitherGender" ng-click="setGenderFilter('Either');">
+                    <i class="fa fa-male"></i>
+                    <i class="fa fa-female"></i>
+                </button>
+                <button class="gender_filter" id="MaleGender" ng-click="setGenderFilter('Male');">
+                    <i class="fa fa-male"></i>
+                </button>
+                <button class="gender_filter" id="FemaleGender" ng-click="setGenderFilter('Female');">
+                    <i class="fa fa-female"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3" style="text-align: left">
+        <div class="filter">
+            <span class=" lbl"> Availability: </span>
+            <div class="multibtns" style="margin:0 20px 0 0;">
+                <button class="availability_filter" id="yesAvailability" ng-click="setAvailabilityFilter('yes');">
+                    Yes
+                </button>
+                <button class="availability_filter" id="noAvailability" ng-click="setAvailabilityFilter('no');">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3" style="text-align: left">
+        <div class="filter">
+            <span class=" lbl">Therapist: </span>
+            <select class="txt  custom form-control" name="filter_service_id" id="filterServiceId" ng-options="FilterService as FilterService.duration + ' Minutes ' + FilterService.service_type.name + ' ' + FilterService.service_location_type_name + ' ' + FilterService.currency.symbol + FilterService.cost for FilterService in FilterServices | orderBy:'service_type.name' track by FilterService.service_type._id"
+                ng-model="filterServiceId" ng-change="setFiltersWithService(filterServiceId);">
+                <option value="">Select Service</option>
+            </select>
+
+        </div>
+
+    </div>
+    <div class="col-sm-1" style="text-align: left">
+        <button class="btn" style="margin-left: -40px" ng-click="searchAppointments()">Search</button>
+    </div>
+</div>
+<br>
+<div class="row">
+    <!-- <div #scheduler class="dhx_cal_container calender">
+        <div class="dhx_cal_navline">
+            <div class="dhx_cal_prev_button">&nbsp;</div>
+            <div class="dhx_cal_next_button">&nbsp;</div>
+            <div class="dhx_cal_today_button"></div>
+            <div class="dhx_cal_date"></div>
+            <div class="dhx_cal_tab" name="day_tab"></div>
+            <div class="dhx_cal_tab" name="week_tab"></div>
+            <div class="dhx_cal_tab" name="month_tab"></div>
+        </div>
+        <div class="dhx_cal_header"></div>
+        <div class="dhx_cal_data"></div>
+    </div> -->
+    <div id='calendar'></div>
+</div>
+
+<div id="test" #clicktag (click)="Clicked()" hidden="true"></div>

@@ -1,0 +1,266 @@
+<div class="row fontclr">
+    <div class="col-sm-3">
+
+        <div class="leftside" style="box-shadow: 0 0 10px #999;margin-top: 37px;    margin-left: -13px;">
+            <div class="profile profilecustomer">
+                    <img *ngIf="!customer.imagename" src="../../../../assets/img/custom.jpg">
+                    <img *ngIf="customer.imagename" [src]="customer.imagename" style="width:160px;height:150px;">
+                <h1 class="name">
+                    {{customer.firstname}} {{customer.lastname}}
+
+                </h1>
+                <ul class="tab-links">
+                    <li>
+                        <a [routerLink]="['/customer/profile',customerid]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                            id="acAppointments">
+                            <i class="icon fa fa-user"></i> Profile</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/customer/appointment',customerid]" routerLinkActive="active" id="acAppointments">
+                            <i class="icon fa fa-calendar-o"></i> Appointments</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/customer/setup',customerid]" routerLinkActive="active" id="acSetup">
+                            <i class="icon fa fa-cog"></i> Setup</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-9 custominfo " style="padding-right:15px;">
+
+        <div class="cust_cng" style="position:relative;">
+            <div style="position:absolute;right: 226px;;color:red;">
+                <div class="radio">
+                        <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <span style="float:left;  padding-right: 10px;font-size: 16px; color: #FF5A5A">Delete
+                    </span>
+                </div>
+            </div>
+            <div style="position:absolute;margin-top: 10px;left:25px;">
+                <span>  {{customer.firstname}} {{customer.lastname}} </span>
+                <br>
+                <span>  {{customer.email}}</span>
+            </div>
+            <div style="position:absolute;right: 0px;color:red;">
+                <div class="radio">
+                     <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <span style="float:left;  padding-right: 10px;font-size: 16px; color: #FF5A5A">System Access:</span>
+                </div>
+            </div>
+            <h3 style="margin-bottom: -8px;">
+                <b>
+                   
+                </b>
+                <br>
+                <b style="font-weight: 200; font-size: 16px; margin-left: -5px;">
+                  
+                </b>
+            </h3>
+
+            <div class="row" style="font-size: 14px;  font-weight: bold;margin-top: 16px;margin-left:1%;">
+                <div class="col-md-4" title="Customer Type">
+                    <i class="fa fa-user-secret"></i> {{customer.customertype}}
+                </div>
+                   <div class="col-md-4" title="Region">
+                    <i class="fa fa-globe"></i> {{customer.defaultAddress.region.name}}
+                </div>
+                <div class="col-md-4" title="Sub Region">
+                    <i class="fa fa-map-marker"></i>{{customer.defaultAddress.subregion.name}}
+                </div>
+            </div>
+
+            <hr>
+        </div>
+
+        <div class="profile-inner custProfTab-inner">
+            <div class="profile-inner-left">
+                <div class="left-inputs contactSectionHeading">
+                    <form (submit)="openConfirmModal(SaveTemplate)" [formGroup]="customerform">
+                        <ng-template #SaveTemplate>
+                            <div class="modal-body">
+                                <div class="modal-head"> Do you want to save? </div>
+                            </div>
+                            <div class="modalfooter fontclr">
+                                <button type="button" class="btn btn-default" id="modal-btn-si" (click)="update_customer(customer)">Yes</button>
+                                <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                            </div>
+                        </ng-template>
+                        <div class="row">
+                            <div class="col-sm-12 buttoncustomer" style="margin-left:1%;">
+
+                                <button type="submit" class="btn savebtn">Save</button>
+                                <button type="button" class="btn canclebtn">Cancel</button>
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="address_profile">
+                                    <!--<div class="adname" ng-show="defaultAddress[0] != undefined">Default : {{defaultAddress[0].address_id.address_name}}</div>-->
+                                    <!-- <div class="adname" ng-show="defaultAddress[0] == undefined">No Default Address Available</div> -->
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>Contact Name</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <input type="text" name="contactname" formControlName="contactname" class="form-control" [(ngModel)]="customer.defaultContact.contact_name">
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>Primary Phone</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <input type="text" name="primaryphone" formControlName="primaryphone" class="form-control" [(ngModel)]="customer.defaultContact.defaultphone.phone">
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>Email</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <input type="text" name="email" formControlName="email" class="form-control" [(ngModel)]="customer.defaultContact.email">
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>Street</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <input type="text" name="street" formControlName="street" class="form-control" [(ngModel)]="customer.defaultAddress.street1">
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>City</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <input type="text" name="city" formControlName="city" class="form-control" [(ngModel)]="customer.defaultAddress.city">
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>State</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <input type="text" formControlName="state" name="state" class="form-control" [(ngModel)]="customer.defaultAddress.state">
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>Region</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <select name="region" formControlName="region" class="text-left tdWidthProfile form-control" [(ngModel)]="customer.defaultAddress.region"
+                                                (change)="selectedregionRow(regions[$event.target.selectedIndex])">
+                                                <option *ngFor="let region of regions" [value]="region">{{region.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>Sub Region</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <select name="subregion" formControlName="subregion" class="text-left tdWidthProfile form-control" [(ngModel)]="customer.defaultAddress.subregion">
+                                                <option *ngFor="let subregion of subregions" [value]="subregion">{{subregion.name}}</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>Mobile Phone</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <input type="text" name="mobilephone" formControlName="mobilephone" class="form-control" [(ngModel)]="customer.defaultContact.mobileno">
+                                        </div>
+                                    </div>
+                                    <div class=" row customerprofile">
+                                        <div class="col-sm-4">
+                                            <label class="text-left tdWidthProfile">
+                                                <b>Secondary Phone</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 customer_profile">
+                                            <input type="text" name="secondaryphone" formControlName="secondaryphone" class="form-control" [(ngModel)]="customer.defaultContact.secondaryphone.phone">
+                                        </div>
+                                    </div>
+                                    </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div>
+                                    <mat-tab-group style="margin-top:5px;">
+                                        <mat-tab label="Admin">
+                                            <textarea class="txtarea form-control" ng-readonly="staticPage" style="height: 340px!important;" ng-model="apt.work_order_notes" placeholder="Admin Notes"></textarea>
+                                        </mat-tab>
+                                        <mat-tab label="Customer">
+                                            <textarea class="txtarea form-control" ng-readonly="staticPage" style="height: 340px!important;" ng-model="apt.work_order_notes" placeholder="Customer Notes"></textarea>
+                                        </mat-tab>
+                                        <mat-tab label="Address">
+                                            <textarea class="txtarea form-control" ng-readonly="staticPage" style="height: 340px!important;" ng-model="apt.work_order_notes" placeholder="Address notes"></textarea>
+                                        </mat-tab>
+                                    </mat-tab-group>
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-sm-6">
+                                <div >
+                                    <h3 class="heading ">
+                                        <i class="fa fa-sticky-note-o" ></i> Admin Notes</h3>
+                                    <div>
+                                        <textarea name="adminnotes" placeholder="Admin Notes" title="Admin Notes " class="textarea form-control" id="tpAdminNotes" formControlName="adminnotes"
+                                            [(ngModel)]="customer.admin_notes">
+                                                           </textarea>
+                                    </div>
+                                    <h3 class="heading">
+                                        <i class="fa fa-sticky-note-o" ></i> Customer Notes</h3>
+                                    <div class="manual-box">
+                                        <textarea name="customernotes" placeholder="Customer Notes" class="textarea form-control" title="Customer Notes" id="tpCustomerNotes"
+                                            formControlName="customernotes" [(ngModel)]="customer.customer_notes"></textarea>
+                                    </div>
+                                    <h3 class="heading">
+                                        <i class="fa fa-sticky-note-o" ></i> Address Notes</h3>
+                                    <div class="manual-box">
+                                        <textarea name="customernotes" placeholder="Address Notes" class="textarea form-control" title="Customer Notes" id="tpCustomerNotes"
+                                            formControlName="customernotes" [(ngModel)]="customer.defaultAddress.address_note"></textarea>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

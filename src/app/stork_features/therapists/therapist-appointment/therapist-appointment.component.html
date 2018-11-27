@@ -1,0 +1,176 @@
+<div class="row fontclr">
+    <div class="col-sm-3">
+
+        <div class="leftside" style="box-shadow: 0 0 10px #999;margin-top: 37px;    margin-left: -13px;">
+            <div class="profile profiletherapist">
+                <img *ngIf="!therapist.imagename" src="../../../../assets/img/custom.jpg">
+                <img *ngIf="therapist.imagename" [src]="therapist.imagename" style="width:160px;height:150px;">
+                <h1 class="name">
+                    {{therapist?.firstname}} {{therapist?.lastname}}
+                </h1>
+                <ul class="tab-links">
+                    <li>
+                        <a [routerLink]="['/therapist/profile/',therapistId]" routerLinkActive="active" id="acAppointments">
+                            <i class="icon fa fa-user"></i> Profile</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/therapist/appointment',therapistId]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                            id="acAppointments">
+                            <i class="icon fa fa-calendar-o"></i> Appointments</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/therapist/setup' ,therapistId]" routerLinkActive="active" id="acSetup">
+                            <i class="icon fa fa-cog"></i> Setup</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-9 custominfo " style="padding-right:15px;">
+
+        <div class="cust_cng" style="position:relative;">
+            <div>
+                <div style="position:absolute;right: 226px;;color:red;">
+                    <div class="radio">
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span style="float:left;  padding-right: 10px;font-size: 16px; color: #FF5A5A">Delete
+                        </span>
+                    </div>
+
+
+                </div>
+                <div style="position:absolute;margin-top: 10px;left:25px;">
+
+                    <span>
+                        <b> {{therapist?.firstname}} {{therapist?.lastname}}</b>
+                    </span>
+                    <br>
+                    <span>{{therapist.email}}</span>
+
+                </div>
+
+
+                <div style="position:absolute;right: 0px;color:red;">
+                    <div class="radio">
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span style="float:left;  padding-right: 10px;font-size: 16px; color: #FF5A5A">System Access:</span>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: -8px;">
+                    <b>
+                    </b>
+                    <br>
+                    <b style="font-weight: 200; font-size: 16px; margin-left: -5px;">
+                    </b>
+                </h3>
+                <div class="row therapistrow" style="margin-left:1%;">
+                    <div class="col-md-3" title="Customer Type">
+                        Employment Status : Active
+                    </div>
+                    <div class="col-md-3" title="Customer Sub Type">
+                        <i class="fa fa-globe"></i>
+                        &nbsp; {{therapist?.address.region.name}}
+
+                    </div>
+                    <div class="col-md-3" title="Region">
+                        <i class="fa fa-map-marker"></i>
+                        &nbsp; {{therapist?.address.subregion.name}}
+                    </div>
+                    <div class="col-md-3" title="Sub Region">
+
+                    </div>
+                </div>
+
+                <hr>
+
+            </div>
+            <label class="label1">Upcoming Appointments</label>
+            <hr>
+            <mat-table #table [dataSource]="dataSource" matSort>
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                    <a *matCellDef="let element" [routerLink]="['/therapist/profile']" style="color: black">{{element.name}}</a>
+                    <!--<mat-cell *matCellDef="let element" > {{element.name}} </mat-cell>-->
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="weight">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Weight </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="symbol">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns" class="mat-header-row1"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            </mat-table>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 30,40,50]" [showFirstLastButtons]="true">
+            </mat-paginator>
+            <hr style="width: 92%;">
+            <label class="label2">Past Appointments</label>
+            <hr>
+            <mat-table #table [dataSource]="dataSource" matSort>
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                    <a *matCellDef="let element" [routerLink]="['/therapist/profile']" style="color: black">{{element.name}}</a>
+                    <!--<mat-cell *matCellDef="let element" > {{element.name}} </mat-cell>-->
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="weight">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Weight </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="symbol">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns" class="mat-header-row1"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            </mat-table>
+            <mat-paginator #paginatorr [pageSize]="10" [pageSizeOptions]="[10, 20, 30,40,50]" [showFirstLastButtons]="true">
+            </mat-paginator>
+            <!--<hr style="width: 92%;margin-top: 10px;">
+<label class="label3">Not Upcoming Appointment Found</label>
+<br>
+<label  class="label2">Past Appointments</label>
+<hr style="width: 92%;">
+<label class="label4" >No Past Appointment Found</label>-->
+        </div>
+    </div>
+</div>

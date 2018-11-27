@@ -1,0 +1,52 @@
+<ng-template #tmpappointmentlog style="width:100%;">
+    <div class="modal-header" id="myModal" style="background:rgba(0, 187, 89, 0.73);">
+        <div style="font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+            Frequency
+        </div>
+
+        <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="modalRef.hide()">
+            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+        </a>
+
+    </div>
+
+    <div class="main-div-section backgroundColor1" style="margin-left: 167px;">
+
+
+        <div style="min-height:350px; margin-top: 10px;">
+            <div class="dhx_wrap_section therapist-oth" style="width:80% !important;">
+
+                <div>
+                    <table class=" table table-responsive table-striped">
+                        <thead>
+                            <tr style="background: #17b4c2;">
+                                <th style="text-align: center;width:135px;">User</th>
+                                <th style="text-align: center;width:135px;">Date</th>
+                                <th style="text-align: center;width:135px;">Fields</th>
+                                <th style="text-align: center;width:135px;">Before</th>
+                                <th style="text-align: center;width:135px;">After</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="log in auditLogList | orderBy : 'modified_at'">
+                                <!--<td>{{log.modified_by.name}} ({{log.modified_by.mailid}})</td>
+                        <td>{{log.modified_at}}</td>
+                        <td>{{log.fields}}</td>
+                        <td>{{log.old_value}}</td>
+                        <td>{{log.new_value}}</td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</ng-template>

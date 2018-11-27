@@ -1,0 +1,60 @@
+<div id="header" class="header" style="width:100%;">
+    <div class="logo">
+        <a ui-sref="admin.appointment-scheduler">
+            <img src="../../../assets/img/logo.png">
+        </a>
+    </div>
+    <!-- <button (click)="onNavigate()" class="btn circle">
+        <i class="fa fa-briefcase"></i>
+    </button> -->
+
+    <div id="navDropDown" class="nav1" style="font-weight:400;">
+        <ul>
+            <li>
+                <a [routerLink]="['/book-massage/appointment']" routerLinkActive="appoi" id="appoit" ui-sref="admin.appointment-scheduler"
+                    id="MainMenuAppointments">
+                    <i class="fa fa-briefcase">
+                    </i>
+                    Book-Massage</a>
+            </li>
+            <li>
+                <a [routerLink]="['/appointments']" routerLinkActive="appoi " id="appoit" ui-sref="admin.appointment-scheduler" id="MainMenuAppointments">
+                    <i class="fa fa-calendar-o"></i>
+                    Appointments</a>
+            </li>
+            <li>
+                <a [routerLink]="['/therapistsavailability']" routerLinkActive="avail" id="available" ui-sref="admin.therapists-availability"
+                    id="MainMenuTherapistsAvailability">
+                    <i class="fa fa-clock-o"></i> Therapists Availability</a>
+            </li>
+            <li>
+                <a [routerLink]="['/therapists']" routerLinkActive="add-thepclass" id="thep" ui-sref="admin.therapists" id="MainMenuTherapists">
+                    <i class="fa fa-bed"></i> Therapists</a>
+            </li>
+            <li>
+                <a [routerLink]="['/customers']" routerLinkActive="add-custclass" id="cust" ui-sref="admin.customers" id="MainMenuCustomers">
+                    <i class="fa fa-user"></i> Customers</a>
+            </li>
+
+            <li>
+                <a [routerLink]="['/configuration/comapanyinfo']" routerLinkActive="config" [routerLinkActiveOptions]="{ exact: true }"
+                    id="con-fig" ui-sref="admin-settings.company-info" id="MainMenuConfiguration">
+                    <i class="fa fa-cog"></i> Configuration</a>
+            </li>
+            <li class="logout" id="user_profile_logout">
+                <!--<a href="javascript:void(0);" ng-click="openUserDD()" id="MainMenuLogout"
+                   title="{{userInfo()['role']}}">-->
+                <div class="sitename" style="font-size: 16px">
+                    <!--{{userInfo()['email']}}-->
+                </div>
+                <i class="fa fa-user-circle"></i>
+                <!--</a>-->
+            </li>
+        </ul>
+        <!--<ul id="user-dropdown" class="user-dropdown">
+            <li><i class="fa fa-user"></i>{{ userInfo()['name']}}</li>
+            <li><a href="javascript:void(0);" ng-click="logout()"><i class="fa fa-sign-out"></i> Logout </a></li>
+        </ul>-->
+    </div>
+
+</div>

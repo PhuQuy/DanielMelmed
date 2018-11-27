@@ -1,0 +1,427 @@
+<div class=" row panels custom my_cust rowhead">
+    <div class="col-sm-12 centrepanel1">
+        <div class="allcustoms">
+            <div class="example-container1 mat-elevation-z8 customertable">
+                <div class="example-header">
+                    <div class="row">
+                        <div class="col-sm-4 colsm4">
+                            <div class="row ">
+                                <div class="col-sm-1">
+                                    <button class="fa fa-plus-square plussquare circle" matTooltip="Add New Customer" [matTooltipPosition]="position" (click)="openModal(template)"></button>
+                                </div>
+                                <div class="col-sm-11">
+                                </div>
+                                <ng-template #template>
+                                    <div class="modal-header" id="myModal" style="background:#54598c;margin-top:-31px;">
+                                        <div style="background:#54598C;font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+                                            Add New Customer
+                                        </div>
+                                        <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="modalRef.hide()">
+                                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="modal-body fontclr">
+                                        <section style="padding-top:20px;">
+                                            <form (submit)="create_customer()" [formGroup]="customer">
+                                                <div class="account">
+                                                    <table class="account1_tbl">
+                                                        <tr>
+                                                            <td style="position:relative;">
+                                                                <div class="left_m">1</div>
+                                                                <h3 style="padding-top:0px;">Account</h3>
+                                                            </td>
+                                                            <td>
+                                                                <span>*</span> Required</td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="act_fom " style="width: 113%;">
+                                                        <div class="row">
+                                                            <div class="col-sm-12" style="margin-left: 200%">
+                                                                <img *ngIf="!this.image" class="thapp_c" src="../../../assets/img/custom.jpg"> 
+                                                                <img *ngIf="this.image" class="thapp_c" [src]="image"> 
+                                                                
+                                                                </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12" style="margin-left: 200%">
+                                                                <label  class="custom-file-upload file_upload" (click)="openConfirmModal(ImageTemplate)">
+                                                                    <div style="color:#4B889A;text-shadow: 1px 1px #E6FFFF;">
+                                                                        <i class="fa fa-cloud-upload"></i> UPLOAD PROFILE PICTURE
+                                                                    </div>
+                                                                </label>
+                                                                </div>
+                                                                <ng-template #ImageTemplate>
+                                                                    <div class="modal-body">
+                                                                            <div class="cropimage">
+                                                                                    Image Crop
+                                                                                    <a id="closeNewTherapistForm" style="float:right;  cursor: pointer;" (click)="confirmModalRef.hide()">
+                                                                                        <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                                                                    </a>
+                                            
+                                                                                </div>
+                                                                        <div class="row" style="margin-top: 5%">
+                                                                            <div class="col-sm-2">
+                                                                                
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                    <img-cropper class="thapp_c" [image]="data" [settings]="cropperSettings"></img-cropper>
+                                                                                            
+                                                                                        </div>
+                                                                            <div class="col-sm-4">
+                                                                                    <img [src]="data.image" >
+                                                                            </div>
+                                                                        </div>
+                                                                       
+                                                                    </div>
+                                                                    <div class="modalfooter fontclr">
+                                                                        <button type="button" class="btn btn-default" id="modal-btn-si" (click)="Imageupload(data.image)">Yes</button>
+                                                                        <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                                                                    </div>
+                                                                </ng-template>
+                                                        </div>
+                                                        <tr>
+                                                            <td> Address Name:</td>
+                                                            <td>
+                                                                <input class="form-control" type="text" formControlName="addressname" name="addressname" placeholder="Enter Address Name" maxlength="50" [ngModel]="addressname">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> CUSTOMER TYPE:</td>
+                                                            <td>
+
+                                                                <select class="form-control" name="CUSTOMERTYPE" (change)="selectcustomer($event.target.value)">
+                                                                    <option value="custtype">Select Customer Type</option>
+                                                                    <option value="Individual">Individual</option>
+                                                                    <option value="Corporate">Corporate</option>
+                                                                    <option value="HotelIndividyal">Hotel-Individual</option>
+                                                                </select>
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr *ngIf="isCustomertype">
+                                                            <td>
+                                                                <span>*</span>COMPANY NAME</td>
+                                                            <td>
+                                                                <input type="text" class="form-control"  name="companyname" placeholder="Enter Company Name" formControlName="companyname"  [ngModel]="companyname">
+                                                                <control-messages [control]="customer.controls.companyname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr *ngIf="!isCustomertype">
+                                                            <td>
+                                                                <span>*</span>FIRST NAME</td>
+                                                            <td>
+                                                                <input type="text" class="form-control" name="firstname"  placeholder="Enter First Name" maxlength="50" formControlName="firstname" [ngModel]="firstname">
+                                                                <control-messages [control]="customer.controls.firstname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr *ngIf="!isCustomertype">
+                                                            <td>
+                                                                <span>*</span>LAST NAME</td>
+                                                            <td>
+                                                                <input type="text" class="form-control" name="lastname"  placeholder="Enter Last Name" maxlength="50" formControlName="lastname" [ngModel]="lastname">
+                                                                <control-messages [control]="customer.controls.lastname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <span>*</span> EMAIL</td>
+                                                            <td>
+                                                                <input type="email" class="form-control" name="email"  placeholder="name@example.com" formControlName="email" [ngModel]="email">
+                                                                <control-messages [control]="customer.controls.email" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="account1_tbl">
+                                                        <tr>
+                                                            <td style="position:relative;">
+                                                                <div class="left_m" style="top:15px;">2</div>
+                                                                <h3>Home Address</h3>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="act_fom " style="width: 156%;">
+                                                        <tr>
+                                                            <td>STREET</td>
+                                                            <td>
+                                                                <input type="text" class="form-control"  placeholder="Enter Street" maxlength="100" formControlName="homestreet" >
+
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>CITY</td>
+                                                            <td>
+                                                                <input type="text" class="form-control"  placeholder="Enter City" maxlength="50" formControlName="homecity" >
+
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>STATE</td>
+                                                            <td>
+                                                                <input type="text" class="form-control" placeholder="Enter State" maxlength="50" formControlName="homestate">
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>ZIP</td>
+                                                            <td>
+                                                                <input type="text" class="form-control" placeholder="Enter Zip" maxlength="6" formControlName="homezip" >
+
+                                                            </td>
+                                                        </tr>
+                                                        
+                                                        <tr>
+                                                            <td> REGION</td>
+                                                            <td>
+                                                                <select id="regionn" placeholder="Select Region" class="textbox form-control" name="region" [ngModel]="region" (change)="selectedregionRow(regions[$event.target.selectedIndex])" formControlName="region" [(ngModel)]="region">
+                                                                <option *ngFor="let region of regions" [value]="region">{{region.name}}</option>
+                                                            </select>
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> SUB-REGION</td>
+                                                            <td>
+                                                                <select class="textbox form-control" placeholder="Select Region"  formControlName="sub_region" [ngModel]="sub_region" value={{sub_region}} [ngModel]="sub_region">
+                                                                                <option *ngFor="let subregion of subregions" [ngValue]="subregion">{{subregion.name}}</option>
+                                                                            </select>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="account1_tbl">
+                                                        <tr>
+                                                            <td style="position:relative;">
+                                                                <div class="left_m" style="top:15px;">3</div>
+                                                                <h3>Billing Address</h3>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="account2_tbl">
+                                                    </table>
+                                                    <table class="act_fom" style="width: 200%;">
+                                                        <tr>
+                                                            <td>STREET</td>
+                                                            <td>
+                                                                <input type="text" class="form-control"  placeholder="Enter Street" maxlength="100" formControlName="billingstreet" >
+                                                                   
+
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>CITY</td>
+                                                            <td>
+                                                                <input type="text" class="form-control"  placeholder="Enter City" maxlength="50"formControlName="billingcity"  >
+
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>STATE</td>
+                                                            <td>
+                                                                <input type="text" class="form-control"  placeholder="Enter City" maxlength="50" formControlName="billingstate" >
+
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>ZIP</td>
+                                                            <td>
+                                                                <input type="text" class="form-control" placeholder="Enter Zip" maxlength="6" formControlName="billingzip" > 
+
+
+                                                            </td>
+                                                        </tr>
+                                                       
+                                                    </table>
+                                                    <table class="account1_tbl">
+                                                        <tr>
+                                                            <td style="position:relative;">
+                                                                <div class="left_m" style="top:15px;">4</div>
+                                                                <h3>Contact Numbers</h3>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="act_fom" style="width:83%;">
+                                                        <tr>
+                                                            <td>CELL PHONE</td>
+                                                            <td>
+                                                                <input class="form-control" type="text" name="cellphone" placeholder="Enter Cell Phone" maskrate="" formControlName="cellphone"  >
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> WORK PHONE</td>
+                                                            <td>
+                                                                <input class="form-control" type="text" placeholder="Enter Work Phone" maskrate="" formControlName="workphone">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> HOME PHONE</td>
+                                                            <td>
+                                                                <input class="form-control" type="text" placeholder="Enter Home Phone" maskrate="" formControlName="homephone">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:130px;">COMMUNICATION PREFERENCE</td>
+                                                            <td>
+                                                                <table class="multi_sel" style="width:77%;">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input class="form-control" type="checkbox" formControlName="emailpreferenceforcommunication" [(ngModel)]="emailpreferenceforcommunication">
+                                                                            <label>Email</label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control" type="checkbox" formControlName="phonepreferenceforcommunication" [(ngModel)]="phonepreferenceforcommunication">
+                                                                            <label>Phone</label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control" type="checkbox" formControlName="messagepreferenceforcommunication" [(ngModel)]="messagepreferenceforcommunication">
+                                                                            <label>Message</label>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="account1_tbl">
+                                                        <tr>
+                                                            <td style="position:relative;">
+                                                                <div class="left_m" style="top:15px;">5</div>
+                                                                <h3>Payment Details</h3>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="act_fom" style="width:114%;">
+                                                        <tr>
+                                                            <td> CARD NUMBER</td>
+                                                            <td>
+                                                                <input class="form-control" type="text" name="card_number" placeholder="Enter Card Number" valid-number 
+                                                                    ng-minlength="12" ng-maxlength="16">
+
+
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> EXP. &nbsp; MONTH/YEAR</td>
+                                                            <td>
+                                                                <table>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input class="form-control" type="text" name="exp_month" placeholder="Exp. Month(MM)" 
+                                                                                 maxlength="2"
+                                                                                style="width:301px;">
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control" type="text" placeholder="Exp. Year(YYYY)" name="exp_year" maxlength="4" 
+                                                                                 style="width:301px;">
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> CVC</td>
+                                                            <td>
+                                                                <input class="form-control" type="text" name="cvc_number" placeholder="Enter CVC" 
+                                                                   maxlength="4">
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3" style="position:relative">
+                                                                <div class="flash_messages_div" style="left: 3%; width:100%; top:-60px;">
+                                                                </div>
+                                                                <!-- <div class="left_m" style="top:20px;">
+                                                                    <i class="fa fa-check" style="color:#ccc"></i>
+                                                                </div> -->
+                                                                <button id="saveCustomer" [disabled]="!customer.valid" class="btn" style="width: 94%;padding:10px;margin-top:16px;font-size:16px;background:#54598c;">Save Customer </button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3" STYLE="TEXT-ALIGN:CENTER; padding:10px 0px;">
+                                                                <div>Please fill out all required (*) fields.</div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                </div>
+                                            </form>
+
+                                        </section>
+
+                                    </div>
+
+                                   
+
+                                </ng-template>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-4 colsm3">
+                            <input class="form-control search" #titleInput>
+                        </div>
+                        <div class="col-sm-1 colsm11">
+                            <button class="fa fa-search fasearch" (click)="applyFilter(titleInput.value)" style="  color: #54598c !important;"></button>
+                        </div>
+
+                        <div class="col-sm-3 result">
+
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <mat-table #table [dataSource]="customerdataSource" #customersort="matSort" matSort>
+                    <ng-container matColumnDef="firstname">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> CustomerName </mat-header-cell>
+                        <mat-cell *matCellDef="let customer"> 
+                                <a [routerLink]="['/customer/profile',customer._id]">{{customer.firstname}} {{customer.lastname}} </a>
+                                </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="region">
+                        <mat-header-cell *matHeaderCellDef > Region </mat-header-cell>
+                        <mat-cell *matCellDef="let customer"> {{customer.address[0].region.name}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="subregion">
+                        <mat-header-cell *matHeaderCellDef > SubRegion </mat-header-cell>
+                        <mat-cell *matCellDef="let customer"> {{customer.address[0].subregion.name}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="city">
+                        <mat-header-cell *matHeaderCellDef > City </mat-header-cell>
+                        <mat-cell *matCellDef="let customer"> {{customer.address[0].city}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="phone">
+                        <mat-header-cell *matHeaderCellDef > Phone </mat-header-cell>
+                        <mat-cell *matCellDef="let customer"> {{customer.contacts[0].phone[0].phone}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+                        <mat-cell *matCellDef="let customer"> {{customer.email}} </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns" class="mat-header-row1"></mat-header-row>
+
+                    <mat-row style="text-align: left;" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                </mat-table>
+                <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 30,40,50]" [showFirstLastButtons]="true">
+                </mat-paginator>
+
+            </div>
+             </div>
+    </div>
+
+
+</div>

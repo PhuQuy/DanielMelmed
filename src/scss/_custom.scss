@@ -1,0 +1,223 @@
+// Here you can add other styles
+
+// for login page css
+
+.cont{
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+.backgroundvideo{
+    margin-top: 00px;
+
+}
+
+.video1{
+    width:auto;
+    // height:auto !important;
+    position: fixed;
+    margin-left: -15px !important;
+    margin-right: 0px !important;
+    min-width:100%;
+    // min-height:97% !important;
+
+
+}
+.back1{
+    height:250% !important;
+}
+.back{
+    background-image: url("../img/contact-info-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height:500% !important;
+    // margin-bottom:200px;
+}
+.card{
+    background-color:#ffffff24;
+}
+.loginbutton{
+    width:100%;
+    border-radius: 25px;
+    background-color:#ffffff24;
+    border: 1px solid white;
+    box-shadow:0 0 0 0;
+}
+.form-control{
+    background-color:#ffffff9c;
+}
+.input {
+    background-color:#ffffff24 !important;
+}
+.loginregbut{
+    background-color:#ffffff00 !important;
+    color:#20a8d8 !important;
+    border-color:#ffffff00 !important;
+}
+.btn-primary:not([disabled]):not(.disabled).active, .show > .btn-primary.dropdown-toggle{
+    box-shadow:0 0 0 0;
+}
+
+
+//register page
+
+.loginbutton1{
+    width:100%;
+    border-radius: 25px;
+    background-color:#ffffff24;
+    border: 1px solid white;
+    box-shadow:0 0 0 0;
+    color:#20a8d8;
+}
+
+.sidebar{
+    // new css for sidebar fixed
+    position: fixed;
+    background-color:#17B4C2;
+   
+    padding-top: 3px;
+    // margin-top: 89px;
+    margin-left: 4px;
+    height:630px;
+}
+.sidebar .nav-link.active, .sidebar .navbar .active.dropdown-toggle, .navbar .sidebar .active.dropdown-toggle{
+    background:#41392E;
+}
+
+.backgroundimg{
+    background-image: url('../img/gold_pattern.jpg');
+}
+.app-header.navbar .navbar-brand{
+    background-color: #fff0;
+    
+}
+.navbar-nav .nav-link, .navbar-nav .navbar .dropdown-toggle, .navbar .navbar-nav .dropdown-toggle{
+    color:white;
+    font-size: 29px;
+}
+.footercopy{
+    margin-left:15px;
+}
+.app-header.navbar .navbar-brand{
+    background-size: 154px auto;
+    margin-left:19px;
+}
+.ulli{
+    margin-left: 20px;
+
+}
+
+//profile page
+
+.forminputs{
+    margin-left:110px;
+    height: 100px;
+}
+// .btn-primary:not([disabled]):not(.disabled):active, .btn-primary:not([disabled]):not(.disabled).active, .show > .btn-primary.dropdown-toggle{
+//     background-color:#eb3125 !important;
+// }
+
+//contact page
+.modal-content{
+    width:200%;
+    margin-left:-250px;
+    cursor:auto;
+}
+
+
+.visible-lg,.visible-md,.visible-sm,.visible-xs{display:none!important}.visible-lg-block,.visible-lg-inline,
+.visible-lg-inline-block,.visible-md-block,.visible-md-inline,.visible-md-inline-block,.visible-sm-block,.visible-sm-inline,
+.visible-sm-inline-block,.visible-xs-block,.visible-xs-inline,.visible-xs-inline-block{display:none!important}
+@media (max-width:767px){.visible-xs{display:block!important}table.visible-xs{display:table!important}
+tr.visible-xs{display:table-row!important}td.visible-xs,th.visible-xs{display:table-cell!important}}
+@media (max-width:767px){.visible-xs-block{display:block!important}}
+@media (max-width:767px){.visible-xs-inline{display:inline!important}}
+@media (max-width:767px){.visible-xs-inline-block{display:inline-block!important}}
+@media (min-width:768px) and (max-width:991px){.visible-sm{display:block!important}table.visible-sm{display:table!important}
+tr.visible-sm{display:table-row!important}td.visible-sm,th.visible-sm{display:table-cell!important}}
+@media (min-width:768px) and (max-width:991px){.visible-sm-block{display:block!important}}
+@media (min-width:768px) and (max-width:991px){.visible-sm-inline{display:inline!important}}
+@media (min-width:768px) and (max-width:991px){.visible-sm-inline-block{display:inline-block!important}}
+@media (min-width:992px) and (max-width:1199px){.visible-md{display:block!important}table.visible-md{display:table!important}
+tr.visible-md{display:table-row!important}td.visible-md,th.visible-md{display:table-cell!important}}
+@media (min-width:992px) and (max-width:1199px){.visible-md-block{display:block!important}}
+@media (min-width:992px) and (max-width:1199px){.visible-md-inline{display:inline!important}}
+@media (min-width:992px) and (max-width:1199px){.visible-md-inline-block{display:inline-block!important}}
+@media (min-width:1200px){.visible-lg{display:block!important}table.visible-lg{display:table!important}
+tr.visible-lg{display:table-row!important}td.visible-lg,th.visible-lg{display:table-cell!important}}
+@media (min-width:1200px){.visible-lg-block{display:block!important}}
+@media (min-width:1200px){.visible-lg-inline{display:inline!important}}
+@media (min-width:1200px){.visible-lg-inline-block{display:inline-block!important}}
+@media (max-width:767px){.hidden-xs{display:none!important}}
+@media (min-width:768px) and (max-width:991px){.hidden-sm{display:none!important}}
+@media (min-width:992px) and (max-width:1199px){.hidden-md{display:none!important}}
+@media (min-width:1200px){.hidden-lg{display:none!important}}.visible-print{display:none!important}
+@media print{.visible-print{display:block!important}table.visible-print{display:table!important}
+tr.visible-print{display:table-row!important}td.visible-print,th.visible-print{display:table-cell!important}}
+.visible-print-block{display:none!important}@media print{.visible-print-block{display:block!important}}
+.visible-print-inline{display:none!important}@media print{.visible-print-inline{display:inline!important}}
+.visible-print-inline-block{display:none!important}@media print{.visible-print-inline-block{display:inline-block!important}}
+@media print{.hidden-print{display:none!important}}
+
+
+
+@media only screen and (max-width: 1465px) and (min-width:900px){
+    .brand-minimized .app-header.navbar .navbar-brand{
+        background-color:none !important;
+        background-image:none !important;
+    }
+}
+
+
+
+@media only screen and (max-width: 767px) and (min-width:320px){
+    .footercopy{
+        margin-left:118px;
+    }
+    // .d-md-down-none{
+    //     display: -webkit-flex !important;
+        
+    // }
+    .menulist{
+        font-size: 10px !important;
+    }
+    .iconmenu{
+        margin-top:-46px !important;
+        margin-left: 27px;
+    }
+    .menulogo{
+        margin-top: -9px;
+        border-bottom: none !important;
+    }
+    .app-header.navbar .navbar-brand {
+        background-size: 110px auto;
+        margin-left:-90px;
+    }
+    .forminputs{
+        margin-left:70px;
+        height: 80px;
+    }
+    .modal-content{
+        width:100%;
+        margin-left:0px;
+        cursor: auto;
+    }
+    
+}
+@media only screen and (max-width: 367px) and (min-width:350px){
+    
+    .forminputs{
+        margin-left:58px;
+        height: 80px;
+    }
+}
+@media only screen and (max-width: 357px) and (min-width:220px){
+    .app-header.navbar .navbar-brand {
+        background-size: 110px auto;
+        margin-left:-90px;
+    }
+    .forminputs{
+        margin-left:40px;
+        height: 30px;
+    }
+}

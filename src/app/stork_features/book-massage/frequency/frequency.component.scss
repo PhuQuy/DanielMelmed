@@ -1,0 +1,65 @@
+hr{
+    width: 100%;
+   
+    border-top: 1px solid #9e9898
+}
+
+
+hr {
+
+     margin-bottom: 0rem; 
+    //  border: 0 !important;
+    // border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+.save{
+        background-color: #5cb85c;
+    width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+.edit{
+background-color: #5bc0de;
+ width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+
+}
+.cancle1{
+background-color: #f0ad4e;
+width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+.delete{
+  background-color: #d9534f;
+  width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+.recurring{
+    background: #F5F5F5;
+        padding: 7px 23px;
+    height: 60px;
+}
+
+.freq-btn{
+    margin: 25px 25px;
+}
+.frequency{
+        border: 2px solid #F5F5F5;
+    padding: 0px;
+    border-radius: 6px;
+    margin: 6px 3px 6px 3px;
+}
+.btn1{
+        background-color: rgb(228, 229, 230);
+    color: black;
+    border-radius: 5px !important;
+    margin-right: 13px;
+}

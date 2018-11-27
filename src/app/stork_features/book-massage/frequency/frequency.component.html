@@ -1,0 +1,81 @@
+<ng-template #tmpfrequency style="width:100%;">
+    <div class="modal-header" id="myModal" style="background:rgba(0, 187, 89, 0.73);">
+        <div style="font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+            Frequency
+        </div>
+
+        <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="modalRef.hide()">
+            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+        </a>
+
+    </div>
+
+    <div class="main-div-section backgroundColor1">
+        <div style="min-height:367px; margin-top:0px;">
+            <div class="frequency">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="recurring">
+                            <span>Frequency On/Off</span>
+                            <br />
+                            <input ng-model="recurring" value="0" type="checkbox" id="#tab4" class="tgl tgl-light">
+                            <label for="#tab4" class="tgl-btn active"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-12">
+                        <label style="padding: 0px 0 0 30px;"> Select frequency</label>
+                        <br />
+                        <div class="btn-group freq-btn" data-toggle="buttons">
+                            <label id="day" class="btn btn-primary btn1" style="height:36px;">
+                                <input type="radio" disabled value="day" name="repeat" class="dhx_repeat_radio"> Daily
+                            </label>
+                            <label id="weekly" class="btn btn-primary btn1" ng-click="setFrequency('weekly')">
+                                <input type="radio" ng-model="frequency" value="weekly" class="dhx_repeat_radio">
+                                Weekly
+                            </label>
+                            <label id="by_weekly" class="btn btn-primary btn1" ng-click="setFrequency('by_weekly')">
+                                <input type="radio" ng-model="frequency" value="by_weekly" class="dhx_repeat_radio"> By
+                                Weekly
+                            </label>
+                            <label id="monthly" class="btn btn-primary btn1" ng-click="setFrequency('monthly')">
+                                <input type="radio" ng-model="frequency" value="monthly" class="dhx_repeat_radio">
+                                Monthly
+                            </label>
+                            <label id="by_monthly" class="btn btn-primary btn1" ng-click="setFrequency('by_monthly')">
+                                <input type="radio" ng-model="frequency" value="by_monthly" class="dhx_repeat_radio">
+                                By Monthly
+                            </label>
+                            <label id="yearly" class="btn btn-primary btn1" ng-click="setFrequency('yearly')">
+                                <input type="radio" ng-model="frequency" value="yearly" class="dhx_repeat_radio">
+                                Yearly
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-class="{disabledLink:frequencyFlag}" style="margin-left:0px;margin-right:0px;">
+                    <div class="col-md-4" style="padding: 20px 0 20px 48px;">
+                        <label>
+                            <input type="radio" ng-model="endBy" ng-change="setEndBy(endBy)" value="occurrence" class="dhx_repeat_radio">End
+                            After
+                        </label>
+                        <input type="text" ng-model="no_of_occurrences" ng-change="setNoOfOccurrences(no_of_occurrences)"
+                            class="dhx_repeat_text">
+                        <span style="font-size: 13px !important;font-family: 'Lato', sans-serif !important;font-weight: 600;">additional
+                            occurrences</span>
+                    </div>
+                    <div class="col-md-4" style="padding: 20px 0 20px 48px;">
+                        <label>
+                            <input type="radio" ng-model="endBy" ng-change="setEndBy(endBy)" value="date" class="dhx_repeat_radio">End
+                            by
+                        </label>
+                        <!--<md-datepicker ng-model="endDate" ng-change="setEndDate(endDate)" md-min-date="minDate" md-placeholder="Enter date"></md-datepicker>-->
+                    </div>
+                </div>
+            </div>
+            <button style="margin-left:30px;margin-top:16px;font-size:16px;" class="btn savebtn">Save</button>
+
+        </div>
+    </div>
+</ng-template>

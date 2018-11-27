@@ -1,0 +1,34 @@
+<div class="leftside-configuration">
+    <h2 style="  margin-bottom: 15px;"></h2>
+    <div class="rmenu">
+        <!-- <div class="rnav" ui-sref-active="active">
+            <a ui-sref="admin-settings.users" id="csAdminUsers"><i class="fa fa-lock"></i> Admin Users</a>
+        </div> -->
+        <div class="rnav " ui-sref-active="active">
+            <a  [routerLink]="['/configuration/comapanyinfo']" ui-sref="admin-settings.company-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" id="csCompanyInfo"><i class="fa fa-building"></i> Company Info</a>
+        </div>
+        <div class="rnav pad" ui-sref-active="active">
+            <a [routerLink]="['/configuration/regionalservice']"  routerLinkActive="active" ui-sref="admin-settings.services" id="csServices"><i class="fa fa-map-marker"></i> Regional Services & Rates   </a>
+        </div>
+        <div class="rnav" ui-sref-active="active">
+            <a [routerLink]="['/configuration/addonservices']"  routerLinkActive="active" ui-sref="admin-settings.add-ons" id="csAddOnServices"><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Add On Services</a>
+        </div>
+        <div class="rnav" ui-sref-active="active">
+            <a [routerLink]="['/configuration/region-subregion']"  routerLinkActive="active" ui-sref="admin-settings.regions-subregions" id="csRegionsSubregions"><i class="fa fa-globe"></i> Regions &amp; Subregions</a>
+        </div>
+        <!-- <div class="rnav" ui-sref-active="active">
+            <a [routerLink]="['/configuration/customer-types']"  ui-sref="admin-settings.customer-types" id="csCustomerTypes"><i class="fa fa-user-secret"></i> Customer Types</a>
+        </div> -->
+         <div class="rnav" ui-sref-active="active">
+            <a [routerLink]="['/configuration/icon-appointment'] "  routerLinkActive="active" ui-sref="admin-settings.icons" id="csIcons"><i class="fa fa-chain"></i> Icons/Appointment Status</a>
+        </div>
+        
+        <div class="rnav" ui-sref-active="active">
+            <a [routerLink]="['/configuration/alert-notification-setup']"  routerLinkActive="active" ui-sref="admin-settings.push-notification" id="csPushNotification"><i class="fa fa-envelope"></i> Alert/Notifications Setup</a>
+        </div>
+        <div class="rnav" ui-sref-active="active">
+            <a [routerLink]="['/configuration/alert-notification-template']"  routerLinkActive="active" ui-sref="admin-settings.notification-template" id="csNotificationTemplate"><i class="fa fa-envelope"></i>Alert/Notifications Templates</a>
+        </div>
+      
+    </div>
+</div>

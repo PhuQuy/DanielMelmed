@@ -1,0 +1,348 @@
+    .profile-inner-left table tbody tr { padding: 10px; width: 70%; }
+    .tr-border { border-bottom: 1px solid #cccccc; }
+    .profile-inner-left table td { padding: 5px 0; }
+    .bold-text { font-weight: bold; }
+    .modal-head{background:rgba(0, 187, 89, 0.73);font-weight:bold;font-size:20px; text-align:center; color:#fff; padding:10px;}
+     .clean{
+        border-top: none !important;
+        padding-top: 0px !important;
+    }
+    .account{
+        border-left: none !important;
+    }
+    .tab-view td {
+        padding: 5px 0 !important;
+       }
+       .heading {
+            font-size: 20px !important;
+       }
+       .account table.account2_tbl td {
+            font-size: 14px !important;
+        }
+        button.btn{
+            padding: 6px 20px;
+        }
+        .account table.btn-style1 td {
+            text-align: center !important;
+        }
+        .pos1{
+            position: absolute;
+            top: 120%;
+        }
+        /*.btn-style1{
+                position: absolute;
+                top: 132%;
+        }*/
+        .account table.tab-form input{
+                margin-bottom: 0px !important;
+        }
+
+        .p1::-webkit-input-placeholder {
+    color: #cccccc;
+}
+.p1::-moz-placeholder {
+     color: #cccccc;
+}
+.p1:-ms-input-placeholder {
+     color: #cccccc;
+} 
+.p1:-o-input-placeholder {
+     color: #cccccc;
+}
+
+.custSetupView .main1 {
+    margin-left: -29px;
+}
+
+.custSetupView .main1 .account {
+    padding-left: 0px;
+}
+
+.custSetupView .main1 .btn-style1 {
+    margin-top: 12px;
+}
+.custSetupView .main1 .btn-style1 td {
+    text-align: left !important;
+}
+
+.custSetupView .main1 .btn-style1 td .btn{
+    background: #54598c;
+}
+
+.custSetupView .main1 .tab-view td span{
+    font-size: 14px !important;
+    color: #555 !important;
+}
+
+.custSetupView .main1 .tab-view td input{
+    height: 15px;
+    width: 5% !important;
+}
+
+.custSetupView .main1 .tab-view .heading {
+   background-color: #f0f0f0; 
+   padding: 4px;
+}
+
+.custSetupView .main2 .account {
+    padding-left: 0px;
+}
+
+.custSetupView .main2 .btn-style1 {
+    margin-top: 34px;
+}
+.custSetupView .main2 .btn-style1 .heading {
+   background-color: #f0f0f0; 
+   padding: 4px;
+}
+
+.custSetupView .main2 .btn-style1 img {
+  width: 85px;
+  height: 85px;
+}
+.custSetupView .main2 .tab-view h3 {
+  background-color: #f0f0f0; 
+  padding: 4px;
+}
+.custSetupView .main2 .tab-view  {
+  margin-top: 6px;
+}
+.headingCSS{
+     
+        text-align: left;
+    padding: 5px;
+    // width: 96%;
+    background-color: #ddd;
+    font-weight: bold;
+    font-size: 20px;
+}
+.contactSectionHeading .PersonalInfo{
+    width: 95% !important;
+    text-align: left;
+} 
+.contactSectionHeading .ContactInfo{
+    width: 95% !important;
+    text-align: left;
+} 
+.contactHeading{
+    margin-top: 145px !important;
+    text-align: left;
+}
+
+.commInfo{
+    text-align: left;
+}
+input[type="checkbox"][readonly] {
+  pointer-events: none;
+}
+.custSetupView{
+    margin-left: 14px;
+}
+.cust_setup{
+    padding: 5px 10px;
+    float: left;
+    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+     margin-top: 1%;
+     width: 85%;
+    position: relative;
+    color: #555;
+}
+.cust_contact{
+    padding: 5px 10px;
+    float: left;
+    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+     margin-top: 1%;
+     width: 85%;
+    position: relative;
+    color: #555;
+}
+.addressbtn{
+    background-color: #54598C;
+    color: white;
+    border: none;
+    margin-bottom: 18px;margin-left: 4.4%;
+}
+.address_setup{
+    text-align: left;
+}
+
+
+span.error {
+    color: #f00 !important;
+    font-size: 14px !important;
+  }
+
+  .account table.account2_tbl td {
+    text-align: left !important;
+  }
+
+//   .address i.check {
+//     color: #FF6470!important
+//   }
+
+  .tgl-light:checked+.tgl-btn {
+    background: #54598C
+  }
+
+//   .address i.edit {
+//     font-size: 21px;
+//     position: absolute;
+//     color: #00BB59;
+//     font-size: 25px;
+//     right: 35px;
+//     color: #004ea6!important
+//   }
+
+//   .address i.delete {
+//     font-size: 21px;
+//     position: absolute;
+//     color: #00BB59;
+//     font-size: 25px;
+//     right: 5px;
+//     color: #FF6470!important
+//   }
+
+  .tgl-light+.tgl-btn {
+    background: #ddd;
+    border-radius: 2em;
+    padding: 4px 9px 0 6px;
+    -webkit-transition: all .4s ease;
+    transition: all .4s ease;
+    text-align: right;
+  }
+
+  .tgl+.tgl-btn {
+    outline: 0;
+    display: block;
+    width: 4.5em !important;
+    height: 2em !important;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    color: #fff;
+  }
+
+  .tgl-light:checked+.tgl-btn {
+    background: #54598C !important;
+    text-align: left;
+    color: #fff;
+  }
+
+  .tgl:checked+.tgl-btn:after {
+    left: 70%;
+  }
+
+  .tgl+.tgl-btn:after {
+    left: 5%;
+    top: -112%;
+    width: 33%;
+    height: 77%;
+  }
+
+  .text {
+    position: relative;
+    top: -1px;
+  }
+
+  .modal-title {
+    font-weight: bold;
+  }
+//   .appointment{
+//        color:inherit;
+//     text-decoration: none;
+//   }
+//   .tab-links i{
+//     color:#54598C;
+// }
+
+
+//  .account{border: none;}
+//     span.error{float:left;  margin: -10px 0 0 0;}
+//     .address {
+//         width: 48%;
+//         margin: 0 0 2% 2%;
+//     }
+//     .street td {
+  
+//     border-top: 0px !important;
+// }
+.street tr:last-child td {
+    text-align: center;
+    padding-top: 1px !important;
+}
+.contactSectionHeading .adname label {
+    margin-bottom: 0px;
+}
+// .tab-links i{
+//     color:#54598C;
+// }
+// .tab-links > li a:hover > i,.tab-links > li a:active > i{
+//     color:white;
+// }
+.account .heading {
+    font-weight: bold !important;
+}
+.active {
+    color: white;
+    background-color:#54598C ;
+}
+.contactSectionHeading .heading {
+    background-color: #f0f0f0; 
+    padding: 4px;
+    margin-bottom: 25px;
+}
+
+.profilepicture{
+    margin-top: 10.5%;
+    background-color: #ddd;
+    height: 33px;
+    text-align: left;
+    padding: 3px;
+        
+    font-weight: bold;
+    font-size: 20px;
+}
+.headingCSS1{
+       text-align: left;
+    padding: 5px;
+    width: 96%;
+    background-color: #ddd;
+    font-weight: bold;
+    font-size: 20px; 
+}
+// .btn{
+    
+//     background:   #54598C;
+
+// }
+.text-left{
+    font-size: 16px;
+}
+.address_cust{
+    margin-bottom: 1%;
+    margin-left: -2%;
+}
+.buttoncustomer{
+    margin-bottom: 2%;
+}
+.address_comm{
+   margin-bottom: 2%;
+   margin-left: -7%;
+}
+.customer_profile{
+    margin-left: -4%;
+}
+.customerprofile{
+    text-align: left;
+    margin-bottom: 2%;
+    margin-left:6%;
+}
+.setup_text{
+    width: 104%;
+}

@@ -1,0 +1,894 @@
+<div class="row fontclr">
+    <div class="col-sm-3">
+        <div class="leftside" style="box-shadow: 0 0 10px #999;margin-top: 37px;    margin-left: -13px;">
+            <div class="profile profilecustomer">
+                <img *ngIf="!customer.imagename" src="../../../../assets/img/custom.jpg">
+                <img *ngIf="customer.imagename" [src]="customer.imagename" style="width:160px;height:150px;">
+                <h1 class="name">
+                    {{customer.firstname}} {{customer.lastname}}
+
+                </h1>
+                <ul class="tab-links">
+                    <li>
+                        <a [routerLink]="['/customer/profile',customerid]" routerLinkActive="active" id="acAppointments">
+                            <i class="icon fa fa-user icon"></i> Profile</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/customer/appointment',customerid]" routerLinkActive="active" id="acAppointments">
+                            <i class="icon fa fa-calendar-o icon"></i> Appointments</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/customer/setup',customerid]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" id="acSetup">
+                            <i class="icon fa fa-cog icon"></i> Setup</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-9 custominfo " style="padding-right:15px;">
+
+        <div class="cust_cng" style="position:relative;">
+            <div style="position:absolute;right: 226px;;color:red;">
+                <div class="radio">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <span style="float:left;  padding-right: 10px;font-size: 16px; color: #FF5A5A">Delete
+                    </span>
+                </div>
+
+
+            </div>
+            <div style="position:absolute;margin-top: 10px;left:25px;">
+
+                <span> {{customer.firstname}} {{customer.lastname}} </span>
+                <br>
+                <span> {{customer.email}} </span>
+
+            </div>
+
+
+            <div style="position:absolute;right: 0px;color:red;">
+                <div class="radio">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <span style="float:left;  padding-right: 10px;font-size: 16px; color: #FF5A5A">System Access:</span>
+                </div>
+            </div>
+            <h3 style="margin-bottom: -8px;">
+                <b>
+                </b>
+                <br>
+                <b style="font-weight: 200; font-size: 16px; margin-left: -5px;">
+                </b>
+            </h3>
+
+            <div class="row" style="font-size: 14px;  font-weight: bold;margin-top: 16px;margin-left:1%;">
+                <div class="col-md-4" title="Customer Type">
+                    <i class="fa fa-user-secret"></i> {{customer.customertype}}
+
+                </div>
+
+                <div class="col-md-4" title="Region">
+                    <i class="fa fa-globe"></i> {{customer.defaultAddress.region.name}}
+                </div>
+                <div class="col-md-4" title="Sub Region">
+                    <i class="fa fa-map-marker"></i>{{customer.defaultAddress.subregion.name}}
+                </div>
+            </div>
+
+            <hr>
+
+            <form [formGroup]="customersetupform" (submit)="openConfirmModal(SaveTemplate)">
+                <ng-template #SaveTemplate>
+                    <div class="modal-body">
+                        <div class="modal-head"> Do you want to save? </div>
+                    </div>
+                    <div class="modalfooter fontclr">
+                        <button type="button" class="btn btn-default" id="modal-btn-si" (click)="update_customer(customer,false)">Yes</button>
+                        <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                    </div>
+                </ng-template>
+
+                <div class="row" style="padding-left: 41px;">
+                    <div class="col-sm-6" style="text-align:left;">
+
+                        <div class="col-sm-12 buttoncustomer" style="margin-left:-3%;">
+                            <button type="submit" class="btn savebtn">Save</button>
+                            <button type="button" class="btn canclebtn">Cancel</button>
+                        </div>
+
+                        <h3 class=" headingCSS">
+                            <i class="fa fa-cog"></i> Customer Name and Type </h3>
+                        <div class="  PersonalInfo">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="tdWidthProfile">First Name</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" name="firstname" formControlName="firstname" class="form-control address_comm" [(ngModel)]="customer.firstname">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="tdWidthProfile">Last Name</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" name="lastname" formControlName="lastname" class="form-control address_comm" [(ngModel)]="customer.lastname">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="tdWidthProfile">Customer Type</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" name="customertype" formControlName="customertype" class="form-control address_comm" [(ngModel)]="customer.customertype">
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class=" headingCSS1">
+                            <i class="fa fa-envelope"></i> Communication Preference</h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="tdWidthProfile">Email</label>
+                                <input type="checkbox" formControlName="emailpreferenceforcommunication" [(ngModel)]="customer.emailpreferenceforcommunication">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="tdWidthProfile">Phone</label>
+                                <input type="checkbox" formControlName="phonepreferenceforcommunication" [(ngModel)]="customer.phonepreferenceforcommunication">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="tdWidthProfile">Message</label>
+                                <input type="checkbox" formControlName="messagepreferenceforcommunication" [(ngModel)]="customer.messagepreferenceforcommunication">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <h3 class="profilepicture heading">
+                            <i class="fa fa-user"></i> Profile Picture</h3>
+                        <img *ngIf="image==null && !customer.imagename" src="../assets/img/custom.jpg" style="height:100px;width:100px;border-radius:50px;">
+                        <img *ngIf="customer.imagename" [src]="customer.imagename" style="height:100px;width:100px;border-radius:50px;">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="custom-file-upload file_upload" (click)="openConfirmModal(ImageTemplate)">
+                                    <div style="color:#4B889A;text-shadow: 1px 1px #E6FFFF;">
+                                        <i class="fa fa-cloud-upload"></i> UPLOAD PROFILE PICTURE
+                                    </div>
+                                </label>
+                            </div>
+                            <ng-template #ImageTemplate>
+                                <div class="modal-body">
+                                    <div class="cropimage">
+                                        Image Crop
+                                        <a id="closeNewTherapistForm" style="float:right;  cursor: pointer;" (click)="confirmModalRef.hide()">
+                                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                        </a>
+
+                                    </div>
+                                    <div class="row" style="margin-top: 5%">
+                                        <div class="col-sm-2">
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <img-cropper class="thapp_c" [image]="data" [settings]="cropperSettings"></img-cropper>
+
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <img [src]="data.image">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modalfooter fontclr">
+                                    <button type="button" class="btn btn-default" id="modal-btn-si" (click)="Imageupload(data.image)">Yes</button>
+                                    <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row" style="margin-left: 35px;">
+
+                <div class="col-sm-12">
+                    <h3 class=" headingCSS" style=" margin-left: -8px;">
+                        <i class=" fa fa-home "></i>Map Address and Contact</h3>
+                </div>
+                <br>
+            </div>
+            <!-- <div class="row">
+                         <div class="col-sm-6">
+                                <div class="address_profile">
+                                        <div class="adname text-left"><label >Default </label>
+                                          
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>Contact Name</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <input type="text" name="contactname" formControlName="contactname" class="form-control setup_text" [(ngModel)]="customer.defaultContact.contact_name">
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>Primary Phone</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <input type="text" name="primaryphone" formControlName="primaryphone" class="form-control setup_text" [(ngModel)]="customer.defaultContact.defaultphone.phone">
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>Email</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <input type="text" name="email" formControlName="email" class="form-control setup_text" [(ngModel)]="customer.defaultContact.email">
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>Street</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <input type="text" name="street" formControlName="street" class="form-control setup_text" [(ngModel)]="customer.defaultAddress.street1">
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>City</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <input type="text" name="city" formControlName="city" class="form-control setup_text" [(ngModel)]="customer.defaultAddress.city">
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>State</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <input type="text" formControlName="state" name="state" class="form-control setup_text" [(ngModel)]="customer.defaultAddress.state">
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>Region</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <select name="region" formControlName="region" class="text-left tdWidthProfile form-control setup_text" [(ngModel)]="customer.defaultAddress.region"
+                                                    (change)="selectedregionRow(regions[$event.target.selectedIndex])">
+                                                    <option *ngFor="let region of regions" [value]="region">{{region.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>Sub Region</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <select name="subregion" formControlName="subregion" class="text-left tdWidthProfile form-control setup_text" [(ngModel)]="customer.defaultAddress.subregion">
+                                                    <option *ngFor="let subregion of subregions" [value]="subregion">{{subregion.name}}</option>
+                                                </select>
+    
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>Mobile Phone</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <input type="text" name="mobilephone" formControlName="mobilephone" class="form-control setup_text" [(ngModel)]="customer.mobileno">
+                                            </div>
+                                        </div>
+                                        <div class=" row customerprofile">
+                                            <div class="col-sm-4">
+                                                <label class="text-left tdWidthProfile">
+                                                    <b>Secondary Phone</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 customer_profile">
+                                                <input type="text" name="secondaryphone" formControlName="secondaryphone" class="form-control setup_text" [(ngModel)]="customer.defaultContact.secondaryphone.phone">
+                                            </div>
+                                        </div>
+                                        </div>
+                         </div>
+                         <div class="col-sm-6"></div>
+                     </div> -->
+
+            <div class="row">
+                <div class="col-sm-12" style="text-align:left;">
+                    <h3 class="heading headingCSS" style="margin-left: 4.4%;">
+                        <i class=" fa fa-home"></i> Addresses</h3>
+                    <div class="savBtn">
+                        <button class=" addressbtn" (click)="openModal(AddTemplate)" matTooltip="Add New Address" [matTooltipPosition]="position">
+
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <ng-template #AddTemplate>
+                        <div class="modal-header" id="myModal" style="background:#54598c;margin-top:-31px;">
+                            <div style="background:#54598C;font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+                                Add New Address
+                            </div>
+                            <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="ModalRef.hide()">
+                                <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <label class="text-left tdWidthProfile">Address Name</label>
+                                </div>
+                                <div class="col-sm-7 address_cust">
+                                    <input type="text" class="form-control" name="address_name" [(ngModel)]="address_name">
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <label class="text-left tdWidthProfile">Street</label>
+                                </div>
+                                <div class="col-sm-7 address_cust">
+                                    <input type="text" class="form-control" name="street" [(ngModel)]="street">
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <label class="text-left tdWidthProfile">City</label>
+                                </div>
+                                <div class="col-sm-7 address_cust">
+                                    <input type="text" class="form-control" name="city" [(ngModel)]="city">
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <label class="text-left tdWidthProfile">State</label>
+                                </div>
+                                <div class="col-sm-7 address_cust">
+                                    <input type="text" class="form-control" name="state" [(ngModel)]="state">
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <label class="text-left tdWidthProfile">Region</label>
+                                </div>
+                                <div class="col-sm-7 address_cust">
+                                    <select name="region" class="text-left tdWidthProfile form-control" [(ngModel)]="region" (change)="selectedregionRow(regions[$event.target.selectedIndex])">
+                                        <option *ngFor="let region of regions" [value]="region.name">{{region.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <label class="text-left tdWidthProfile">SubRegion</label>
+                                </div>
+                                <div class="col-sm-7 address_cust">
+                                    <select name="subregion" class="text-left tdWidthProfile form-control" [(ngModel)]="subregion">
+                                        <option *ngFor="let subregion of subregions" [ngValue]="subregion">{{subregion.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <label class="text-left tdWidthProfile">Address Notes</label>
+                                </div>
+                                <div class="col-sm-7 address_cust">
+                                    <input type="text" class="form-control" name="addressnotes" [(ngModel)]="addressnotes">
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <label class="text-left tdWidthProfile">Zipcode</label>
+                                </div>
+                                <div class="col-sm-7 address_cust">
+                                    <input type="number" class="form-control" name="zipcode" [(ngModel)]="zipcode">
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                        </div>
+                        <div class="modalfooter fontclr">
+                            <button type="button" class="btn btn-default" id="modal-btn-si" (click)="openConfirmModal(AddressSaveTemplate)">Save</button>
+
+                            <ng-template #AddressSaveTemplate>
+                                <div class="modal-body">
+                                    <div class="modal-head"> Do you want to save? </div>
+                                </div>
+                                <div class="modalfooter fontclr">
+                                    <button type="button" class="btn btn-default" id="modal-btn-si" (click)="update_customer(customer,false)">Yes</button>
+                                    <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-sm-5" *ngFor="let address of customer.address">
+                    <div class=" cust_setup" style="margin-left: 11%">
+                        <div style="text-align: right;">
+                            <a (click)="openModal(editTemplate)">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <ng-template #editTemplate>
+                                <div class="modal-header" id="myModal" style="background:#54598c;margin-top:-31px;">
+                                    <div style="background:#54598C;font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+                                        Edit Address
+                                    </div>
+                                    <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="ModalRef.hide()">
+                                        <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                    </a>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Address Name</label>
+                                        </div>
+                                        <div class="col-sm-7 address_cust">
+                                            <input type="text" class="form-control" name="address_name" [(ngModel)]="address.address_name">
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Street</label>
+                                        </div>
+                                        <div class="col-sm-7 address_cust">
+                                            <input type="text" class="form-control" name="street" [(ngModel)]="address.street1">
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">City</label>
+                                        </div>
+                                        <div class="col-sm-7 address_cust">
+                                            <input type="text" class="form-control" name="city" [(ngModel)]="address.city">
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">State</label>
+                                        </div>
+                                        <div class="col-sm-7 address_cust">
+                                            <input type="text" class="form-control" name="state" [(ngModel)]="address.state">
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Region</label>
+                                        </div>
+                                        <div class="col-sm-7 address_cust">
+                                            <select name="region" class="text-left tdWidthProfile form-control" [(ngModel)]="address.region" (change)="selectedregionRow(regions[$event.target.selectedIndex])">
+                                                <option *ngFor="let region of regions" [value]="region">{{region.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">SubRegion</label>
+                                        </div>
+                                        <div class="col-sm-7 address_cust">
+                                            <select name="subregion" class="text-left tdWidthProfile form-control" [(ngModel)]="address.subregion">
+                                                <option *ngFor="let subregion of subregions" [value]="subregion">{{subregion.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Address Notes</label>
+                                        </div>
+                                        <div class="col-sm-7 address_cust">
+                                            <input type="text" class="form-control" name="addressnotes" [(ngModel)]="address.address_note">
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Zipcode</label>
+                                        </div>
+                                        <div class="col-sm-7 address_cust">
+                                            <input type="number" class="form-control" name="zipcode" [(ngModel)]="address.zipcode">
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                    </div>
+                                </div>
+                                <div class="modalfooter fontclr">
+                                    <button type="button" class="btn btn-default" id="modal-btn-si" (click)="openConfirmModal(AddressupdateTemplate)">Save</button>
+                                    <ng-template #AddressupdateTemplate>
+                                        <div class="modal-body">
+                                            <div class="modal-head"> Do you want to save? </div>
+                                        </div>
+                                        <div class="modalfooter fontclr">
+                                            <button type="button" class="btn btn-default" id="modal-btn-si" (click)="update_customer(customer,true)">Yes</button>
+                                            <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div class="adname text-left">{{address.address_name}}
+                            <label></label>
+                        </div>
+                        <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">Street:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{address.street1}}</label>
+                            </div>
+                        </div>
+                        <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">City:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{address.city}}</label>
+                            </div>
+                        </div>
+                        <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">State:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{address.state}}</label>
+                            </div>
+                        </div>
+                        <!-- <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">Region:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{ address.region.name}}</label>
+                            </div>
+                        </div>
+                        <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">Sub Region:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{address.subregion}}</label>
+                            </div>
+                        </div> -->
+                        <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">Address Notes:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{address.address_note}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="row" style="margin-top: 2%;">
+                <div class="col-sm-12" style="text-align:left;">
+                    <h3 class="heading headingCSS" style="margin-left:4.4%;">
+                        <i class=" fa fa-home"></i> Contacts</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="savBtn text-left">
+                        <button style=" margin-bottom: 18px;" class=" addressbtn " (click)="openModal(AddcontactTemplate)" matTooltip="Edit" [matTooltipPosition]="position">
+                            <i class="fa fa-plus"></i>
+                            <ng-template #AddcontactTemplate>
+                                <div class="modal-header" id="myModal" style="background:#54598c;margin-top:-31px;">
+                                    <div style="background:#54598C;font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+                                        Edit Address
+                                    </div>
+                                    <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="ModalRef.hide()">
+                                        <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                    </a>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row address_setup">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Contact Name:</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control address_cust" name="contactname" [(ngModel)]="contactname">
+                                        </div>
+                                        <div class="col-sm-2"></div>
+                                    </div>
+                                    <div class="row address_setup">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Mobile Phone:</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control address_cust" name="mobilephone" [(ngModel)]="mobilephone">
+                                        </div>
+                                        <div class="col-sm-2"></div>
+                                    </div>
+                                    <div class="row address_setup">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Primary Phone:</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control address_cust" name="primaryphone" [(ngModel)]="primaryphone">
+                                        </div>
+                                        <div class="col-sm-2"></div>
+                                    </div>
+
+                                    <div class="row address_setup">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Secondary Phone:</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control address_cust" name="secondaryphone" [(ngModel)]="secondaryphone">
+                                        </div>
+                                        <div class="col-sm-2"></div>
+                                    </div>
+                                    <div class="row address_setup">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left tdWidthProfile">Email:</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control address_cust" name="email" [(ngModel)]="email">
+                                        </div>
+                                        <div class="col-sm-2"></div>
+                                    </div>
+                                    <!-- <div class="row address_setup">
+                                                        <div class="col-sm-1"></div>
+                                                    <div class="col-sm-3">
+                                                        <label class="text-left tdWidthProfile">Contact Notes:</label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                            <input type="text" class="form-control address_cust" name="contactnotes" [(ngModel)]="contactnotes">
+                                                    </div>
+                                                    <div class="col-sm-2"></div>
+                                                </div> -->
+
+
+                                </div>
+                                <div class="modalfooter fontclr">
+                                    <button type="button" class="btn btn-default" id="modal-btn-si" (click)="openConfirmModal(AddressSaveTemplate)">Save</button>
+
+                                    <ng-template #AddressSaveTemplate>
+                                        <div class="modal-body">
+                                            <div class="modal-head"> Do you want to save? </div>
+                                        </div>
+                                        <div class="modalfooter fontclr">
+                                            <button type="button" class="btn btn-default" id="modal-btn-si" (click)="updatecustomer(customer,false)">Yes</button>
+                                            <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </ng-template>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5" *ngFor="let contact of customer.contacts;  let i = index;">
+
+
+                    <div class="cust_contact" style="margin-left: 11%">
+                        <div style="text-align: right;">
+                            <a (click)="openModal(ContactEditTemplate)">
+                                <i class="fa fa-pencil"></i>
+                                <ng-template #ContactEditTemplate>
+                                    <div class="modal-header" id="myModal" style="background:#54598c;margin-top:-31px;">
+                                        <div style="background:#54598C;font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+                                            Add New Address
+                                        </div>
+                                        <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="ModalRef.hide()">
+                                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row address_setup">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-3">
+                                                <label class="text-left tdWidthProfile">Contact Name:</label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control address_cust" name="contactname" [(ngModel)]="contact.contact_name">
+                                            </div>
+                                            <div class="col-sm-2"></div>
+                                        </div>
+                                        <div class="row address_setup">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-3">
+                                                <label class="text-left tdWidthProfile">Mobile Phone:</label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control address_cust" name="mobilephone" [(ngModel)]="contact.mobileno">
+                                            </div>
+                                            <div class="col-sm-2"></div>
+                                        </div>
+                                        <div *ngFor="let phone of contact.phone">
+                                            <div class="row address_setup" *ngIf="phone.default">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-3">
+                                                    <label class="text-left tdWidthProfile">Primary Phone:</label>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control address_cust" name="primaryphone" [(ngModel)]="phone.phone">
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+
+                                            <div class="row address_setup" *ngIf="!phone.default">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-3">
+                                                    <label class="text-left tdWidthProfile">Secondary Phone:</label>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control address_cust" name="secondaryphone" [(ngModel)]="phone.phone">
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row address_setup">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-3">
+                                                <label class="text-left tdWidthProfile">Email:</label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control address_cust" name="email" [(ngModel)]="contact.email">
+                                            </div>
+                                            <div class="col-sm-2"></div>
+                                        </div>
+                                        <!-- <div class="row address_setup">
+                                                        <div class="col-sm-1"></div>
+                                                    <div class="col-sm-3">
+                                                        <label class="text-left tdWidthProfile">Contact Notes:</label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                            <input type="text" class="form-control address_cust" name="contactnotes" [(ngModel)]="contactnotes">
+                                                    </div>
+                                                    <div class="col-sm-2"></div>
+                                                </div> -->
+
+
+                                    </div>
+                                    <div class="modalfooter fontclr">
+                                        <button type="button" class="btn btn-default" id="modal-btn-si" (click)="openConfirmModal(contactconfirmTemplate)">Save</button>
+
+                                        <ng-template #contactconfirmTemplate>
+                                            <div class="modal-body">
+                                                <div class="modal-head"> Do you want to save? </div>
+                                            </div>
+                                            <div class="modalfooter fontclr">
+                                                <button type="button" class="btn btn-default" id="modal-btn-si" (click)="updatecustomer(customer,true)">Yes</button>
+                                                <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </ng-template>
+                            </a>
+
+                        </div>
+                        <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">Contact Name:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{contact.contact_name}}</label>
+                            </div>
+                        </div>
+                        <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">Mobile Phone:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{contact.mobileno}}</label>
+                            </div>
+                        </div>
+                        <div *ngFor="let phone of contact.phone">
+                            <div class="row address_setup" *ngIf="phone.default">
+                                <div class="col-sm-6">
+                                    <label class="text-left tdWidthProfile">Primary Phone:</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>{{phone.phone}}</label>
+                                </div>
+                            </div>
+                            <div class="row address_setup" *ngIf="!phone.default">
+                                <div class="col-sm-6">
+                                    <label class="text-left tdWidthProfile">Secondary Phone:</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>{{phone.phone}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">Email:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>{{contact.email}}</label>
+                            </div>
+                        </div>
+                        <!-- <div class="row address_setup">
+                            <div class="col-sm-6">
+                                <label class="text-left tdWidthProfile">Contact Notes:</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label></label>
+                            </div>
+                        </div> -->
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+<br>
+
+            <div class="row">
+                <div class="col-sm-12" style="text-align:left;">
+                    <h3 class="heading headingCSS" style="margin-left:4.4%;">
+                        <i class=" fa fa-credit-card"></i> Payment Details</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5" style="margin-left:4.4%;">
+                    <div class="savBtn" >
+                        <button style=" margin-bottom: 18px;" class=" btn bk-color-purple" ng-show="!hideSaveButton" ng-click="mapAddressContact()">
+                            <i class="fa fa-plus"></i>Add New</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

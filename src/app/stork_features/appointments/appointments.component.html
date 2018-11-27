@@ -1,0 +1,883 @@
+<div class="row" style="margin-top:15px;">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-1">
+        <select class="bookAptBox form-control" style="margin-left:83px;margin-top:0px;">
+
+            <option value="Region">Region</option>
+            <option value="Sub-Region">Sub-Region</option>
+        </select>
+    </div>
+    <div class="col-sm-4">
+        <input id="customerSearchKey" type="text" class="customersearch form-control">
+    </div>
+    <div class="col-sm-4">
+        <button class="searchcust" id="searchCust" type="button" class="btn1 btn-primary" ng-click="searchCustomers();" style="margin-left:29px;margin-top:-2.5px;">Search
+            <i class="fa fa-search" aria-hidden="true" style="margin-left: 12px;"></i>
+        </button>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div id='calendar' matTooltipPosition="below"></div>
+</div>
+
+<!-- edit appointment-popup -->
+<ng-template #editappointmenttemplate>
+    <div class="modal-header" id="myModal" style="background:rgba(0, 187, 89, 0.73);">
+        <div style="font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+            Appointment
+        </div>
+        <a style="float:right; margin-right:5px; cursor: pointer;" (click)="modalRef.hide();closeClick();">
+            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+        </a>
+    </div>
+    <div class="modal-body fontclr">
+        <section>
+            <form [formGroup]="appointmentform" (submit)="create_appoinment()">
+
+                <div class="row" style="margin-left: 2%;">
+                    <div class="col-sm-6">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                        <select class="bookAptBox form-control" (change)="onFilterChange(filterArr[$event.target.selectedIndex])" title="Select Search Type"
+                                            style="margin-left:0px;
+                                        margin-top: -1px;">
+
+                                            <option *ngFor="let filter of filterArr" [value]="filter">{{filter.name}}</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control searchcust" name="filter" formControlName="custfilter" placeholder="Select Search Type">
+                                    </div>
+                                    <div class="col-sm-3" style="margin-left: -35px;">
+                                        <button type="button" (click)="customer_filter()" style="background-color: #54598C;" class="btn2 btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5">
+                                <br>
+                                <!-- <label class="appointslabel">Appointment Status</label> -->
+                                <div>
+                                    <select class="form-control appoinmentstatus" (change)="onAppointmentChange(aptstatusData[$event.target.selectedIndex])"
+                                        (ngModel)="appointment.appointment_statuses">
+                                        <!-- <option [ngValue]="undefined" disabled selected> {{aptstsNamebyId}} </option> -->
+                                        <!--we have to fix this issue - giri Sabari - 9/27/2018-->
+                                        <option [ngValue]="appointment.appointment_statuses" [selected]="appointment.appointment_statuses">{{appointment.appointment_statuses.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <label>Select Customer</label>
+                        <div>
+                            <button type="button" class="servicebtn" (click)="openModal(template)">
+                                <i class="fa fa-user-plus fontclr" matTooltip="Add New Customer" [matTooltipPosition]="position" style="font-size:140% ;margin-left: -13px;"></i>
+                            </button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <select (change)="onCustomerChange($event.target.value)" formControlName="selectcustomer" class="selectcustomer form-control"
+                                    style="margin-left:1px;margin-top: -28px; width:272px" (ngModel)="appointment.customer">
+                                    <option [value]="appointment.customer" [selected]="appointment.customer">{{appointment.customer.firstname}} {{appointment.customer.lastname}}
+                                    </option>
+                                    <!-- <option *ngFor="let customer of customersData" [selected]="appointment.customer._id == customer._id"
+                                    [ngValue]="appointment.customer">{{customer.firstname}} {{customer.lastname}}
+                                    </option> -->
+                                </select>
+                            </div>
+                            <div class="infocircle">
+                                <a class="custbutton" [routerLink]="['/customer/profile/',appointment.customer._id]" (mouseover)="customerpop($event)" target="_blank">
+                                    <i class="fa fa-info-circle fontclr" aria-hidden="true"></i>
+
+                                </a>
+                            </div>
+
+                            <div class="col-sm-4" *ngIf="isCustomer" class="detail_box customer_detail_box customer_detail_box_2 helpSection" style="border: 2px solid darkgray;">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <select class="selectArrow form-control" (change)="onAddressChange(customerAdress[$event.target.selectedIndex])">
+                                            <option *ngFor="let address of appointment.customer.addresses ">{{address.city}} {{address.zipcode}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4" style="text-align:  right; ">
+                                        <button type="button" (click)="closepopup()" class="custbutton">
+                                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                        <label>{{customer_adress?.street1}}</label>
+                                        <br>
+                                        <label>{{customer_adress?.state}}</label>
+                                        <label>{{customer_adress?.city}}</label>
+                                        <label>{{customer_adress?.zipcode}}</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select class="selectArrow form-control" (change)="onContactChange(customerContact[$event.target.selectedIndex])" formControlName="selectcustomer">
+                                            <option *ngFor="let contact of appointment.customer.contacts">{{contact.contact_name}}
+                                            </option>
+                                        </select>
+
+                                        <div *ngFor="let phone of customerPhone">
+                                            <label *ngIf="phone.phone!=null">{{phone.phone}}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <control-messages [control]="appointmentform.controls.selectcustomer" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                        </div>
+                        <div class="row" style="margin-bottom:30px;">
+                                
+                             <div class="col-sm-10">
+                                <label>Start Date and Time</label>
+                                <div class="row">
+                                    <div class="col-sm-10" style="color: #0a0a0a; margin: 6px 0;">
+                                                <!-- <angular2-date-picker [(ngModel)]="date" [settings]="settings"></angular2-date-picker> -->
+                                        <angular2-date-picker  name="bdaytime" [settings]="settings" formControlName="start_date" [ngModel]="appointment.start_date | date:'MMM-dd-yyyy hh:mm a'"
+                                          required (dateChange)="StartDateChange($event)" >   </angular2-date-picker> 
+                                        <control-messages [control]="appointmentform.controls.start_date" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"></div> 
+
+
+
+                        <!-- <div class="row">
+                            <div class="col-sm-5">
+                                <label>Start Date and Time</label>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <input matInput class="selectdate form-control" formControlName="start_date" [matDatetimepicker]="datetimePicker" [(ngModel)]="appointment.start_date"
+                                            required autocomplete="false" (dateChange)="StartDateChange($event)">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix class="calendericon"></mat-datetimepicker-toggle>
+                                        <mat-datetimepicker #datetimePicker type="datetime" openOnFocus="true" timeInterval="5" style="margin-left: -14px;"></mat-datetimepicker>
+                                    </div>
+                                </div>
+                                <control-messages [control]="appointmentform.controls.start_date" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                            </div>
+                        </div> -->
+                        <!-- <div class="my-container">
+                    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+
+                </div> -->
+                        <div class="therapist">
+                            <label>Select Therapist</label>
+                        </div>
+                        <div class="row">
+
+                            <button type="button" style="background: none; border: none;" (click)="addMoretherapist(appointment.therapist)">
+                                <i class="fa fa-plus-circle fontclr" matTooltip="Add More Therapist" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: -16px;"></i>
+                            </button>
+                            <div class="col-sm-8" style="margin-bottom:2%; " *ngFor="let therapist of appointment.therapist">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <select class="selectcustomer form-control" style="margin-left: -10px; width: 272px;" (ngModel)="appointment.therapist" (change)="onTherapistChange(therapistsData[$event.target.selectedIndex])">
+                                            <!--<option *ngFor="let therapist of therapistsData"[ngValue]="therapist">{{therapist.name}}</option> -->
+                                            <option [value]="appointment.therapist" [selected]="therapist">{{therapist.firstname}} {{therapist.lastname}}
+                                            </option>
+                                            <!-- *ngFor="let therapist of therapistsData" -->
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="infocircle" style=" margin-left: 29px;margin-top:3px">
+                                            <a class="custbutton" [routerLink]="['/therapist/profile/',therapist._id]" target="_blank" (mouseover)="opentherapist($event)">
+                                                <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" *ngIf="addTherapist.length!=1" style="background: none; border: none;" (click)="removeTherapist(addmoretherapist.value)">
+                                            <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Add More Therapist" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 16px;margin-top:3px"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" *ngIf="isTherapist" class="detail_box customer_detail_box customer_detail_box_2 helpSection" style="border: 2px solid darkgray;margin-top: 6%;">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                            {{therapist._id}}
+                                        <select class="selectArrow form-control">
+                                               <option *ngFor="let address of therapist.address ">{{address.city}} {{address.zipcode}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4" style="text-align:  right; ">
+
+                                        <button type="button" (click)="closepopuptherapist()" class="custbutton">
+                                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select class="selectArrow form-control">
+                                            <option *ngFor="let contact of therapist.phone">{{therapist.phone}}
+                                            </option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--=============================select services=====================================-->
+                        <label>Select Service</label>
+                        <div class="row option-box customer-div-1" *ngFor="let service of appointment.service">
+                            <div class="col-sm-1" style="margin-top:5px;margin-left: -17px;">
+                                <button type="button" class="servicebtn" (click)="addMoreServices(appointment.service)">
+                                    <i class="fa fa-plus-circle fontclr" matTooltip="Add More Service" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 4px;"></i>
+                                </button>
+                            </div>
+
+                            <div class="col-sm-7">
+                                <select class="selectArrow form-control" (change)="onServiceChange(servicesData[$event.target.selectedIndex])" (ngModel)="appointment.service"
+                                    id="serviceId">
+                                    <!-- <option [ngValue]="undefined" disabled selected> {{serviceNamebyId}} </option>
+                                    <option *ngFor="let service of servicesData" [ngValue]="service">{{service?.name}}</option> -->
+                                    <option [ngValue]="service" [selected]="service">{{service?.name}}</option>
+
+
+                                    <!-- <div *ngIf="date != null" class="input-group-addon"  (click)="addMoreServices(appointment.service)"><i class="service remove"></i>
+                                    </div>
+                                    <div *ngIf="!disableThis" class="input-group-addon"  (click)="d.toggle()">
+                                        <i class=""service remove""></i>
+                                    </div> -->
+
+
+
+
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="qut">
+                                    <input class="form-control qty" (change)="manualTotal()" formControlName="serviceqty" type="text" placeholder="QTY" title="QTY"
+                                        maxlength="3" [ngModel]="service.qty" />
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <span class="qut input-width-lst input-icon">
+                                    <i>$</i>
+                                    <input class="form-control input1" (change)="manualTotal()" formControlName="servicetotal" tabindex="-1" type="text" placeholder="0.00"
+                                        [ngModel]="service.cost" />
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <button *ngIf="addServices.length!=1" style="background: none; border: none;" (click)="removeService(service.value)">
+                                    <i class="fa fa-times-circle crossbtn  fontclr" matTooltip="Remove Services" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 500%;margin-top:-11px"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <label>Select Service Add On</label>
+                        <div class="row option-box customer-div-1" *ngFor="let serviceaddon of appointment.service_addons">
+                            <div style="margin-top:5px;">
+                                <button type="button" class="servicebtn" (click)="addMoreServicesAddon(appointment.service_addons)">
+                                    <i class="fa fa-plus-circle fontclr" matTooltip="Add More Service Add On" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 4px;"></i>
+                                </button>
+                            </div>
+
+                            <div class="col-sm-7">
+                                <select class="selectArrow form-control" (change)="onServiceAddonChange(serviceAddOnData[$event.target.selectedIndex])" (ngModel)="appointment.serviceaddon">
+                                    <option [ngValue]="serviceaddon" [selected]="serviceaddon"> {{serviceaddon.name}}
+                                    </option>
+
+                                    <!-- <option *ngFor="let servaddondata of serviceAddOnData" [ngValue]="servaddondata">{{servaddondata.name}}</option> -->
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="qut">
+                                    <input class="form-control qty" formControlName="serviceaddonqty" type="text" placeholder="QTY" title="QTY" maxlength="3"
+                                        [ngModel]="serviceaddon.qty" (change)="manualTotal()">
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <span class="qut input-width-lst input-icon">
+                                    <i>$</i>
+                                    <input class="form-control input1" tabindex="-1" formControlName="serviceaddontotal" type="text" placeholder="0.00" [ngModel]="serviceaddon.cost"
+                                        (change)="manualTotal()" />
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <button *ngIf="addServiceAddon.length!=1" style="background: none; border: none;" (click)="removeServiceAddon(serviceaddon.value)">
+                                    <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove Service AddOn" [matTooltipPosition]="position" style="font-size:x-large ;margin-left:500%;margin-top:-11px"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <label>Manual Item Entry</label>
+                        <div class="row option-box customer-div-1" *ngFor="let manualitem of appointment.manual_enteries">
+                            <div style="margin-top:5px;">
+                                <button type="button" class="servicebtn" (click)="addMoreManualItem()">
+                                    <i class="fa fa-plus-circle fontclr" matTooltip="Add More Manual Item Entry" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 4px;"></i>
+
+                                </button>
+                                <!-- <option [value]="manualitem" [selected]="manualitem"> {{manualitem.name}}
+                                </option> -->
+                            </div>
+
+                            <!-- <div class="col-sm-7" *ngFor="let manualitem of appointment.manual_enteries" (ngModel)="appointment.manual_enteries">
+                                    <option [value]="appointment.manual_enteries" [selected]="appointment.manual_enteries"> {{appointment.manual_enteries.name}}
+                                        </option>
+                            </div>  -->
+
+                            <div class="col-sm-7">
+
+                                <input class="selectArrow form-control" [ngModel]="manualitem.name" placeholder={{manualNameById}} formControlName="ManualItem"
+                                />
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="qut">
+                                    <input class="form-control qty" type="text" placeholder="QTY" title="QTY" maxlength="3" formControlName="ManualItemqty" (change)="manualTotal()"
+                                        [ngModel]="manualitem.qty" />
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <span class="qut input-width-lst input-icon">
+                                    <i>$</i>
+                                    <input class="form-control input1" tabindex="-1" type="text" placeholder="0.00" formControlName="ManualItemtotal" (change)="manualTotal()"
+                                        [ngModel]="manualitem.cost" />
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <button *ngIf="manualItem.length!=1" style="background: none; border: none;" (click)="removeManualItem(manualitem.manualItem)">
+                                    <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove ManualItem" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 74px;margin-top:-11px"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                <label class="totallabel">Gratuity</label>
+                                <i style="margin-left: 16px;font-style: normal;font-weight: 600;">$</i>
+                                <div class="total">
+                                    <input class="input form-control" tabindex="-1" placeholder="0.00" type="text" formControlName="gratuity" [ngModel]="appointment.tip.replace ('$','') | number:'.2'"
+                                        style=" width: 107px;padding-right: 3px;" (change)="calgratuity()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                <label class="totallabel">Total</label>
+                                <i style="margin-left: 39px;font-style: normal;font-weight: 600;">$</i>
+                                <div class="total input-icon">
+                                    <input class="input form-control" tabindex="-1" formControlName="total" placeholder="0.00" name="total" type="text" [ngModel]="appointment.total_cost.replace ('$','')"
+                                        style=" width: 107px" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <mat-tab-group style="margin-top:5px;">
+                                <mat-tab label="Work Order">
+                                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="worknotes" placeholder="Work Order Notes"
+                                        [(ngModel)]="appointment.work_order_notes"></textarea>
+                                </mat-tab>
+                                <mat-tab label="Private">
+                                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="privatenotes" placeholder="Private Notes"
+                                        [(ngModel)]="appointment.privacy_notes"></textarea>
+                                </mat-tab>
+                                <mat-tab label="Invoice">
+                                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="invoicenotes" placeholder="Invoice notes"
+                                        [(ngModel)]="appointment.invoice_notes"></textarea>
+                                </mat-tab>
+                                <mat-tab label="Summary">
+                                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="summarynotes" placeholder="Summary notes"
+                                        [(ngModel)]="appointment.summary"></textarea>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:18px;margin-bottom: -51px;">
+                    <div class="col-sm-6" style="text-align: center;">
+
+                        <button type="submit" class="button savebtn">Save</button>
+                        <button type="button" class="button canclebtn">Cancel</button>
+                        <button type="button" class="button deletebtn">Delete</button>
+
+
+                    </div>
+                    <div class="col-sm-6" style="text-align: center; margin-left: 0%; padding-left:158px;">
+                        <div class=" crms-btn crms-btn1" style="text-align: center;">
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
+                                style="background:grey; cursor: pointer;" matTooltip="Alert/Notification" matTooltip="Add New Service"
+                                matTooltipPosition="below">
+                                <i class="fa fa-bell" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
+                                </i>
+                            </a>&nbsp;
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openInvoiceApp(apt._id)"
+                                style="background:grey; cursor: pointer;" matTooltip="Create Invoice" matTooltipPosition="below">
+                                <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
+                            </a>&nbsp;
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
+                                style="background:grey;" matTooltip="Email Invoice" matTooltipPosition="below">
+                                <i class="fa fa-share" aria-hidden="true" style="font-size: 18px;"></i>
+                            </a>&nbsp;
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" style="background:grey;" matTooltip="CRMS" matTooltipPosition="below">
+                                <i class="fa fa-users" aria-hidden="true" style="font-size: 18px;"></i>
+                            </a>&nbsp;
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
+                                style="background:grey; cursor: pointer;" matTooltip="Payment" matTooltipPosition="below">
+                                <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
+                                </i>
+                            </a>
+
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" (click)="load_appointment()" style="margin-left:30px;">Load</button>
+                            <button type="button" class="btn btn-secondary">Open</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+        </section>
+
+    </div>
+
+</ng-template>
+
+
+
+<!-- add appoinment popup -->
+<ng-template #addappointmenttemplate>
+    <div class="modal-header" id="myModal" style="background:rgba(0, 187, 89, 0.73);">
+        <div style="font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+            Appointment
+        </div>
+        <a style="float:right; margin-right:5px; cursor: pointer;" (click)="modalRef.hide();closeClick();">
+            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+        </a>
+    </div>
+    <div class="modal-body fontclr">
+        <section>
+            <form [formGroup]="appointmentform" (submit)="create_appoinment()">
+
+                <div class="row" style="margin-left: 2%;">
+                    <div class="col-sm-6">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                        <select class="bookAptBox form-control" (change)="onFilterChange(filterArr[$event.target.selectedIndex])" title="Select Search Type"
+                                            style="margin-left:0px;
+                                        margin-top: -1px;">
+
+                                            <option *ngFor="let filter of filterArr" [value]="filter">{{filter.name}}</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control searchcust" name="filter" formControlName="custfilter" placeholder="Select Search Type">
+                                    </div>
+                                    <div class="col-sm-3" style="margin-left: -35px;">
+                                        <button type="button" (click)="customer_filter()" style="background-color: #54598C;" class="btn2 btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5">
+                                <br>
+                                <!-- <label class="appointslabel">Appointment Status</label> -->
+                                <div>
+                                    <select class="form-control appoinmentstatus" (change)="onAppointmentChange(aptstatusData[$event.target.selectedIndex])">
+                                        <!-- <option [ngValue]="undefined" disabled selected> {{aptstsNamebyId}} </option> -->
+                                        <!--we have to fix this issue - giri Sabari - 9/27/2018-->
+                                        <option *ngFor="let appointment_statuses of aptstatusData" [ngValue]="appointment_statuses">{{appointment_statuses.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <label>Select Customer</label>
+                        <div>
+                            <button type="button" class="servicebtn" (click)="openModal(template)">
+                                <i class="fa fa-user-plus fontclr" matTooltip="Add New Customer" [matTooltipPosition]="position" style="font-size:140% ;margin-left: -13px;"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <select (change)="onCustomerChange(customersData[$event.target.selectedIndex])" formControlName="selectcustomer" class="selectcustomer form-control"
+                                    style="margin-left:1px;margin-top: -28px; width:272px" (ngModel)="appointment.customer">
+                                    <option *ngFor="let customer of customersData" [ngValue]="customer">{{customer.firstname}} {{customer.lastname}}
+                                    </option>
+                                    <!-- <option *ngFor="let customer of customersData" [selected]="appointment.customer._id == customer._id"
+                                    [ngValue]="appointment.customer">{{customer.firstname}} {{customer.lastname}}
+                                    </option> -->
+                                </select>
+                            </div>
+                            <div class="infocircle">
+                                <a class="custbutton" [routerLink]="['/customer/profile/',customer._id]" (mouseover)="customerpop($event)" target="_blank">
+                                    <i class="fa fa-info-circle fontclr" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="col-sm-4" *ngIf="isCustomer" class="detail_box customer_detail_box customer_detail_box_2 helpSection" style="border: 2px solid darkgray;">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <select class="selectArrow form-control" (change)="onAddressChange(customerAdress[$event.target.selectedIndex])">
+                                            <option *ngFor="let address of customer.addresses ">{{address.city}} {{address.zipcode}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4" style="text-align:  right; ">
+                                        <button type="button" (click)="closepopup()" class="custbutton">
+                                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                        <label>{{customer_adress?.street1}}</label>
+                                        <br>
+                                        <label>{{customer_adress?.state}}</label>
+                                        <label>{{customer_adress?.city}}</label>
+                                        <label>{{customer_adress?.zipcode}}</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select class="selectArrow form-control" (change)="onContactChange(customerContact[$event.target.selectedIndex])" formControlName="selectcustomer">
+                                            <option *ngFor="let contact of customer.contacts ">{{contact.contact_name}}
+                                            </option>
+                                        </select>
+
+                                        <div *ngFor="let phone of customerPhone">
+                                            <label *ngIf="phone.phone!=null">{{phone.phone}}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <control-messages [control]="appointmentform.controls.selectcustomer" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                        </div>
+                        <div class="row" style="margin-bottom:30px;">
+                            <div class="col-sm-10">
+                                <label>Start Date and Time</label>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <angular2-date-picker  name="bdaytime" [settings]="settings" formControlName="start_date" [ngModel]="appointment.start_date | date:'MMM-dd-yyyy hh:mm a'"
+                                          required (dateChange)="StartDateChange($event)" >   </angular2-date-picker> 
+                                        <control-messages [control]="appointmentform.controls.start_date" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"></div>
+
+                        <!-- <div class="row">
+                            <div class="col-sm-5">
+                                <label>Start Date and Time</label>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <input matInput class="selectdate form-control" formControlName="start_date" [matDatetimepicker]="datetimePicker" [(ngModel)]="appointment.start_date"
+                                            required autocomplete="false" (dateChange)="StartDateChange($event)">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix class="calendericon"></mat-datetimepicker-toggle>
+                                        <mat-datetimepicker #datetimePicker type="datetime" openOnFocus="true" timeInterval="5" style="margin-left: -14px;"></mat-datetimepicker>
+                                    </div>
+                                </div>
+                                <control-messages [control]="appointmentform.controls.start_date" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                            </div>
+                        </div> -->
+                        <!-- <div class="my-container">
+                    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+
+                </div> -->
+                        <div class="therapist">
+                            <label>Select Therapist</label>
+                        </div>
+                        <div class="row">
+                            <button style="background: none; border: none;" (click)="addMoretherapist()">
+                                <i class="fa fa-plus-circle fontclr" matTooltip="Add More Therapist" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: -16px;"></i>
+                            </button>
+                            <div class="col-sm-8" style="margin-bottom:2%;">
+                                <!-- *ngFor="let addmoretherapist of addTherapist" -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <select class="selectcustomer form-control" style="margin-left: -10px; width: 272px;" (ngModel)="appointment.therapist" (change)="onTherapistChange(therapistsData[$event.target.selectedIndex])">
+                                            <option *ngFor="let therapist of therapistsData" [ngValue]="therapist">{{therapist.name}}</option>
+                                            <!-- <option [value]="therapist" [selected]="therapist">{{therapist.firstname}} {{therapist.lastname}}
+                                            </option> -->
+                                        </select>
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="infocircle" style=" margin-left: 29px;margin-top:3px">
+                                            <a class="custbutton" [routerLink]="['/therapist/profile/',therapistId]" target="_blank" (mouseover)="opentherapist($event)">
+                                                <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button *ngIf="addTherapist.length!=1" style="background: none; border: none;" (click)="removeTherapist(addmoretherapist.value)">
+                                            <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Add More Therapist" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 16px;margin-top:3px"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" *ngIf="isTherapist" class="detail_box customer_detail_box customer_detail_box_2 helpSection" style="border: 2px solid darkgray;margin-top: 6%;">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <select class="selectArrow form-control">
+                                            <option>{{therapistAddress?.city}} {{therapistAddress?.zipcode}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4" style="text-align:  right; ">
+
+                                        <button type="button" (click)="closepopuptherapist()" class="custbutton">
+                                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select class="selectArrow form-control">
+                                            <option *ngFor="let contact of therapistContact ">{{contact.phone}}
+                                            </option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--=============================select services=====================================-->
+                        <label>Select Service</label>
+                        <div class="row option-box customer-div-1" *ngFor="let service of addServices">
+                            <div class="col-sm-1" style="margin-top:5px;margin-left: -17px;">
+                                <button type="button" class="servicebtn" (click)="addMoreServices(service,true)">
+                                    <i class="fa fa-plus-circle fontclr" matTooltip="Add More Service" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 4px;"></i>
+                                </button>
+                            </div>
+                            <div class="col-sm-7">
+                                <select class="selectArrow form-control" (change)="onServiceChange(servicesData[$event.target.selectedIndex],service._id)"
+                                    [value]="service._id" formControlName="service">
+                                    <!-- <option [ngValue]="undefined" disabled selected> {{serviceNamebyId}} </option> -->
+                                    <option *ngFor="let service1 of servicesData" [value]="service1._id">{{service1?.name}}</option>
+                                    <!-- <option [value]="service" [selected]="service">{{service?.name}}</option> -->
+                                    <!-- <option *ngFor="let service of therapistsData" [ngValue]="service">{{service?.name}}</option> -->
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <span class="qut">
+                                    <input class="form-control qty" formControlName="serviceqty" type="text" placeholder="QTY" title="QTY" maxlength="3" [value]="service.qty"
+                                    />
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <span class="qut input-width-lst input-icon">
+                                    <i>$</i>
+                                    <input class="form-control input1" step="0.01" (change)="manualTotal()" formControlName="servicetotal" tabindex="-1" type="text"
+                                        placeholder="0.00" [value]="service?.cost" />
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" *ngIf="addServices.length!=1" style="background: none; border: none;" (click)="removeService(service.value)">
+                                    <i class="fa fa-times-circle crossbtn  fontclr" matTooltip="Remove Services" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 500%;margin-top:-11px"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <label>Select Service Add On</label>
+                        <div class="row option-box customer-div-1" *ngFor="let serviceaddon of addServiceAddon">
+                            <div style="margin-top:5px;">
+                                <button type="button" class="servicebtn" (click)="addMoreServicesAddon(serviceaddon,true)">
+                                    <i class="fa fa-plus-circle fontclr" matTooltip="Add More Service Add On" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 4px;"></i>
+                                </button>
+                            </div>
+
+                            <div class="col-sm-7">
+                                <select class="selectArrow form-control" (change)="onServiceAddonChange(serviceAddOnData[$event.target.selectedIndex],serviceaddon._id)"
+                                    [value]="serviceaddon._id">
+                                    <option *ngFor="let serviceaddon1 of serviceAddOnData " [value]="serviceaddon1._id"> {{serviceaddon1?.name}}
+                                    </option>
+
+                                    <!-- <option *ngFor="let servaddondata of serviceAddOnData" [ngValue]="servaddondata">{{servaddondata.name}}</option> -->
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="qut">
+                                    <input class="form-control qty" formControlName="serviceaddonqty" type="text" placeholder="QTY" title="QTY" maxlength="3"
+                                        [value]=" serviceaddon.qty " (change)="manualTotal()">
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <span class="qut input-width-lst input-icon">
+                                    <i>$</i>
+                                    <input class="form-control input1" step="0.01" (change)="manualTotal()" tabindex="-1" formControlName="serviceaddontotal"
+                                        type="text" placeholder="0.00" [value]=" serviceaddon?.cost | number:'.2'" />
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <button *ngIf="addServiceAddon.length!=1" style="background: none; border: none;" (click)="removeServiceAddon(serviceaddon.value)">
+                                    <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove Service AddOn" [matTooltipPosition]="position" style="font-size:x-large ;margin-left:500%;margin-top:-11px"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <label>Manual Item Entry</label>
+                        <div class="row option-box customer-div-1">
+                            <div style="margin-top:5px;">
+                                <button type="button" class="servicebtn" (click)="addMoreManualItem()">
+                                    <i class="fa fa-plus-circle fontclr" matTooltip="Add More Manual Item Entry" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 4px;"></i>
+
+                                </button>
+                                <!-- <option [value]="manualitem" [selected]="manualitem"> {{manualitem.name}}
+                                </option> -->
+                            </div>
+
+                            <!-- <div class="col-sm-7" *ngFor="let manualitem of appointment.manual_enteries" (ngModel)="appointment.manual_enteries">
+                                    <option [value]="appointment.manual_enteries" [selected]="appointment.manual_enteries"> {{appointment.manual_enteries.name}}
+                                        </option>
+                            </div>  -->
+
+                            <div class="col-sm-7">
+
+                                <input class="selectArrow form-control" placeholder={{manualNameById}} formControlName="ManualItem" />
+                                <!-- [ngModel]="manual_enteries" -->
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="qut">
+                                    <input class="form-control qty" type="text" placeholder="QTY" title="QTY" maxlength="3" formControlName="ManualItemqty" (change)="manualTotal()"
+                                    />
+                                    <!-- [ngModel]="manual_enteries.qty" -->
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <span class="qut input-width-lst input-icon">
+                                    <i>$</i>
+                                    <input type="number" step="0.01" (change)="setTwoNumberDecimal($event)" class="form-control input1" tabindex="-1" type="text"
+                                        placeholder="0.00" formControlName="ManualItemtotal" [ngModel]="manual_enteries?.cost  | number:'.2'"
+                                    />
+                                    <!-- [ngModel]="manual_enteries.cost" -->
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <button *ngIf="manualItem.length!=1" style="background: none; border: none;" (click)="removeManualItem(manualitem.manualItem)">
+                                    <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove ManualItem" [matTooltipPosition]="position" style="font-size:x-large ;margin-left: 74px;margin-top:-11px"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                <label class="totallabel">Gratuity</label>
+                                <i style="margin-left: 16px;font-style: normal;font-weight: 600;">$</i>
+                                <div class="total">
+                                    <input class="input form-control" tabindex="-1" placeholder="0.00" type="text" formControlName="gratuity" [ngModel]="gratuity | number:'.2'"
+                                        style=" width: 107px;padding-right: 3px;" (change)="calgratuity()">
+                                    <!-- [ngModel]="gratuity" -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                <label class="totallabel">Total</label>
+                                <i style="margin-left: 39px;font-style: normal;font-weight: 600;">$</i>
+                                <div class="total input-icon">
+                                    <!-- <kendo-numerictextbox
+                                        [format]="'c'" [Spinners]="false"
+                                        [value]="value"
+                                    ></kendo-numerictextbox> -->
+                                    <input class="input form-control" tabindex="-1" formControlName="total" placeholder="0.00" name="total" type="text" [ngModel]="Total | number:'.2'"
+                                        style=" width: 107px" readonly>
+                                    <!-- [ngModel]="Total | number:'1.2-2'" -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <mat-tab-group style="margin-top:5px;">
+                                <mat-tab label="Work Order">
+                                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="worknotes" placeholder="Work Order Notes"
+                                        [ngModel]="appointment.work_order_notes"></textarea>
+                                </mat-tab>
+                                <mat-tab label="Private">
+                                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="privatenotes" placeholder="Private Notes"
+                                        [ngModel]="appointment.privacy_notes"></textarea>
+                                </mat-tab>
+                                <mat-tab label="Invoice">
+                                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="invoicenotes" placeholder="Invoice notes"
+                                        [ngModel]="appointment.invoice_notes"></textarea>
+                                </mat-tab>
+                                <mat-tab label="Summary">
+                                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="summarynotes" placeholder="Summary notes"
+                                        [ngModel]="appointment.summary"></textarea>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:18px;margin-bottom: -51px;">
+                    <div class="col-sm-6" style="text-align: center;">
+
+                        <button type="submit" class="button savebtn">Save</button>
+                        <button type="button" class="button canclebtn">Cancel</button>
+                        <button type="button" class="button deletebtn">Delete</button>
+
+
+                    </div>
+                    <div class="col-sm-6" style="text-align: center; margin-left: 0%; padding-left:158px;">
+                        <div class=" crms-btn crms-btn1" style="text-align: center;">
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
+                                style="background:grey; cursor: pointer;" matTooltip="Alert/Notification" matTooltip="Add New Service"
+                                matTooltipPosition="below">
+                                <i class="fa fa-bell" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
+                                </i>
+                            </a>&nbsp;
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openInvoiceApp(apt._id)"
+                                style="background:grey; cursor: pointer;" matTooltip="Create Invoice" matTooltipPosition="below">
+                                <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
+                            </a>&nbsp;
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
+                                style="background:grey;" matTooltip="Email Invoice" matTooltipPosition="below">
+                                <i class="fa fa-share" aria-hidden="true" style="font-size: 18px;"></i>
+                            </a>&nbsp;
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" style="background:grey;" matTooltip="CRMS" matTooltipPosition="below">
+                                <i class="fa fa-users" aria-hidden="true" style="font-size: 18px;"></i>
+                            </a>&nbsp;
+                            <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
+                                style="background:grey; cursor: pointer;" matTooltip="Payment" matTooltipPosition="below">
+                                <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
+                                </i>
+                            </a>
+
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" (click)="load_appointment()" style="margin-left:30px;">Load</button>
+                            <button type="button" class="btn btn-secondary">Open</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+        </section>
+
+    </div>
+
+</ng-template>

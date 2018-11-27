@@ -1,0 +1,186 @@
+
+// alret notification
+
+
+hr{
+    width: 100%;
+   
+    border-top: 1px solid #9e9898
+}
+
+
+hr {
+
+     margin-bottom: 0rem; 
+    //  border: 0 !important;
+    // border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+.save{
+        background-color: #5cb85c;
+    width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+.edit{
+background-color: #5bc0de;
+ width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+
+}
+.cancle1{
+background-color: #f0ad4e;
+width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+.delete{
+  background-color: #d9534f;
+  width: 86px;
+    height: 38px;
+    border: none;
+    padding: 9px;
+}
+    select option:disabled {
+        color: #dddddd;
+        font-weight: bold;
+    }
+    .noti + .noti1:after {
+    left: 3% !important;
+       top: -122% !important;
+    
+}
+.noti:checked + .noti1:after {
+    left: 70% !important;
+    top: -122% !important;
+}
+.text{
+        position: relative;
+    top: -4px;
+}
+.colsm6{
+           margin-left: 12px;
+   
+}
+.col{
+  
+     margin-left: -12px;
+}
+.therapist{
+    background-color: #17b4c2;
+    color: white;
+    font-size: initial;
+    height: 35px;
+    padding: 7px;
+    margin-top: 10px;
+}
+.customer{
+     background-color: #54598C;
+    color: white;
+    font-size: initial;
+    height: 35px;
+    padding: 7px;
+     margin-top: 10px;
+}
+.payment-heading{
+    margin-left: 12px;
+    font-size: 20px;
+    font-weight: bolder;
+}
+.payment-content{
+    padding-top: 22px;
+    width: 90%;
+}
+.payment-content-radio{
+    position:absolute;right: 12%;margin-top: -23px;
+}
+.access{
+    float:left;  padding-right: 10px;font-size: 16px; color: #555;
+}
+.acces{
+    float:left;  padding-right: 90px;font-size: 20px; 
+}
+.acce{
+    float:left;  padding-right: 120px;font-size: 20px; 
+}
+
+.between {
+    border: 3px solid #0099CC;
+    margin-left:0px;
+    margin-right:0px;
+    width:99.5%;
+
+}
+
+.payment-type{
+    background-color: #d8d8d8;
+    width: 100%;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #919797;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #919797;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.right { 
+    color: green;   
+   }
+   .wrong {
+    color: red;   
+   }
+
+

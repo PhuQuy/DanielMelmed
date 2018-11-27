@@ -1,0 +1,121 @@
+//angular material
+mat-header-cell {
+  font-size: 18px;
+  font-weight: bold;
+}
+.mat-table {
+overflow: auto;
+height: 536px;
+
+}
+.mat-tooltip {
+color: white !important;
+background-color: rgba(0, 187, 89, 0.73);
+font-size: 14px;
+font-weight: bold;
+}
+mat-header-row{
+background-color: rgba(0, 187, 89, 0.73); color:white;
+border-bottom-width: 0px;
+}
+mat-row{
+border:none;
+
+}
+mat-row:nth-child(even) {
+background-color: #e2dede;
+border-bottom-style: none;
+border-top-style: none;
+
+}
+mat-row:nth-child(odd) {
+background-color: white;
+border-bottom-style: none;
+border-top-style: none;
+
+}
+.addon{
+text-align: left;
+color: #555;
+font-weight: 300;
+}
+
+.example-container {
+flex-direction: column;
+max-height: 500px;
+min-width: 300px;
+
+}
+.plussquare{
+font-size: 30px;
+color: rgba(0, 187, 89, 0.73);
+border: none;
+background: none;
+}
+.colsm3{
+// margin-left:-45px;
+margin-left: -20px;
+
+
+}
+.colsm1{
+  margin-left: -2.5%;
+  font-size: 20px;
+  text-align: left;
+}
+.hr{
+margin-top: 8px; 
+margin-bottom: 0rem;
+}
+.inputtext{
+background-color: white;
+height: 34px;
+}
+
+
+.input-text{
+border-radius: 5px;
+
+}
+.row-addons{
+margin-bottom: 5px;
+}
+.row-label{
+text-align: right;
+}
+.input-icon {
+position: relative;
+}
+
+.input-icon > i {
+position: absolute;
+display: block;
+transform: translate(0, -50%);
+top: 50%;
+pointer-events: none;
+width: 25px;
+text-align: center; 
+font-style: normal;
+left: 0%;
+}
+.input-icon > input {
+padding-left: 25px; 
+padding-right: 0;
+}
+
+@media ( min-width:1365px){
+.mat-table-height{
+height: 400px;margin-top: 15px;
+}
+.admin1{
+  height: 78% !important;
+}
+}
+@media ( min-width:1600px){
+.mat-table-height{
+height: 530px;margin-top: 15px;
+}
+.admin1{
+height: 92% !important;
+}
+}

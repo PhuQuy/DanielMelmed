@@ -1,0 +1,154 @@
+<div class="app-content" ng-class="{loading: loading}">
+    <div class="header">
+        <div class="logo" style="float:none;text-align:center;">
+            <a href="index.html"><img src="../../../assets/img/logo.png"></a>
+        </div>
+        <div style="clear:both"></div>
+        <!-- <div class="sitename_intial" style="text-align: center; font-weight: 400; "><a href="javascript:;">BODYWELL</a></div> -->
+
+        <div style="clear:both"></div>
+    </div>
+
+    <!-- <div class="mainimg">
+    </div> -->
+    <div class="main" ng-controller="loginCtrl">
+        <div class="maincontent">
+            <div class="inside_sec">
+                <div class="inside_data">
+                    <div  class="alert"> 
+                          {{loginerrormsg}}
+                      </div>
+                    <div class="book">
+                        <form   class="form-horizontal" (submit)="userLogin()" [formGroup]="form">
+                            <div class="form-group" >
+                            <input class="login_inputs form-control" type="text" name="email" placeholder="email"  id="userEmail" formControlName="email"  ><br />
+                        <control-messages [control]="form.controls.email" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                            </div>
+                             <div class="form-group" >
+                            <input class="login_inputs form-control" type="password" name="Password" placeholder="password"  id="userPassword"  formControlName="password"  ><br />
+                            <control-messages [control]="form.controls.password" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+                             </div>
+                            <div class="login_buttons" style="margin-left:11%;">
+                                <button class="login_button_1 btn" type="submit" id="submitBtn" [disabled]="!form.valid" >Login</button>
+                                <button class="login_button_2" type="reset" id="resetBtn"> Reset </button>
+                            </div>
+                        </form>
+                        <div class="row" style="margin-left: 7.5%;">
+                            <div class="col-sm-12">
+                                    <a class="forget_buttons_text" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password?</a>
+                                    <a class="forget_buttons_text" data-toggle="modal" data-target="#changePasswordWithEmailModal">Change Password?</a>
+                                    <!--<a href="therapist.html"><button class="btn">Therapist</button></a><br /><br />
+                                    <a href="customer.html"><button class="btn">Customer</button></a>-->
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="inside_sec_1">
+                <a href="https://wwww.facebook.com">
+                    <button class="fbsignup_button  fbsignup_button1">
+                        <i class="fa fa-facebook myfb"></i>Signup With Facebook
+                    </button>
+                </a>
+                <br />
+                <a ui-sref="customers.register">
+                    <button class="register_button register_button1">Create an account</button></a><br />
+                <br />
+                <!-- a ui-sref="dashboard"><button class="btn">Admin</button></a -->
+            </div>
+        </div>
+        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel">
+            <div class="modal-dialog" role="document" style="margin-top: 110px !important">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Enter your registered Email</h4>
+                    </div>
+                    <form  ng-submit="forgotPassword(forgotPasswordForm.$valid)" name="forgotPasswordForm" id="forgotPasswordForm" novalidate>
+                        <div class="modal-body">
+                            <input class="form-control input-lg" type="email" name="forgotemail" placeholder="email" ng-model="forgotemail" id="forgotEmail" required /><br />
+                            <p class="error text-small block" ng-if="loginform.email.$dirty && loginform.email.$invalid">Email is required</p>
+
+                        </div>
+                        <div class="modalfooter">
+                            <button type="button" class="btn btn-default" id="forgotClose" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="forgotSubmit">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="changePasswordInfoModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordInfoModalLabel">
+            <div class="modal-dialog" role="document" style="margin-top: 110px !important">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Do you want to change the default password?</h4>
+                    </div>
+                    <div class="modal-body">
+                       <button type="button" class="btn btn-default" id="forgotClose" data-dismiss="modal" ng-click="keepLogin()">No</button>
+                        <button class="btn btn-primary" id="forgotSubmit" ng-click="changePass()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel">
+            <div class="modal-dialog" role="document" style="margin-top: 110px !important">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="paswwordCancel()"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+                    </div>
+                     <div class="modal-body">
+                        <form  ng-submit="changeDefaultPassword()" name="changeP" novalidate>
+                            <input class="login_inputs" type="password" name="newchangepassword" placeholder="New Password" ng-model="newchangepassword" autocomplete="false" /><br />
+                            <p class="error" ng-show="newPError">Please enter new password.</p>
+                            <input class="login_inputs" type="password" name="confirmchangepassword" placeholder="Confirm password" ng-model="confirmchangepassword" autocomplete="false"/><br />
+                            <p class="error" ng-show="confirmPError">Please confirm password.</p>
+                            <p class="error" ng-show="PNotMatchError">Confirm password do not match.</p>
+                            <br />
+                            <div class="login_buttons">
+
+                                <button class="login_button_1" type="submit">Save</button>
+                                <button class="login_button_2" ng-click="paswwordCancel()"> Cancle</button>
+                            </div>
+                        </form>
+                           
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changePasswordWithEmailModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel">
+            <div class="modal-dialog" role="document" style="margin-top: 110px !important">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="paswwordCancel()"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+                    </div>
+                     <div class="modal-body">
+                        <form  name="changeP" novalidate>
+                            <input class="login_inputs" type="email" name="emailPassword" placeholder="Enter Email" ng-model="emailPassword" autocomplete="false" /><br />
+                             <p class="error" ng-show="newEEError">Please enter email ID.</p>
+                            <input class="login_inputs" type="password" name="newchangepassword" placeholder="New Password" ng-model="newchangepassword" autocomplete="false" /><br />
+                            <p class="error" ng-show="newPEError">Please enter new password.</p>
+                            <input class="login_inputs" type="password" name="confirmchangepassword" placeholder="Confirm password" ng-model="confirmchangepassword" autocomplete="false"/><br />
+                            <p class="error" ng-show="confirmPEError">Please confirm password.</p>
+                            <p class="error" ng-show="PNotMatchEError">Confirm password do not match.</p>
+                            <br />
+                            <div class="login_buttons">
+
+                                <button class="login_button_1" ng-click="changeUserPassword()">Save</button>
+                                <button class="login_button_2" ng-click="paswwordCancel()"> Cancel</button>
+                            </div>
+                        </form>
+                           
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
