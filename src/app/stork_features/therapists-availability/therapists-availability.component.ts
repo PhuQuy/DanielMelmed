@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 // import "dhtmlx-scheduler";
 // import {} from "@types/dhtmlxscheduler";
-import { IOption } from 'ng-select';
 import * as $ from 'jquery';
 import 'moment';
 import 'fullcalendar';
@@ -18,7 +17,7 @@ import { TherapistAvailabilityService } from './therapist-availability.service';
 })
 export class TherapistsAvailabilityComponent implements OnInit {
   fc: object;
-  myOptions: Array<IOption> = [
+  myOptions: Array<any> = [
     { label: 'Netherlands', value: 'BE' },
     { label: 'abc', value: 'LU' },
     { label: 'Luxembourg', value: 'NL' }

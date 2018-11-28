@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewEncapsulation, ViewChild, AfterViewInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { AppointmentValidationService } from "app/stork_features/book-massage/appointment/appointment-servicesvalidation.service";
 import { AppointmentService } from './appointment.service';
 import * as env from 'environments/environment';
@@ -46,7 +46,8 @@ export class AppointmentComponent implements OnInit {
     addTherapist: therapist[];
     addServices = [{ service: '' }];
     addServiceAddon = [{ serviceAddOn: '' }];
-    manualItem: manual_enteries[];
+    manualItems: manual_enteries[];
+    addManualItems = [{name: ''}];
     servicesArr: any = [];
     servicesAddonArr: any = [];
     therapistArr: any = [];
@@ -62,7 +63,6 @@ export class AppointmentComponent implements OnInit {
 
     filterArr = [{}]
     filter: any;
-
 
     appointmentIdVal: any;
     aptstsNamebyId: any;
@@ -118,7 +118,8 @@ export class AppointmentComponent implements OnInit {
         format: 'MMM-dd-yyyy hh:mm a',
         defaultOpen: false
     }
-    therapistList: any[] = [{ _id: "-1" }];
+    therapistList: any[] = [{ _id: null }];
+    selectedTherapist: any;
     constructor(
         private activatedRoute: ActivatedRoute,
         public modalService: BsModalService,
@@ -317,6 +318,7 @@ export class AppointmentComponent implements OnInit {
     get_appointment_by_Id(appointmentIdVal) {
         this.bookMassageService.get_appoinment_by_Id(appointmentIdVal).subscribe(aptbyIdData => {
             this.appointment = aptbyIdData.ResponseMessage.Appoinment;
+            console.log(this.appointment);
 
             this.appointment.customer = this.appointment.customer;
             if (this.customersData != undefined)
@@ -332,7 +334,7 @@ export class AppointmentComponent implements OnInit {
             this.servicesData = this.appointment.service;
 
             // this.appointment.service_addons = this.appointment.service_addons;
-            this.serviceAddOnData = this.appointment.service_addons;
+            // this.serviceAddOnData = this.appointment.service_addons;
 
 
             //  this.appointment.appointment_statuses = this.appointment.appointment_statuses;
@@ -343,7 +345,7 @@ export class AppointmentComponent implements OnInit {
             // this.aptstatusData.push(appointment_statuses); 
 
             this.appointment.start_date = HelperService.toDateString(new Date(this.appointment.start_date));
-            this.manualItem = this.appointment.manual_enteries;
+            this.manualItems = this.appointment.manual_enteries;
 
 
             if (this.appointment.service_addons.length > 0)
@@ -426,6 +428,8 @@ export class AppointmentComponent implements OnInit {
         }
         this.bookMassageService.get_all_available_services(condition).subscribe(servicesData => {
             this.servicesData = servicesData;
+            console.log(this.servicesData);
+            
             //this.servicesData = therapistsData.ResponseMessage;
         })
 
@@ -447,12 +451,9 @@ export class AppointmentComponent implements OnInit {
         this.manualTotal()
     }
 
-    onTherapistChange(therapist: any, id: any, i: any) {
-        console.log(therapist);
-        console.log(id);
-        console.log(i);
-        console.log(this.therapistList);
-        this.therapistList[i] = therapist;
+    onTherapistChange() {
+        
+        // this.therapistList[i] = this.selectedTherapist;
 
         // if (this.therapistList.length > 0) {
         //     let index = this.therapistList.findIndex(s => s._id == id);
@@ -546,11 +547,11 @@ export class AppointmentComponent implements OnInit {
     }
 
     addMoreServicesAddon() {
-        //this.addServiceAddon.push({ serviceAddOn: '' })
+        this.addServiceAddon.push({ serviceAddOn: '' })
 
         // this.addServiceAddon.push({ serviceAddOn: this.servicesAddonArr.name })
-        let serviceaddon = this.appointmentform.value.serviceAddOnData;
-        this.serviceAddOnData.push(serviceaddon);
+        // let serviceaddon = this.appointmentform.value.serviceAddOnData;
+        // this.serviceAddOnData.push(serviceaddon);
     }
 
     removeServiceAddon(value) {
@@ -560,18 +561,17 @@ export class AppointmentComponent implements OnInit {
     }
 
     addMoreManualItem() {
-        ;
-        //this.manualItem.push({ manualItem: '' })
+        this.addManualItems.push({name: ''});
         //{ manualItem: this.appointmentform.value.ManualItem }
         //  let manual_entery = new manual_enteries();
 
-        let manual_entery = this.appointmentform.value.ManualItem;
-        this.manualItem.push(manual_entery);
+        // let manual_entery = this.appointmentform.value.ManualItem;
+        // this.manualItems.push(manual_entery);
     }
 
     removeManualItem(value) {
-        let index = this.manualItem.indexOf(value);
-        this.manualItem.splice(index, 1);
+        let index = this.manualItems.indexOf(value);
+        this.manualItems.splice(index, 1);
 
     }
     manualTotal() {
