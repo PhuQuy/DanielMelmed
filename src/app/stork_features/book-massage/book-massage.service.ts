@@ -307,15 +307,14 @@ export class BookMassageService extends BaseService {
     }
     create_customer(image, customers, region, customertype) {
         let apilink = env.environment.serviceuri + "/customer";
-        // return this.http.post(apilink,
-        //     ).map(res => res);
-
         let params = {
             customertype: customertype,// for this have to pass type from frontend insted of id
             companyname: customers.companyname,
             firstname: customers.firstname,
             lastname: customers.lastname,
-            imagename: image,
+            imageName: image.name,
+            imageData: image.data,
+            imageType: image.type,
             email: customers.email,
             emailpreferenceforcommunication: customers.emailpreferenceforcommunication,
             phonepreferenceforcommunication: customers.phonepreferenceforcommunication,
@@ -350,15 +349,6 @@ export class BookMassageService extends BaseService {
 
             user: this.authService.user
         };
-
-        let httpParams = new HttpParams();
-        Object.keys(params).forEach((key) => {
-            if (key && params[key]) {
-                httpParams = httpParams.append(`${key}`, params[key]);
-            }
-        });
-        console.log(httpParams);
-        
 
         return this.http.post(apilink, params).pipe(
             map((res: any) => res),

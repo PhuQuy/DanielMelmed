@@ -187,6 +187,9 @@
 
             <div class="therapist" style="background-color: #fff0;margin-top:-27px;">
               <label>Select Therapist</label>
+              <a class="custbutton" placement="right" ngbTooltip="Tooltip on top">
+              <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
+            </a>
             </div>
             <div class="row" *ngFor="let therapist of therapistList; let i = index">
               <button style="background: none; border: none;" (click)="addMoretherapist(therapist)">
@@ -199,10 +202,15 @@
                   <option *ngFor="let item of therapistsData" [value]="item._id">{{item?.name}}</option>
                 </select>
                 <span class="my-auto">
-                  <a class="custbutton" [routerLink]="['/therapist/profile/',therapistId]" target="_blank" (mouseover)="opentherapist($event)">
+                  <!-- <a class="custbutton" [routerLink]="['/therapist/profile/',therapistId]" target="_blank" (mouseover)="opentherapist($event)">
+                    <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
+                  </a> -->
+                  <a class="custbutton" [ngbTooltip]="tipContent" #t1="ngbTooltip" (click)="toggleWithGreeting(t1, 'Bonjour')"
+                    triggers="manual">
                     <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                   </a>
                 </span>
+                
                 <div class="row">
                   <!--***********************************************************therapist info***********************************************************************-->
                   <div class="col-sm-2" [hidden]="therapistList.length == 1">
@@ -479,15 +487,17 @@
                   <div class="row">
                     <div class="col-sm-12" style="margin-left: 200%">
                       <img *ngIf="!this.image" class="thapp_c" src="../../../assets/img/custom.jpg">
-                      <img *ngIf="this.image" class="thapp_c" [src]="image">
+                      <img *ngIf="this.image" class="thapp_c" [src]="image.data">
 
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-12" style="margin-left: 200%">
-                      <label class="custom-file-upload file_upload" (click)="openConfirmModal(ImageTemplate)">
+                      <label class="custom-file-upload file_upload" (click)="selectImage()">
                         <div style="color:#4B889A;text-shadow: 1px 1px #E6FFFF;">
                           <i class="fa fa-cloud-upload"></i> UPLOAD PROFILE PICTURE
+                          <input #detectFile type="file" accept="image/png, image/jpeg, image/gif" hidden (change)="detectFiles($event)"
+                            name="input-file-preview" />
                         </div>
                       </label>
                     </div>
@@ -639,7 +649,7 @@
                     <td> SUB-REGION</td>
                     <td>
                       <select class="textbox form-control" placeholder="Select Region" formControlName="sub_region"
-                        [ngModel]="sub_region" value={{sub_region}} [ngModel]="sub_region">
+                        [ngModel]="sub_region">
                         <option *ngFor="let subregion of subregions" [ngValue]="subregion">{{subregion.name}}</option>
                       </select>
                     </td>
@@ -843,3 +853,5 @@
 
 <app-appointment-log #tmpappointmentlog style="width:100%;">
 </app-appointment-log>
+
+<ng-template #tipContent let-greeting="greeting">hello!</ng-template>

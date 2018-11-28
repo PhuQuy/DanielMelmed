@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewEncapsulation, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewEncapsulation, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
@@ -110,6 +110,8 @@ export class AppointmentComponent implements OnInit {
     color: string;
     dateNow: any;
     @ViewChild(AlertNotificationComponent) alertNotificationComponent;
+    @ViewChild('detectFile') detectFile: ElementRef;
+
     message: any;
 
     settings = {
@@ -248,6 +250,15 @@ export class AppointmentComponent implements OnInit {
     onFilterChange(filter) {
         this.filter = filter
     }
+
+    toggleWithGreeting(tooltip, greeting: string) {
+        if (tooltip.isOpen()) {
+          tooltip.close();
+        } else {
+          tooltip.open({greeting});
+        }
+      }
+      
     //filter
     customer_filter() {
         let condition = {};
@@ -370,7 +381,6 @@ export class AppointmentComponent implements OnInit {
     get_all_customer_from_bookmassage(): any {
         this.bookMassageService.get_all_customer_from_bookmassage().subscribe(customersData => {
             this.customersData = customersData;
-            console.log(customersData);
         })
     }
 
@@ -525,7 +535,7 @@ export class AppointmentComponent implements OnInit {
     removeTherapist(i) {
         // let index = this.addTherapist.indexOf(value);
         // this.addTherapist.splice(index, 1);
-        if(this.therapistList.length > 1) {
+        if (this.therapistList.length > 1) {
             this.therapistList.splice(i, 1);
         }
     }
@@ -534,7 +544,7 @@ export class AppointmentComponent implements OnInit {
         this.addServices.push({ service: '' })
 
         // this.addServices.push({ service: this.servicesArr.name })
-        
+
         // let serviceadd = this.appointmentform.value.servicesData;
         // this.servicesData.push(serviceadd);
     }
@@ -697,17 +707,40 @@ export class AppointmentComponent implements OnInit {
     openConfirmModal(imagetemplate: TemplateRef<any>) {
         this.confirmModalRef = this.modalService.show(imagetemplate);
     }
+
+    detectFiles(event) {
+        if (event.target.files) {
+            var reader = new FileReader();
+            let file = event.target.files.item(0);
+            reader.readAsDataURL(file);
+
+            this.image = new Object();
+            const that = this;
+            reader.onload = function (e) {
+                that.image.data = e.target['result'];
+            };
+            this.image.name = file.name;
+            this.image.type = file.type;
+        }
+    }
+
+    selectImage() {
+        if (this.detectFile) {
+            this.detectFile.nativeElement.click();
+        }
+    }
+
     create_customer() {
         //debugger;
         this.customer.value.emailpreferenceforcommunication = this.emailpreferenceforcommunication;
         this.customer.value.phonepreferenceforcommunication = this.phonepreferenceforcommunication;
         this.customer.value.messagepreferenceforcommunication = this.messagepreferenceforcommunication;
-        
+
         this.bookMassageService.create_customer(this.image, this.customer.value, this.selectedregion.name, this.Customertype).subscribe(Createdata => {
-            // this.modalRef.hide();
-            // this.get_all_customer_from_bookmassage();
+            this.modalRef.hide();
+            this.get_all_customer_from_bookmassage();
             console.log(Createdata);
-            
+            this.image = new Object();
         })
     }
     delete_appoinment_by_Id() {
@@ -736,7 +769,7 @@ export class AppointmentComponent implements OnInit {
 
     saveCustomer() {
         console.log('aaa');
-        
+
     }
 
 }
