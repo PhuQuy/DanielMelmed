@@ -90,7 +90,7 @@ export class CustomersSetupComponent implements OnInit {
 
   get_customer_by_Id() {
     this.customerService.get_customer_by_Id(this.customerid).subscribe(Customerdata => {
-      debugger;
+      //debugger;
       this.get_all_region();
       this.customer = Customerdata.ResponseMessage.customer;
       this.customer.defaultContact = this.customer.contacts.find(cust => cust.default == true);
@@ -105,7 +105,7 @@ export class CustomersSetupComponent implements OnInit {
     })
   }
   Imageupload(image) {
-    debugger;
+    //debugger;
     this.image = image;
     this.customer.imagename = this.image
     this.confirmModalRef.hide();
@@ -123,19 +123,19 @@ export class CustomersSetupComponent implements OnInit {
     })
   }
   selectedregionRow(selectedregion) {
-    debugger;
+    //debugger;
     this.get_all_subregion_by_regionId(selectedregion._id);
   }
   update_customer(customer, isUpdate) {
-    debugger
+    //debugger
     if (isUpdate) {
       this.customerService.update_customer(customer).subscribe(updatedata => {
-        debugger;
+        //debugger;
         this.confirmModalRef.hide();
       })
     }
     else {
-      debugger;
+      //debugger;
       this.newAddress = {
       
         region: { _id: this.subregion.regionId, name: this.region },
@@ -149,19 +149,19 @@ export class CustomersSetupComponent implements OnInit {
         address_note: this.address_note
       }
       if (this.newAddress) {
-        debugger;
+        //debugger;
         this.customer.address.push(this.newAddress)
 
       }
       this.customerService.update_customer(customer).subscribe(updatedata => {
-        debugger;
+        //debugger;
         this.confirmModalRef.hide();
       })
     }
 
   }
   updatecustomer(customer, isContact) {
-    debugger
+    //debugger
     if (isContact) {
       this.customerService.update_customer(customer).subscribe(updatedata => {
      

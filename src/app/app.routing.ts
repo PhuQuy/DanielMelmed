@@ -9,7 +9,7 @@ export const routes: Routes = [
     {
         path: '',
         redirectTo: 'appointments',
-        pathMatch: 'full',
+        pathMatch: 'full'
     },
     {
         path: 'login',
@@ -20,7 +20,6 @@ export const routes: Routes = [
         path: '',
         component: FullLayoutComponent,
         canActivate: [AuthGuardService],
-
         children: [
 
             // {
@@ -30,7 +29,7 @@ export const routes: Routes = [
 
             {
                 path: 'appointments',
-                loadChildren: './stork_features/appointments/appointments.module#AppointmentsModule'
+                loadChildren: './stork_features/appointments/appointments.module#AppointmentsModule',
             },
             {
                 path: 'appointmentsedit',

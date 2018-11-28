@@ -15,7 +15,7 @@ export class AppointmentService {
     return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
 }
 create_appoinment(Customer: any, service, appointmentStatus, therapistArr, serviceAddOnData, conditionArr, ManualItem, appointmentform, notes, Total) {
-    debugger;
+    //debugger;
     var appsts = appointmentStatus.name;
     if (!appsts) {
         appointmentStatus = {
@@ -23,7 +23,7 @@ create_appoinment(Customer: any, service, appointmentStatus, therapistArr, servi
             font_color: "2F2F2F", color: "5610AD"
         };
     }
-    debugger;
+    //debugger;
     let apilink = env.environment.serviceuri + "/appoinment";
     return this.http.post(apilink,
         {
@@ -51,7 +51,7 @@ create_appoinment(Customer: any, service, appointmentStatus, therapistArr, servi
 }
 
 update_appoinment(appointmentId,Customer: any, service, appointmentStatus, therapistArr, serviceAddOnData, startdate, ManualItem, appointmentform, notes, Total) {
-    debugger;
+    //debugger;
     var appsts = appointmentStatus.name;
     if (!appsts) {
         appointmentStatus = {
@@ -96,7 +96,7 @@ get_all_customer_from_bookmassage() {
 }
 
 get_all_available_therapists(condition: any) {
-    debugger;
+    //debugger;
     let apilink = env.environment.serviceuri + "/therapist_availabilitie/availabletherapist";
     return this.http.post(apilink,
         {
@@ -108,7 +108,7 @@ get_all_available_therapists(condition: any) {
 }
 
 get_all_available_services(condition: any) {
-    // debugger;
+    // //debugger;
     // let apilink = env.environment.serviceuri + "/service";
     // return this.http.post(apilink,
     //     {
@@ -135,7 +135,7 @@ get_all_therapist() {
         return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
     }
     customer_filter(condition) {
-        debugger;
+        //debugger;
         let apilink = env.environment.serviceuri + "/customer/filter";
         return this.http.post(apilink,
             condition

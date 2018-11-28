@@ -65,9 +65,9 @@ export class AlertNotificationSetupComponent implements OnInit {
     this.notification_datasource = new MatTableDataSource(this.notificationFrequency);
     this.editAlertNotificationform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.selectedalertnotification != undefined) {
-          debugger;
+          //debugger;
           let alterLabel = diff(this.selectedalertnotification.label, changeddata.addnewlabel);
           let differaddnewlabel = null;
           if (alterLabel != undefined && alterLabel.length > 0) {
@@ -106,7 +106,7 @@ export class AlertNotificationSetupComponent implements OnInit {
       this.status = false;
     }
     else if (mode == "E") {
-      debugger;
+      //debugger;
       this.selectedalertnotification = alertNotification;
     }
     this.modalRef = this.modalService.show(template);
@@ -175,7 +175,7 @@ export class AlertNotificationSetupComponent implements OnInit {
 
   }
   delete_notification_frequency_by_Id(id) {
-    debugger;
+    //debugger;
     this.modalRef.hide()
     this.alertNotificationSetupService.delete_notification_frequency_by_Id(id).subscribe(deleteNotificationData => {
       if (deleteNotificationData.ResponseDetails.ResponseStatus != '10') {

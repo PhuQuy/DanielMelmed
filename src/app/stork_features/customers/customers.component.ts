@@ -85,7 +85,7 @@ export class CustomersComponent implements OnInit {
 
   //method for selected customer
   selectcustomer(Select_customer: string) {
-    debugger
+    //debugger
     if (Select_customer == "Corporate") {
       this.isCustomertype = true;
       this.Customertype = Select_customer
@@ -107,7 +107,7 @@ export class CustomersComponent implements OnInit {
     }
   }
   applyFilter(filterValue: string) {
-    debugger
+    //debugger
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.customerdataSource.filter = filterValue;
@@ -124,7 +124,7 @@ export class CustomersComponent implements OnInit {
   }
   //get all
   get_all(){
-    debugger;
+    //debugger;
     this.customerService.get_all().subscribe(customerData=>{
       this.customerData=customerData.ResponseMessage
      this.customerdataSource=new MatTableDataSource(this.customerData);
@@ -136,7 +136,7 @@ export class CustomersComponent implements OnInit {
   }
   //==========save new customer========
   create_customer() {
-    debugger;
+    //debugger;
     this.customer.value.emailpreferenceforcommunication = this.emailpreferenceforcommunication;
     this.customer.value.phonepreferenceforcommunication = this.phonepreferenceforcommunication;
     this.customer.value.messagepreferenceforcommunication = this.messagepreferenceforcommunication;

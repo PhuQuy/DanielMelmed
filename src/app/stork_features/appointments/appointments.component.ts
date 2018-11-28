@@ -263,9 +263,9 @@ export class AppointmentsComponent implements OnInit {
     })
   }
   get_all_appointment() {
-    debugger;
+    //debugger;
     this.appointmentService.get_all_Availability().subscribe(result => {
-      debugger;
+      //debugger;
       const resources = [], events = [];
       if (result.ResponseDetails.ResponseStatus == '10' && result.ResponseMessage.length > 0) {
         this.appointment = result.ResponseMessage;
@@ -288,7 +288,7 @@ export class AppointmentsComponent implements OnInit {
           };
           events.push(itemevent);
         }
-        debugger;
+        //debugger;
         this.createscheduler(resources, events);
       }
       else {
@@ -330,7 +330,7 @@ export class AppointmentsComponent implements OnInit {
 
       },
       select: (start, end, jsEvent, view) => {
-        debugger;
+        //debugger;
         this.createnewappointment(start)
       },
       //resources: resources,
@@ -340,13 +340,13 @@ export class AppointmentsComponent implements OnInit {
   }
 
   reload_appointment() {
-    debugger;
+    //debugger;
     this.route.navigate(['book-massage/appointment']);
     this.modalRef.hide();
   }
 
   closeClick() {
-    debugger;
+    //debugger;
     this.appoinmentId = undefined;
   }
 
@@ -380,11 +380,11 @@ export class AppointmentsComponent implements OnInit {
   }
 
   get_appointment_by_Id(appointmentIdVal) {
-    debugger;
+    //debugger;
     this.appointmentService.get_appoinment_by_Id(appointmentIdVal).subscribe(aptbyIdData => {
       // this.aptbyIdData = aptbyIdData.ResponseMessage;
       // this.startDateById = this.aptbyIdData.Appoinment;
-      debugger;
+      //debugger;
       this.appointment = aptbyIdData.ResponseMessage.Appoinment;
       this.appointment.customer = this.appointment.customer;
       this.appointment.therapist = this.appointment.therapist;
@@ -419,7 +419,7 @@ export class AppointmentsComponent implements OnInit {
   // }
 
   selectcustomer(Select_customer: string) {
-    debugger
+    //debugger
     if (Select_customer == "Corporate") {
       this.isCustomertype = true;
       this.Customertype = Select_customer
@@ -431,7 +431,7 @@ export class AppointmentsComponent implements OnInit {
     }
   }
   openModal(template: TemplateRef<any>) {
-    debugger;
+    //debugger;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -443,16 +443,16 @@ export class AppointmentsComponent implements OnInit {
   }
 
   get_all_customer_from_bookmassage(): any {
-    debugger;
+    //debugger;
     this.bookMassageService.get_all_customer_from_bookmassage().subscribe(customersData => {
-      debugger;
+      //debugger;
       console.log(customersData);
       this.customersData = customersData;
     })
   }
 
   public onCustomerChange(customer: any) {
-    debugger;
+    //debugger;
     this.appointment.customer = customer;
     this.customerid = this.appointment.customer._id
     this.customerAdress = this.appointment.customer.address
@@ -482,9 +482,9 @@ export class AppointmentsComponent implements OnInit {
   }
 
   create_appoinment() {
-    debugger;
+    //debugger;
     if (this.appointmentStatus == {}) {
-      debugger;
+      //debugger;
       this.appointmentStatus = { name: this.aptstatusData[0].name, icon: this.aptstatusData[0].icon.class_name, color: this.aptstatusData[0].icon.color, font_color: this.aptstatusData[0].fontcolor }
     }
     let aptDuration = env.environment.aptDuration
@@ -495,7 +495,7 @@ export class AppointmentsComponent implements OnInit {
       enddate: new Date(startdate.getTime() + (aptDuration * 60000)),
       // servedregion: [{ "regionId": this.appointment.customer.address["0"].region._id, "subregionId": this.appointment.customer.address["0"].subregion._id }]
     }
-    debugger;
+    //debugger;
     this.conditionArr = condition;
 
     let CfieldArrayT = this.appointment.CfieldArrayT;
@@ -520,14 +520,14 @@ export class AppointmentsComponent implements OnInit {
       RfieldArrayT,
       RfieldArrayC
     ).subscribe(data => {
-      debugger;
+      //debugger;
       alert(data);
       this.get_all_appointment();
     })
   }
 
   onServiceChange(selectedservice: service, currentserviceid: string) {
-    debugger;
+    //debugger;
     if (this.addServices.length > 0) {
       let dummyService = this.addServices.findIndex(s => s._id == currentserviceid);
       if (dummyService >= 0)
@@ -549,7 +549,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   onServiceAddonChange(serviceAddon: service_addons, currentserviceAddonid: string) {
-    debugger;
+    //debugger;
     if (this.addServiceAddon.length > 0) {
       let dummyServiceAddon = this.addServiceAddon.findIndex(s => s._id == currentserviceAddonid);
       if (dummyServiceAddon >= 0)
@@ -567,7 +567,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   onTherapistChange(therapist: therapist) {
-    debugger;
+    //debugger;
 
     // this.therapistArr = therapist;
     this.therapistId = this.appointmentform.value._id
@@ -583,7 +583,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   get_all_available_therapists(): any {
-    debugger;
+    //debugger;
     let startdate = null, enddate = null;
     // startdate = HelperService.toStringDate(this.appointment.start_date);
     let aptDuration = env.environment.aptDuration
@@ -595,11 +595,11 @@ export class AppointmentsComponent implements OnInit {
       enddate: new Date(startdate.getTime() + (aptDuration * 60000)),
       servedregion: [{ "regionId": this.appointment.customer.addresses["0"].region._id, "subregionId": this.appointment.customer.addresses["0"].subregion._id }]
     }
-    debugger;
+    //debugger;
     this.conditionArr = condition;
     this.loading = true;
     this.appointmentService.get_all_available_therapists(condition).subscribe(therapistsData => {
-      debugger;
+      //debugger;
       this.loading = false;
       this.therapistsData = therapistsData.ResponseMessage;
     })
@@ -628,7 +628,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   addMoreServices(service: service, flag: boolean) {
-    debugger;
+    //debugger;
     //  if (this.addServices.length > 0) {
     //    let dummyService = this.addServices.findIndex(s => s._id == "-1");
     //    if (dummyService >= 0)
@@ -646,14 +646,14 @@ export class AppointmentsComponent implements OnInit {
   }
 
   removeService(value) {
-    debugger;
+    //debugger;
     let index = this.addServices.indexOf(value);
     this.addServices.splice(index, 1);
     this.manualTotal()
   }
 
   addMoreServicesAddon(serviceaddon: service_addons, flag: boolean) {
-    debugger;
+    //debugger;
     // serviceaddon.name = "";
     // serviceaddon.qty = 1;
     // serviceaddon.cost = "";
@@ -686,7 +686,7 @@ export class AppointmentsComponent implements OnInit {
 
   }
   manualTotal() {
-    debugger;
+    //debugger;
     this.Total = 0.00;
     let addontotal: any = 0;
     this.addServices.forEach(element => {
@@ -718,7 +718,7 @@ export class AppointmentsComponent implements OnInit {
     // }
   }
   setTwoNumberDecimal($event) {
-    debugger;
+    //debugger;
     $event.target.value = parseFloat($event.target.value).toFixed(2);
   }
   calgratuity() {
@@ -728,7 +728,7 @@ export class AppointmentsComponent implements OnInit {
       this.manualTotal();
   }
   redirectLoad() {
-    debugger;
+    //debugger;
     this.route.navigate(['book-massage/appointment'], { queryParams: { appointmentId: this.appoinmentId } });
   }
 
@@ -765,18 +765,18 @@ export class AppointmentsComponent implements OnInit {
   }
 
   customerpop(event) {
-    debugger;
+    //debugger;
     this.isCustomer = true
    // this.appointment.customerAdress;
     //this.appointment.customerContact;
 
   }
   closepopup() {
-    debugger;
+    //debugger;
     this.isCustomer = false
   }
   opentherapist(event) {
-    debugger;
+    //debugger;
     this.isTherapist = true
   }
   closepopuptherapist() {
@@ -784,7 +784,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   openTab(event, tabname) {
-    debugger;
+    //debugger;
     if (tabname == "work") {
       this.Notename = "Work order notes";
       this.work = true;
@@ -813,7 +813,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   load_appointment() {
-    debugger;
+    //debugger;
     //this.get_appointment_by_Id(this.editappointmenttemplate);
     this.route.navigate(['book-massage/appointment'], { queryParams: { appointmentId: this.appoinmentId } })
     this.modalRef.hide();

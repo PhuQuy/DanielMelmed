@@ -52,7 +52,7 @@ export class AddonServicesComponent implements OnInit {
     this.get_all();
     this.addonform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.selectedaddon != undefined) {
 
           let name = diff(this.selectedaddon.name, changeddata.name);
@@ -122,10 +122,10 @@ export class AddonServicesComponent implements OnInit {
   create_service_addon() {
     this.errormsg = "";
     this.confirmModalRef.hide();
-    debugger;
+    //debugger;
     this.addonService.create_service_addon(this.addonform.value.name, this.addonform.value.cost, this.addonform.value.duration, this.addonform.value.notes)
       .subscribe(serviceaddondata => {
-        debugger;
+        //debugger;
         if (serviceaddondata.ResponseDetails.ResponseStatus != '10') {
           this.isError = true
           if (serviceaddondata.ResponseMessage["0"].msg) {
@@ -184,7 +184,7 @@ export class AddonServicesComponent implements OnInit {
     })
   }
   setTwoNumberDecimal($event) {
-    debugger;
+    //debugger;
     $event.target.value = parseFloat($event.target.value).toFixed(2);
   }
 }

@@ -54,9 +54,9 @@ export class IconsAppointmentStatusComponent implements OnInit {
     this.get_all();
     this.iconappform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.selectedicon != undefined) {
-          debugger;
+          //debugger;
           let statusname = diff(this.selectedicon.name, changeddata.statusname);
           let differstatusname = null;
           if (statusname != undefined && statusname.length > 0) {
@@ -118,7 +118,7 @@ export class IconsAppointmentStatusComponent implements OnInit {
       this.modalRef = this.modalService.show(icontemplate);
     }
     else if (mode == 'E') {
-      debugger;
+      //debugger;
       this.selectedicon = icon;
       this.selectedicon_fontcolor = icon.fontcolor;
       this.selectedicon_backgroundcolor = icon.backgroundcolor;
@@ -145,7 +145,7 @@ export class IconsAppointmentStatusComponent implements OnInit {
     this.loading = true;
 
     this.iconAppointmentService.get_all().subscribe(appStatusData => {
-      debugger;
+      //debugger;
 
       this.appStatus = appStatusData.ResponseMessage;
       this.appStatus_dataSource = new MatTableDataSource(this.appStatus);
@@ -156,7 +156,7 @@ export class IconsAppointmentStatusComponent implements OnInit {
   }
   //create appointment status
   create_appointment_status() {
-    debugger;
+    //debugger;
     this.errormsg = ""
     this.confirmModalRef.hide();
 
@@ -183,7 +183,7 @@ export class IconsAppointmentStatusComponent implements OnInit {
   }
   //update_appointment_status
   update_appointment_status(id) {
-    debugger;
+    //debugger;
     this.confirmModalRef.hide();
     this.modalRef.hide();
     this.iconAppointmentService.update_appointment_status(id, this.iconappform.value).subscribe(updateStatusData => {

@@ -67,16 +67,16 @@ export class TherapistProfileComponent implements OnInit {
 
   loadForm(): void {
     this.route.params.subscribe(params => {
-      debugger;
+      //debugger;
       this.therapistId = params['id'];
       this.get_therapist_by_Id();
 
 
       // this.therapistform.valueChanges.subscribe(
       //   changeddata => {
-      //     debugger;
+      //     //debugger;
       //     if (this.therapist != undefined) {
-      //       debugger;
+      //       //debugger;
       //       let differregion = undefined;
       //       if (this.therapist.address.region != undefined && changeddata.region != "") {
       //         let region = diff(this.therapist.address.region.name, changeddata.region.name);
@@ -105,9 +105,9 @@ export class TherapistProfileComponent implements OnInit {
     this.confirmModalRef = this.modalService.show(icontemplate);
   }
   get_therapist_by_Id() {
-    debugger;
+    //debugger;
     this.therapistsService.get_therapist_by_Id(this.therapistId).subscribe(therapistData => {
-      debugger;
+      //debugger;
       this.get_all_region();
       this.therapist = therapistData.ResponseMessage.therapist[0];
       this.therapist.primaryphone = this.therapist.phone.find(p => p.default == true).phone;
@@ -133,12 +133,12 @@ export class TherapistProfileComponent implements OnInit {
   }
 
   selectedregionRow(selectedregion) {
-    debugger;
+    //debugger;
     this.get_all_subregion_by_regionId(selectedregion._id);
   }
 
   update_therapist(therapist) {
-    debugger;
+    //debugger;
     this.therapist.phone = [{ phone: this.therapist.primaryphone, default: true }, { phone: this.therapist.secondaryphone, default: false }];
     this.confirmModalRef.hide();
     this.therapistsService.update_therapist(therapist).subscribe(updatetherapist => {

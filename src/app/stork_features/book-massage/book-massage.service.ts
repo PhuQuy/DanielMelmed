@@ -1,21 +1,19 @@
 import { Injectable, Input } from '@angular/core';
-import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { URLSearchParams } from '@angular/http';
+import { BaseService } from '@app/core/services/base.service';
 import * as env from 'environments/environment';
-import { AuthService } from '../shared/auth.service';
-import { appointment_statuses, customer, customer_address, Subregion, Region, therapist, therapist_address, service, service_addons, phone } from './model/appointment.model';
-
+import 'rxjs/add/operator/map';
+import { catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { appointment_statuses, customer, customer_address, phone, Region, service, service_addons, Subregion, therapist, therapist_address } from './model/appointment.model';
+import { HttpParams } from '@angular/common/http';
 @Injectable()
-export class BookMassageService {
+export class BookMassageService extends BaseService {
     // public currentAppointment: any;
     public notification: any;
 
     private userIdSource = new BehaviorSubject<any>(0);
     currentAppointment = this.userIdSource.asObservable();
-
-    constructor(private http: Http, private authService: AuthService) {
-    }
 
     @Input('appointment')
     setAppointment(appointment: any) {
@@ -38,15 +36,15 @@ export class BookMassageService {
 
     get_appoinment_by_Id(apoointmentId: any) {
         let apilink = env.environment.serviceuri + "/appoinment/" + apoointmentId;
-        return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
+        return this.http.get<any>(apilink).map(res => res);
     }
 
     get_all_appointment_status(): Observable<appointment_statuses[]> {
         let apilink = env.environment.serviceuri + "/appointment_status";
-        // return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
-        return this.http.get(apilink, { headers: this.authService.headers })
+        // return this.http.get<any>(apilink).map(res => res);
+        return this.http.get<any>(apilink)
             .map(res => {
-                return res.json().ResponseMessage.map(item => {
+                return res.ResponseMessage.map(item => {
                     return new appointment_statuses(
                         item._id,
                         item.name,
@@ -57,18 +55,18 @@ export class BookMassageService {
                 });
             });
 
-        // return this.http.get(apilink, { headers: this.authService.headers })
+        // return this.http.get<any>(apilink)
         //     .map(res => {
-        //         return res.json().ResponseMessage.map((statuses: appointment_statuses) => new appointment_statuses().deserialize(statuses))
+        //         return res.ResponseMessage.map((statuses: appointment_statuses) => new appointment_statuses().deserialize(statuses))
         //     });
     }
 
     get_all_customer_from_bookmassage(): Observable<customer[]> {
         let apilink = env.environment.serviceuri + "/customer/book-massage";
-        // return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
-        return this.http.get(apilink, { headers: this.authService.headers })
+        // return this.http.get<any>(apilink).map(res => res);
+        return this.http.get<any>(apilink)
             .map(res => {
-                return res.json().ResponseMessage.map(item => {
+                return res.ResponseMessage.map(item => {
                     return new customer(
                         item._id,
                         item.firstname,
@@ -113,10 +111,10 @@ export class BookMassageService {
 
     get_all_therapist() {
         let apilink = env.environment.serviceuri + "/therapist";
-        // return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
-        return this.http.get(apilink, { headers: this.authService.headers })
+        // return this.http.get<any>(apilink).map(res => res);
+        return this.http.get<any>(apilink)
             .map(res => {
-                return res.json().ResponseMessage.map(item => {
+                return res.ResponseMessage.map(item => {
                     return new therapist(
                         item._id,
                         item.name,
@@ -153,15 +151,16 @@ export class BookMassageService {
     }
 
     get_all_available_therapists(condition: any): Observable<therapist[]> {
+        //debugger;
         let apilink = env.environment.serviceuri + "/therapist_availabilitie/availabletherapist";
 
-        return this.http.post(apilink, {
+        return this.http.post<any>(apilink, {
             start_date_time: condition.startdate,
             end_date_time: condition.enddate,
             served_regions: condition.servedregion
-        }, { headers: this.authService.headers })
+        })
             .map(res => {
-                return res.json().ResponseMessage.map(item => {
+                return res.ResponseMessage.map(item => {
                     return new therapist(
                         item._id,
                         item.name,
@@ -204,15 +203,15 @@ export class BookMassageService {
     }
 
     // },
-    //{ headers: this.authService.headers }).map(res => res.json());
+    //{ headers: this.authService.headers }).map(res => res);
 
     // };
 
     get_all_available_services(condition: any): Observable<service[]> {
         let apilink = env.environment.serviceuri + "/service";
-        return this.http.get(apilink, { headers: this.authService.headers })//.map(res => res.json());
+        return this.http.get<any>(apilink)//.map(res => res);
             .map(res => {
-                return res.json().ResponseMessage.map(item => {
+                return res.ResponseMessage.map(item => {
                     return new service(
                         item._id,
                         item.name,
@@ -230,9 +229,9 @@ export class BookMassageService {
 
     get_all_service_addon() {
         let apilink = env.environment.serviceuri + "/service_addon";
-        return this.http.get(apilink, { headers: this.authService.headers })//.map(res => res.json());
+        return this.http.get<any>(apilink)//.map(res => res);
             .map(res => {
-                return res.json().ResponseMessage.map(item => {
+                return res.ResponseMessage.map(item => {
                     return new service_addons(
                         item._id,
                         item.name,
@@ -250,7 +249,7 @@ export class BookMassageService {
 
     create_appoinment(Customer: any, service, appointmentStatus, therapistArr, serviceAddOnData, conditionArr, ManualItem, appointmentform, notes, Total,
         CfieldArrayT, CfieldArrayC, RfieldArrayT, RfieldArrayC) {
-        
+        //debugger;
         var appsts = appointmentStatus.name;
         if (!appsts) {
             appointmentStatus = {
@@ -259,7 +258,7 @@ export class BookMassageService {
             };
         }
         let apilink = env.environment.serviceuri + "/appoinment";
-        return this.http.post(apilink,
+        return this.http.post<any>(apilink,
             {
                 customer: Customer,
                 appointment_statuses: appointmentStatus,
@@ -283,84 +282,98 @@ export class BookMassageService {
                 CfieldArrayC: CfieldArrayC,
                 RfieldArrayT: RfieldArrayT,
                 RfieldArrayC: RfieldArrayC
-            },
-            { headers: this.authService.headers }).map(res => res.json());
+            }).map(res => res);
     }
     customer_filter(condition) {
-        
+        //debugger;
         let apilink = env.environment.serviceuri + "/customer/filter";
-        return this.http.post(apilink,
-            condition
-            ,
-            { headers: this.authService.headers }).map(res => res.json());
+        return this.http.post<any>(apilink,
+            condition).map(res => res);
     }
     get_all_regions() {
-        let apilink = env.environment.serviceuri + "/region/region";
-        return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
+        // let apilink = env.environment.serviceuri + "/region/region";
+        console.log('aaaaa');
+
+        return this.http.get<any>(`${this.URL}/region/region`).map(res => res);
     }
     get_all_subregion() {
 
         let apilink = env.environment.serviceuri + "/region/subregion";
-        return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
+        return this.http.get<any>(apilink).map(res => res);
     }
     get_all_subregion_by_regionId(regionId: string) {
         let apilink = env.environment.serviceuri + "/region/subregion/" + regionId;
-        return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
+        return this.http.get<any>(apilink).map(res => res);
     }
     create_customer(image, customers, region, customertype) {
         let apilink = env.environment.serviceuri + "/customer";
-        return this.http.post(apilink,
-            {
-                customertype: customertype,// for this have to pass type from frontend insted of id
-                companyname: customers.companyname,
-                firstname: customers.firstname,
-                lastname: customers.lastname,
-                imagename: image,
-                email: customers.email,
-                emailpreferenceforcommunication: customers.emailpreferenceforcommunication,
-                phonepreferenceforcommunication: customers.phonepreferenceforcommunication,
-                messagepreferenceforcommunication: customers.messagepreferenceforcommunication,
-                address: [{
-                    region: { _id: customers.sub_region.regionId, name: region },
-                    subregion: { _id: customers.sub_region._id, name: customers.sub_region.name },
-                    address_name: customers.addressname,
-                    street1: customers.homestreet,
-                    city: customers.homecity,
-                    state: customers.homestate,
-                    zipcode: customers.homezip,
-                    default: true
-                },
-                {
-                    street2: customers.billingstreet,
-                    city: customers.billingcity,
-                    state: customers.billingstate,
-                    zipcode: customers.billingzip,
-                    default: false
-                }],
-                contacts: [
-                    {
-                        'contact_name': customers.firstname + ' ' + customers.lastname,
-                        phone: [{ phone: customers.workphone, default: true }, { phone: customers.homephone, default: false }],
-                        email: customers.email,
-                        mobileno: customers.cellphone,
-                        default: true
-                    }
+        // return this.http.post(apilink,
+        //     ).map(res => res);
 
-                ],
-
-                user: this.authService.user
+        let params = {
+            customertype: customertype,// for this have to pass type from frontend insted of id
+            companyname: customers.companyname,
+            firstname: customers.firstname,
+            lastname: customers.lastname,
+            imagename: image,
+            email: customers.email,
+            emailpreferenceforcommunication: customers.emailpreferenceforcommunication,
+            phonepreferenceforcommunication: customers.phonepreferenceforcommunication,
+            messagepreferenceforcommunication: customers.messagepreferenceforcommunication,
+            address: [{
+                region: { _id: customers.region.regionId, name: region },
+                subregion: { _id: customers.sub_region ? customers.sub_region._id : null, name: customers.sub_region ? customers.sub_region.name : null },
+                address_name: customers.addressname,
+                street1: customers.homestreet,
+                city: customers.homecity,
+                state: customers.homestate,
+                zipcode: customers.homezip,
+                default: true
             },
-            { headers: this.authService.headers }).map(res => res.json());
+            {
+                street2: customers.billingstreet,
+                city: customers.billingcity,
+                state: customers.billingstate,
+                zipcode: customers.billingzip,
+                default: false
+            }],
+            contacts: [
+                {
+                    'contact_name': customers.firstname + ' ' + customers.lastname,
+                    phone: [{ phone: customers.workphone, default: true }, { phone: customers.homephone, default: false }],
+                    email: customers.email,
+                    mobileno: customers.cellphone,
+                    default: true
+                }
+
+            ],
+
+            user: this.authService.user
+        };
+
+        let httpParams = new HttpParams();
+        Object.keys(params).forEach((key) => {
+            if (key && params[key]) {
+                httpParams = httpParams.append(`${key}`, params[key]);
+            }
+        });
+        console.log(httpParams);
+        
+
+        return this.http.post(apilink, params).pipe(
+            map((res: any) => res),
+            catchError(this.handleError),
+        );
 
     }
     delete_appoinment_by_Id() {
         let apilink = env.environment.serviceuri + "/appoinment/";
-        return this.http.delete(apilink, { headers: this.authService.headers }).map(res => res.json());
+        return this.http.delete<any>(apilink).map(res => res);
     }
 
     get_notification_label() {
         let apilink = env.environment.serviceuri + "/notification_frequency";
-        return this.http.get(apilink, { headers: this.authService.headers }).map(res => res.json());
+        return this.http.get<any>(apilink).map(res => res);
     }
-   
+
 }

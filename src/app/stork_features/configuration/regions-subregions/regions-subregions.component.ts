@@ -65,9 +65,9 @@ export class RegionsSubregionsComponent implements OnInit {
 
     this.regionform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.selectedregionname != undefined) {
-          debugger;
+          //debugger;
           let differ = diff(this.selectedregionname, changeddata.region);
           if (differ != undefined && differ.find(x => x.kind == 'E' && x.lhs != x.rhs) != undefined)
             this.disable = false;
@@ -78,7 +78,7 @@ export class RegionsSubregionsComponent implements OnInit {
 
     this.subregionform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.selectedsubregion != undefined) {
 
           let subregion_name = diff(this.selectedsubregion_name, changeddata.name);
@@ -211,7 +211,7 @@ export class RegionsSubregionsComponent implements OnInit {
   //delete region by id
   delete_region_by_Id(id) {
     this.regionsSubregionService.delete_region_by_Id(id).subscribe(data => {
-      debugger;
+      //debugger;
       if (data.ResponseDetails.ResponseStatus != '10') {
         this.errormsg = data.ResponseMessage[0].msg;
         this.modalRef.hide();
@@ -277,11 +277,11 @@ export class RegionsSubregionsComponent implements OnInit {
   //edit region
 
   update_subregion(id) {
-    debugger;
+    //debugger;
     this.errormsg = "";
     this.confirmModalRef.hide();
     this.regionsSubregionService.update_subregion(id, this.subregionform.value.regionId, this.subregionform.value.name).subscribe(data => {
-      debugger
+      //debugger
       if (data.ResponseDetails.ResponseStatus != '10') {
         this.errormsg = data.ResponseMessage[0].msg;
       }
@@ -314,7 +314,7 @@ export class RegionsSubregionsComponent implements OnInit {
 
   // subregion filter
   applyFilter(filterValue: string) {
-    debugger;
+    //debugger;
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.subregion_dataSource.filter = filterValue;

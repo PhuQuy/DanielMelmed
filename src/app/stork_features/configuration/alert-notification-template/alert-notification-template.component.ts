@@ -93,9 +93,9 @@ export class AlertNotificationTemplateComponent implements OnInit {
 
     this.smstemplateform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.selectedsmsbody != undefined) {
-          debugger;
+          //debugger;
           let smsBody = diff(this.selectedsmsbody, changeddata.smsBody);
           let differsmsBody = null;
           if (smsBody != undefined && smsBody.length > 0) {
@@ -113,9 +113,9 @@ export class AlertNotificationTemplateComponent implements OnInit {
 
     this.smstemplateform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.selectedsmsbody != undefined) {
-          debugger;
+          //debugger;
           let smsBody = diff(this.selectedsmsbody, changeddata.smsBody);
           let differsmsBody = null;
           if (smsBody != undefined && smsBody.length > 0) {
@@ -165,7 +165,7 @@ export class AlertNotificationTemplateComponent implements OnInit {
       if (templatedata.ResponseDetails.ResponseStatus != '10') {
       }
       else {
-        debugger;
+        //debugger;
         this.addTemplate = templatedata.ResponseMessage;
 
       }
@@ -236,7 +236,7 @@ export class AlertNotificationTemplateComponent implements OnInit {
   }
 
   delete_template_by_Id(id) {
-    debugger;
+    //debugger;
     this.modalRef.hide();
     this.alertNotificationTemplateService.delete_template_by_Id(id).subscribe(deleteTemplateData => {
       if (deleteTemplateData.ResponseDetails.ResponseStatus != '10') {

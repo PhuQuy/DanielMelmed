@@ -129,7 +129,7 @@ export class AppointmentComponent implements OnInit {
         private route: Router,
         //  private datePipe: DatePipe
     ) {
-        ;
+        //debugger;
         // this.appointment;
         // if (this.appointment == null)
         //     this.appointment = {};
@@ -288,7 +288,7 @@ export class AppointmentComponent implements OnInit {
     // }
 
     selectcustomer(Select_customer: string) {
-
+        //debugger
         if (Select_customer == "Corporate") {
             this.isCustomertype = true;
             this.Customertype = Select_customer
@@ -310,7 +310,7 @@ export class AppointmentComponent implements OnInit {
         }
     }
     openModal(template: TemplateRef<any>) {
-        ;
+        //debugger;
         this.modalRef = this.modalService.show(template);
     }
 
@@ -377,9 +377,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     public onCustomerChange(customer: any) {
-        console.log(customer);
-        console.log(this.appointment.customer);
-        
+        //debugger
         this.appointment.customer = customer;
         this.customerid = this.appointment.customer._id
         // this.customerAdress = this.appointment.customer.address
@@ -392,7 +390,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     public onContactChange(customerContact: any[]) {
-        ;
+        //debugger;
         for (let i = 0; i < customerContact.length; i++)
             this.customerContactno = this.customerContact.find(c => c.contact_name == customerContact[i].contact_name);
         //this.customerPhone = this.customerContactno.phone
@@ -401,14 +399,14 @@ export class AppointmentComponent implements OnInit {
     public onContactChangeContactno(customerContact) {
         this.customerContactno = this.customerContact.find(c => c.contact_name == customerContact.contact_name);
         this.customerPhone = this.customerContactno.phone;
-        ;
+        //debugger;
         this.customerPhone.push({ 'phone': this.customerContactno.mobileno });
     }
     onChangereload() {
 
     }
     onAddressChange(customerAdress: any) {
-        ;
+        //debugger;
 
         this.customer_adress = this.customerAdress.find(c => c._id == customerAdress._id);
         //this.customerPhone=this.customerContactno.phone
@@ -436,6 +434,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     onServiceChange(service: any) {
+        //debugger;
         this.serviceVal = service;
         //this.serviceId=service._id;
         this.servicesArr.push(service);
@@ -477,7 +476,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     get_all_available_therapists(): any {
-        ;
+        //debugger;
         let startdate = null, enddate = null;
         startdate = HelperService.toStringDate(this.appointment.start_date);
         let aptDuration = env.environment.aptDuration
@@ -513,7 +512,8 @@ export class AppointmentComponent implements OnInit {
             // this.serviceAddOnData = serviceAddOnData.ResponseMessage;
         })
     }
-    addMoretherapist(therapist) {
+    addMoretherapist() {
+        //debugger;
         //this.addTherapist.push({ value: '' })
 
         // this.addTherapist.push({ value: this.therapistArr.name })
@@ -575,7 +575,7 @@ export class AppointmentComponent implements OnInit {
 
     }
     manualTotal() {
-        ;
+        //debugger;
         this.Total = 0.00;
         let addontotal: any = 0;
         let servicetotal = parseFloat(this.servicesArr.qty) * parseFloat(this.servicesArr.cost);
@@ -610,7 +610,7 @@ export class AppointmentComponent implements OnInit {
 
     //
     reset_appointment() {
-        ;
+        //debugger;
         //this.alert_notification.CfieldArrayT=null;
         this.alertNotificationComponent.CfieldArrayT = null;
         this.alertNotificationComponent.CfieldArrayC = null;
@@ -629,7 +629,7 @@ export class AppointmentComponent implements OnInit {
 
     //
     create_appoinment() {
-        ;
+        //debugger;
         let aptDuration = env.environment.aptDuration
         //this.appointment.start_date =start_date.value;
         let startdate = HelperService.toStringDate(this.appointment.start_date);
@@ -698,20 +698,22 @@ export class AppointmentComponent implements OnInit {
         this.confirmModalRef = this.modalService.show(imagetemplate);
     }
     create_customer() {
-        ;
+        //debugger;
         this.customer.value.emailpreferenceforcommunication = this.emailpreferenceforcommunication;
         this.customer.value.phonepreferenceforcommunication = this.phonepreferenceforcommunication;
         this.customer.value.messagepreferenceforcommunication = this.messagepreferenceforcommunication;
+        
         this.bookMassageService.create_customer(this.image, this.customer.value, this.selectedregion.name, this.Customertype).subscribe(Createdata => {
-            this.modalRef.hide();
-            this.get_all_customer_from_bookmassage();
-
+            // this.modalRef.hide();
+            // this.get_all_customer_from_bookmassage();
+            console.log(Createdata);
+            
         })
     }
     delete_appoinment_by_Id() {
-        ;
+        //debugger;
         this.bookMassageService.delete_appoinment_by_Id().subscribe(result => {
-            ;
+            //debugger;
         })
     }
 
@@ -722,7 +724,7 @@ export class AppointmentComponent implements OnInit {
         this.isCustomer = true
     }
     closepopup() {
-        ;
+        //debugger;
         this.isCustomer = false
     }
     opentherapist(event) {
@@ -730,6 +732,11 @@ export class AppointmentComponent implements OnInit {
     }
     closepopuptherapist() {
         this.isTherapist = false
+    }
+
+    saveCustomer() {
+        console.log('aaa');
+        
     }
 
 }

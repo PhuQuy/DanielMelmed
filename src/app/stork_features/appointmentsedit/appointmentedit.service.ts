@@ -27,7 +27,7 @@ export class AppointmentseditService {
     }
 
     get_all_available_therapists(condition: any) {
-        debugger;
+        //debugger;
         let apilink = env.environment.serviceuri + "/therapist_availabilitie/availabletherapist";
         return this.http.post(apilink,
             {
@@ -39,7 +39,7 @@ export class AppointmentseditService {
     }
 
     get_all_available_services(condition: any) {
-        // debugger;
+        // //debugger;
         // let apilink = env.environment.serviceuri + "/service";
         // return this.http.post(apilink,
         //     {
@@ -62,7 +62,7 @@ export class AppointmentseditService {
 
     }
     create_appoinment(Customer: any,service,appointmentStatus,therapistArr,therapistsData,serviceAddOnData,conditionArr,appointmentform,notes) {
-        debugger;
+        //debugger;
         var appsts = appointmentStatus.name;
         if(!appsts)
         {

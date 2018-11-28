@@ -47,7 +47,7 @@ export class CustomersAppointmentComponent implements OnInit {
 
   get_customer_by_Id() {
     this.customerService.get_customer_by_Id(this.customerid).subscribe(Customerdata => {
-      debugger;
+      //debugger;
       
       this.customer = Customerdata.ResponseMessage.customer;
       this.customer.defaultAddress = this.customer.address.find(address => address.default == true);

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serviceuri : "http://192.168.1.17:8383",
+  serviceuri : "http://localhost:8383",
   fullcalender_minTime : '06:00:00',
   fullcalender_maxTime : '24:00:00',
   aptDuration:60

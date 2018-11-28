@@ -54,7 +54,7 @@ export class TherapistAvailabilityService {
     }
 
     removeAvailability(availability: any) {
-        debugger;
+        //debugger;
         let availabilityId = availability.id;
         let apilink = env.environment.serviceuri + "/therapist_availabilitie/" + availabilityId;
         return this.http.delete(apilink, { headers: this.authService.headers }).map(res => res.json());

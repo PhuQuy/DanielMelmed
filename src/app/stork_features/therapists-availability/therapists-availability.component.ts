@@ -82,7 +82,7 @@ export class TherapistsAvailabilityComponent implements OnInit {
 
   getAvailableTherapist(start_date: Date) {
     this.therapistAvailabilityService.get_all_available_therapist(start_date).subscribe(data => {
-      debugger;
+      //debugger;
       const resources = [], events = [];
       if (data.ResponseDetails.ResponseStatus == '10' && data.ResponseMessage.availability.length > 0) {
         let availabile = data.ResponseMessage.availability;

@@ -78,9 +78,9 @@ export class CompanyInfoComponent implements ComponentCanDeactivate, OnInit {
 
     this.companyform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.currentCompany != undefined) {
-          debugger;
+          //debugger;
           let differ = diff(this.currentCompany, changeddata).find(x => x.kind == 'E');
           if (differ != undefined)
             this.disable = false;
@@ -95,7 +95,7 @@ export class CompanyInfoComponent implements ComponentCanDeactivate, OnInit {
   //get company info
   get_company_info(): void {
     this.companyInfoService.get_company_info().subscribe(data => {
-      debugger;
+      //debugger;
       if (data.ResponseDetails.ResponseStatus == '10' && data.ResponseMessage.length > 0) {
         this.currentCompany = data.ResponseMessage[0];
         this.companyform.patchValue(this.currentCompany);
@@ -105,10 +105,10 @@ export class CompanyInfoComponent implements ComponentCanDeactivate, OnInit {
 
   //Create Company info
   company_info(): void {
-    debugger;
+    //debugger;
     if (this.companyform.value._id == "") {
       this.companyInfoService.create_company_info(this.companyform.value).subscribe(data => {
-        debugger;
+        //debugger;
         if (data.ResponseDetails.ResponseStatus != '10' && data.ResponseMessage.Company != null) {
 
         }
@@ -127,10 +127,10 @@ export class CompanyInfoComponent implements ComponentCanDeactivate, OnInit {
 
   //update_company_info 
   update_company_info(): void {
-    debugger;
+    //debugger;
     this.modalRef.hide();
     this.companyInfoService.update_company_info(this.companyform.value).subscribe(data => {
-      debugger;
+      //debugger;
       if (data.ResponseDetails.ResponseStatus != '10') {
       }
       else {
@@ -142,7 +142,7 @@ export class CompanyInfoComponent implements ComponentCanDeactivate, OnInit {
 
   //cancel_company_info 
   cancel_company_info(): void {
-    debugger;
+    //debugger;
     this.modalRef.hide();
     this.get_company_info();
     this.disable = true;

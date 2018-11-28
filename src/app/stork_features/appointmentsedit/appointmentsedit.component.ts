@@ -83,7 +83,7 @@ export class AppointmentseditComponent implements OnInit {
     private router: Router,
     
   ) {
-debugger;
+//debugger;
 this.activatedRoute.queryParams.subscribe((params) => {
   this.appointmentIdVal = params['appointmentId'];
   this.get_appointment_by_Id(this.appointmentIdVal);
@@ -129,7 +129,7 @@ this.activatedRoute.queryParams.subscribe((params) => {
   }
 
   StartDateChange(startdate:any){
-    debugger;
+    //debugger;
     let aptDuration = env.environment.aptDuration    
     this.appointment.start_date = startdate.value;
     startdate = new Date(this.appointment.start_date);
@@ -169,13 +169,13 @@ this.activatedRoute.queryParams.subscribe((params) => {
   }
   redirectToBookMassAppoin()
   {
-    debugger;
+    //debugger;
     //this.router.navigateByUrl('/book-massage/appointment'); 
     this.router.navigate(['book-massage/appointment'], {queryParams: {appointmentId: this.appointmentIdVal}});       
   }
   //get all
   get_appointment_by_Id(appointmentIdVal) {
-    debugger;
+    //debugger;
     this.appointmentService.get_appoinment_by_Id(appointmentIdVal).subscribe(aptbyIdData => {
       this.aptbyIdData = aptbyIdData.ResponseMessage;
       this.startDateById=this.aptbyIdData.Appoinment;
@@ -236,7 +236,7 @@ this.activatedRoute.queryParams.subscribe((params) => {
   }
 
   public onCustomerChange(customer: any) { 
-    debugger // event will give you full breif of action
+    //debugger // event will give you full breif of action
     this.appointment.customer = customer;
     this.get_all_available_therapists();
      this.get_all_available_services();
@@ -274,7 +274,7 @@ this.activatedRoute.queryParams.subscribe((params) => {
    
   }
   get_all_available_therapists(): any {
-    debugger;
+    //debugger;
     let startdate = null, enddate = null;
     let aptDuration = env.environment.aptDuration
     startdate = new Date(this.appointment.start_date);
@@ -287,20 +287,20 @@ this.activatedRoute.queryParams.subscribe((params) => {
     }
     this.conditionArr=condition;
     this.appointmentService.get_all_available_therapists(condition).subscribe(therapistsData => {
-      debugger;
+      //debugger;
       this.therapistsData = therapistsData.ResponseMessage;
     })
   }
   get_all_therapist() {
     this.appointmentService.get_all_therapist().subscribe(getTherapistData => {
-      debugger;
+      //debugger;
       this.therapist = getTherapistData.ResponseMessage
     })
   }
   get_all_service_addon() {
-    debugger
+    //debugger
     this.appointmentService.get_all_service_addon().subscribe(serviceAddOnData => {
-      debugger;
+      //debugger;
       this.serviceAddOnData = serviceAddOnData.ResponseMessage;
     })
   }
@@ -324,7 +324,7 @@ this.activatedRoute.queryParams.subscribe((params) => {
     this.addServiceAddon.push({ serviceAddOn: '' })
   }
   removeServiceAddon(value) {
-    debugger;
+    //debugger;
     let index = this.addServiceAddon.indexOf(value);
     this.addServiceAddon.splice(index, 1);
 
@@ -338,7 +338,7 @@ this.activatedRoute.queryParams.subscribe((params) => {
 
   }
   create_appoinment(){
-  debugger;
+  //debugger;
  // let appSts = this.appointme9ntStatus;
   if(this.appointmentStatus=={})
     {
