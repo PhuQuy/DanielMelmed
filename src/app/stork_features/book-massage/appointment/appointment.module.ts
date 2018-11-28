@@ -19,6 +19,7 @@ import { FrequencyComponent } from '../frequency/frequency.component';
 import { AppointmentLogComponent } from '../appointment-log/appointment-log.component';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatFormFieldModule,
     AngularDateTimePickerModule,  
     MatInputModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    NgSelectModule
   ],
   declarations: [AppointmentComponent, ControlMessagesComponent,AlertNotificationComponent,FrequencyComponent,AppointmentLogComponent]
 })

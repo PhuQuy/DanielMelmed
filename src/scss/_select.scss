@@ -1,0 +1,9 @@
+.select-control {
+  width: 260px;
+
+  &.ng-select {
+    .ng-has-value .ng-clear-wrapper {
+      display: none !important;
+    }
+  }
+}
