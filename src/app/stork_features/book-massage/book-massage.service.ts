@@ -153,7 +153,6 @@ export class BookMassageService {
     }
 
     get_all_available_therapists(condition: any): Observable<therapist[]> {
-        debugger;
         let apilink = env.environment.serviceuri + "/therapist_availabilitie/availabletherapist";
 
         return this.http.post(apilink, {
@@ -251,7 +250,7 @@ export class BookMassageService {
 
     create_appoinment(Customer: any, service, appointmentStatus, therapistArr, serviceAddOnData, conditionArr, ManualItem, appointmentform, notes, Total,
         CfieldArrayT, CfieldArrayC, RfieldArrayT, RfieldArrayC) {
-        debugger;
+        
         var appsts = appointmentStatus.name;
         if (!appsts) {
             appointmentStatus = {
@@ -288,7 +287,7 @@ export class BookMassageService {
             { headers: this.authService.headers }).map(res => res.json());
     }
     customer_filter(condition) {
-        debugger;
+        
         let apilink = env.environment.serviceuri + "/customer/filter";
         return this.http.post(apilink,
             condition
