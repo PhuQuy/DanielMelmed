@@ -22,7 +22,7 @@ export class AddonService {
         return this.http.put(apilink, { _id: id, name: name.trim(), cost: cost, duration: duration, notes: notes, user: this.authService.user, is_deleted: false, is_active: true }, { headers: this.authService.headers }).map(res => res.json());
     }
     delete_service_addon_by_Id(id: string) {
-        debugger;
+        //debugger;
         let apilink = env.environment.serviceuri + "/service_addon/" + id;
         return this.http.delete(apilink, { headers: this.authService.headers }).map(res => res.json());
     }

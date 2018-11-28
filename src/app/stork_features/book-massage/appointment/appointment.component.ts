@@ -128,7 +128,7 @@ export class AppointmentComponent implements OnInit {
         private route: Router,
         //  private datePipe: DatePipe
     ) {
-        debugger;
+        //debugger;
         // this.appointment;
         // if (this.appointment == null)
         //     this.appointment = {};
@@ -286,7 +286,7 @@ export class AppointmentComponent implements OnInit {
     // }
 
     selectcustomer(Select_customer: string) {
-        debugger
+        //debugger
         if (Select_customer == "Corporate") {
             this.isCustomertype = true;
             this.Customertype = Select_customer
@@ -308,7 +308,7 @@ export class AppointmentComponent implements OnInit {
         }
     }
     openModal(template: TemplateRef<any>) {
-        debugger;
+        //debugger;
         this.modalRef = this.modalService.show(template);
     }
 
@@ -374,7 +374,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     public onCustomerChange(customer: any) {
-        debugger
+        //debugger
         this.appointment.customer = customer;
         this.customerid = this.appointment.customer._id
         // this.customerAdress = this.appointment.customer.address
@@ -387,7 +387,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     public onContactChange(customerContact: any[]) {
-        debugger;
+        //debugger;
         for (let i = 0; i < customerContact.length; i++)
             this.customerContactno = this.customerContact.find(c => c.contact_name == customerContact[i].contact_name);
         //this.customerPhone = this.customerContactno.phone
@@ -396,14 +396,14 @@ export class AppointmentComponent implements OnInit {
     public onContactChangeContactno(customerContact) {
         this.customerContactno = this.customerContact.find(c => c.contact_name == customerContact.contact_name);
         this.customerPhone = this.customerContactno.phone;
-        debugger;
+        //debugger;
         this.customerPhone.push({ 'phone': this.customerContactno.mobileno });
     }
     onChangereload() {
 
     }
     onAddressChange(customerAdress: any) {
-        debugger;
+        //debugger;
 
         this.customer_adress = this.customerAdress.find(c => c._id == customerAdress._id);
         //this.customerPhone=this.customerContactno.phone
@@ -429,7 +429,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     onServiceChange(service: any) {
-        debugger;
+        //debugger;
         this.serviceVal = service;
         //this.serviceId=service._id;
         this.servicesArr.push(service);
@@ -446,7 +446,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     onTherapistChange(therapist: any) {
-        debugger;
+        //debugger;
         this.therapistVal = therapist;
         this.therapistArr.push(therapist);
         //this.therapistId = this.therapistArr._id
@@ -462,7 +462,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     get_all_available_therapists(): any {
-        debugger;
+        //debugger;
         let startdate = null, enddate = null;
         startdate = HelperService.toStringDate(this.appointment.start_date);
         let aptDuration = env.environment.aptDuration
@@ -498,7 +498,7 @@ export class AppointmentComponent implements OnInit {
         })
     }
     addMoretherapist() {
-        debugger;
+        //debugger;
         //this.addTherapist.push({ value: '' })
 
         // this.addTherapist.push({ value: this.therapistArr.name })
@@ -542,7 +542,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     addMoreManualItem() {
-        debugger;
+        //debugger;
         //this.manualItem.push({ manualItem: '' })
         //{ manualItem: this.appointmentform.value.ManualItem }
         //  let manual_entery = new manual_enteries();
@@ -557,7 +557,7 @@ export class AppointmentComponent implements OnInit {
 
     }
     manualTotal() {
-        debugger;
+        //debugger;
         this.Total = 0.00;
         let addontotal: any = 0;
         let servicetotal = parseFloat(this.servicesArr.qty) * parseFloat(this.servicesArr.cost);
@@ -592,7 +592,7 @@ export class AppointmentComponent implements OnInit {
 
     //
     reset_appointment() {
-        debugger;
+        //debugger;
         //this.alert_notification.CfieldArrayT=null;
         this.alertNotificationComponent.CfieldArrayT = null;
         this.alertNotificationComponent.CfieldArrayC = null;
@@ -611,7 +611,7 @@ export class AppointmentComponent implements OnInit {
 
     //
     create_appoinment() {
-        debugger;
+        //debugger;
         let aptDuration = env.environment.aptDuration
         //this.appointment.start_date =start_date.value;
         let startdate = HelperService.toStringDate(this.appointment.start_date);
@@ -680,20 +680,22 @@ export class AppointmentComponent implements OnInit {
         this.confirmModalRef = this.modalService.show(imagetemplate);
     }
     create_customer() {
-        debugger;
+        //debugger;
         this.customer.value.emailpreferenceforcommunication = this.emailpreferenceforcommunication;
         this.customer.value.phonepreferenceforcommunication = this.phonepreferenceforcommunication;
         this.customer.value.messagepreferenceforcommunication = this.messagepreferenceforcommunication;
+        
         this.bookMassageService.create_customer(this.image, this.customer.value, this.selectedregion.name, this.Customertype).subscribe(Createdata => {
-            this.modalRef.hide();
-            this.get_all_customer_from_bookmassage();
-
+            // this.modalRef.hide();
+            // this.get_all_customer_from_bookmassage();
+            console.log(Createdata);
+            
         })
     }
     delete_appoinment_by_Id() {
-        debugger;
+        //debugger;
         this.bookMassageService.delete_appoinment_by_Id().subscribe(result => {
-            debugger;
+            //debugger;
         })
     }
 
@@ -704,7 +706,7 @@ export class AppointmentComponent implements OnInit {
         this.isCustomer = true
     }
     closepopup() {
-        debugger;
+        //debugger;
         this.isCustomer = false
     }
     opentherapist(event) {
@@ -712,6 +714,11 @@ export class AppointmentComponent implements OnInit {
     }
     closepopuptherapist() {
         this.isTherapist = false
+    }
+
+    saveCustomer() {
+        console.log('aaa');
+        
     }
 
 }

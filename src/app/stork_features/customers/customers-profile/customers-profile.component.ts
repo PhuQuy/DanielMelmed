@@ -57,7 +57,7 @@ export class CustomersProfileComponent implements OnInit {
   }
   get_customer_by_Id() {
     this.customerService.get_customer_by_Id(this.customerid).subscribe(Customerdata => {
-      debugger;
+      //debugger;
       this.get_all_region();
       this.customer = Customerdata.ResponseMessage.customer;
       this.customer.defaultContact = this.customer.contacts.find(cust => cust.default == true);
@@ -83,13 +83,13 @@ export class CustomersProfileComponent implements OnInit {
   }
 
   selectedregionRow(selectedregion) {
-    debugger;
+    //debugger;
     this.get_all_subregion_by_regionId(selectedregion._id);
   }
   update_customer(customer) {
-    debugger
+    //debugger
     this.customerService.update_customer(customer).subscribe(updatedata => {
-      debugger;
+      //debugger;
       this.confirmModalRef.hide();
     })
   }

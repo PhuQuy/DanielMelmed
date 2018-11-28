@@ -117,7 +117,7 @@ export class TherapistsComponent implements OnInit {
   //create_therapist
   create_therapist() {
     this.confirmModalRef.hide();
-    debugger;
+    //debugger;
     this.phoneArr = [{ 'phone': this.therapistform.value.phone, 'default': true }];
     this.therapistform.value.serviceData = this.serviceData;
     this.therapistsService.create_therapist(this.therapistform.value, this.phoneArr, this.selectedregion.name, this.gender, this.served_region, this.image).subscribe(therapisrData => {
@@ -194,7 +194,7 @@ export class TherapistsComponent implements OnInit {
   }
   
   Imageupload(image) {
-    debugger;
+    //debugger;
     this.image = image;
     this.confirmModalRef.hide();
   }

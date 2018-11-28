@@ -70,9 +70,9 @@ export class RegionalServicesComponent implements OnInit {
 
     this.serviceform.valueChanges.subscribe(
       changeddata => {
-        debugger;
+        //debugger;
         if (this.selectedservice != undefined) {
-          debugger;
+          //debugger;
           let region = diff(this.selectedservice.region.region, changeddata.region.name);
           let differregion = null;
           if (region != undefined && region.length > 0) {
@@ -158,7 +158,7 @@ export class RegionalServicesComponent implements OnInit {
   }
   //filter
   applyFilter(filterValue: string) {
-    debugger
+    //debugger
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.serviceDatasource.filter = filterValue;
@@ -201,9 +201,9 @@ export class RegionalServicesComponent implements OnInit {
   create_service() {
     this.confirmModalRef.hide();
 
-    debugger;
+    //debugger;
     this.regionalServicesService.create_service(this.serviceform.value, this.selectedregion).subscribe(serviceData => {
-      debugger;
+      //debugger;
       if (serviceData.ResponseDetails.ResponseStatus != '10') {
         this.isError = true
         if (serviceData.ResponseMessage["0"].msg) {
@@ -223,14 +223,14 @@ export class RegionalServicesComponent implements OnInit {
     })
   }
   update_service(id) {
-    debugger;
+    //debugger;
     this.regionalServicesService.update_service(this.serviceform.value, this.selectedregion, id).subscribe(updateServiceData => {
-      debugger;
+      //debugger;
       if (updateServiceData.ResponseDetails.ResponseStatus != '10') {
         this.errormsg = updateServiceData.ResponseMessage[0].msg;
       }
       else {
-        debugger;
+        //debugger;
         this.confirmModalRef.hide();
         this.modalRef.hide();
         this.get_all();
@@ -244,7 +244,7 @@ export class RegionalServicesComponent implements OnInit {
     })
   }
   setTwoNumberDecimal($event) {
-    debugger;
+    //debugger;
     $event.target.value = parseFloat($event.target.value).toFixed(2);
   }
 }

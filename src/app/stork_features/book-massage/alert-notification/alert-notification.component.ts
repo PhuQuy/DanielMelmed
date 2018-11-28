@@ -43,7 +43,7 @@ export class AlertNotificationComponent implements OnInit {
   }
 
   show() {
-    debugger;
+    //debugger;
     this.cCustomer = new appointment_notification(false, false, null, null, "ccustomer", null, true);
     this.cTherapist = new appointment_notification(false, false, null, null, "ctherapist", null, true);
 
@@ -51,7 +51,7 @@ export class AlertNotificationComponent implements OnInit {
     this.rCustomer = new appointment_notification(false, false, null, null, "rcustomer", null, true);
 
     this.bookMassageService.get_notification_label().subscribe(labelData => {
-      debugger;
+      //debugger;
       this.labelData = labelData.ResponseMessage;
       this.modalRef = this.modalService.show(this.tmpalertnotification);
     })
@@ -65,8 +65,8 @@ export class AlertNotificationComponent implements OnInit {
   //Confirmation Thrapist
 
   addFieldValueForTherapists(cTherapist: appointment_notification) {
-    debugger;
-    debugger;
+    //debugger;
+    //debugger;
     if (cTherapist.occurrence.value != undefined) {
       this.cTherapist.type = "ctherapist";
       this.CfieldArrayT.push(this.cTherapist)
@@ -85,7 +85,7 @@ export class AlertNotificationComponent implements OnInit {
   //Confirmation Customer
 
   addFieldValueForCustomer(cCustomer: appointment_notification) {
-    debugger;
+    //debugger;
     if (cCustomer.occurrence.value != undefined) {
       this.cCustomer.type = "ccustomer";
       this.CfieldArrayC.push(this.cCustomer)
@@ -102,7 +102,7 @@ export class AlertNotificationComponent implements OnInit {
   //Reminder Threapist
 
   addFieldValueForRTherapists(rThreapist: appointment_notification) {
-    debugger;
+    //debugger;
     if (rThreapist.occurrence.value != undefined) {
       this.rThreapist.type = "rtherapist";
       this.RfieldArrayT.push(this.rThreapist)
@@ -119,7 +119,7 @@ export class AlertNotificationComponent implements OnInit {
   //Reminder Customer
 
   addFieldValueForRCustomer(rCustomer: appointment_notification) {
-    debugger;
+    //debugger;
     if (rCustomer.occurrence.value != undefined) {
       this.rCustomer.type = "rcustomer";
       this.RfieldArrayC.push(this.rCustomer)

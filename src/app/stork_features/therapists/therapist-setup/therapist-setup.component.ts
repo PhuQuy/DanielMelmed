@@ -80,10 +80,10 @@ export class TherapistSetupComponent implements OnInit {
           this.serviceDatasource.paginator = this.servicespaginator;
 
           this.therapistsService.get_therapist_by_Id(this.therapistId).subscribe(therapistData => {
-            debugger;
+            //debugger;
             this.therapist = therapistData.ResponseMessage.therapist[0];
             for (var i = 0; i < this.therapist.served_regions.length; i++) {
-              debugger;
+              //debugger;
               let served_region = this.therapist.served_regions[i]
               let updateregionItem = this.regions.find(r => r._id == served_region._id);
               let index = this.regions.indexOf(updateregionItem);
@@ -98,7 +98,7 @@ export class TherapistSetupComponent implements OnInit {
               }
             }
             for (var i = 0; i < this.therapist.services.length; i++) {
-              debugger;
+              //debugger;
               let services = this.therapist.services[i]
               let updateserviceItem = this.serviceData.find(id => id._id == services._id);
               let index = this.serviceData.indexOf(updateserviceItem);
@@ -111,13 +111,13 @@ export class TherapistSetupComponent implements OnInit {
     })
   }
   Imageupload(image) {
-    debugger;
+    //debugger;
     this.image = image;
     this.therapist.imagename = this.image
     this.confirmModalRef.hide();
   }
   update_therapist(therapist) {
-    debugger;
+    //debugger;
     this.confirmModalRef.hide();
     this.therapistsService.update_therapist(therapist).subscribe(updatetherapist => {
 
@@ -127,7 +127,7 @@ export class TherapistSetupComponent implements OnInit {
     })
   }
   // get_all_region() {
-  //   debugger;
+  //   //debugger;
   //   this.therapistsService.get_all_regions().subscribe(regionData => {
   //     // this.regions = regionData.ResponseMessage.regions;
   //     this.regions = regionData.ResponseMessage.regions.map(region => ({ _id: region._id, name: region.name, selected: false }));
@@ -147,7 +147,7 @@ export class TherapistSetupComponent implements OnInit {
   }
   delete_therapist_by_Id(id) {
     this.therapistsService.delete_therapist_by_Id(id).subscribe(deleteTherapist => {
-      debugger;
+      //debugger;
       if (deleteTherapist.ResponseMessage != undefined)
         this.ModalRef.hide();
       this.router.navigateByUrl('/therapists');
