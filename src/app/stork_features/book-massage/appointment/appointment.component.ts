@@ -47,7 +47,7 @@ export class AppointmentComponent implements OnInit {
     addServices = [{ service: '' }];
     addServiceAddon = [{ serviceAddOn: '' }];
     manualItems: manual_enteries[];
-    addManualItems = [{name: '', qty: null, cost: null}];
+    addManualItems = [{ name: '', qty: null, cost: null }];
     servicesArr: any = [];
     servicesAddonArr: any = [];
     therapistArr: any = [];
@@ -255,7 +255,7 @@ export class AppointmentComponent implements OnInit {
     tooltip: any;
 
     toggleToolstip(tooltip?) {
-        if(tooltip) {
+        if (tooltip) {
             this.tooltip = tooltip;
         }
         if (this.tooltip.isOpen()) {
@@ -450,7 +450,7 @@ export class AppointmentComponent implements OnInit {
 
     onServiceChange(service: any) {
         console.log(service);
-        if(service) {
+        if (service) {
 
         }
         this.manualTotal()
@@ -534,7 +534,7 @@ export class AppointmentComponent implements OnInit {
         // this.marginset = "-9px";
         // let therapistadd = this.appointmentform.value.therapist;
         // this.therapist.push(therapistadd);
-        this.therapistList.push(therapist);
+        this.therapistList.push({ _id: null });
 
     }
     removeTherapist(i) {
@@ -575,7 +575,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     addMoreManualItem() {
-        this.addManualItems.push({name: '', qty: null, cost: null});
+        this.addManualItems.push({ name: '', qty: null, cost: null });
         //{ manualItem: this.appointmentform.value.ManualItem }
         //  let manual_entery = new manual_enteries();
 
@@ -644,7 +644,10 @@ export class AppointmentComponent implements OnInit {
     //
     create_appoinment() {
         console.log(this.appointment);
-        
+        console.log(this.therapistList);
+        console.log(this.addServices);
+        console.log(this.addServiceAddon);
+        console.log(this.addManualItems);
         let aptDuration = env.environment.aptDuration
         //this.appointment.start_date =start_date.value;
         let startdate = HelperService.toStringDate(this.appointment.start_date);

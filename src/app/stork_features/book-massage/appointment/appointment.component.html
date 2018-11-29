@@ -66,10 +66,12 @@
                   <div class="form-inputs">
                     <div class="row">
                       <div class="col-12">
-                        <select class="form-control appoinmentstatus" (change)="onAppointmentChange(aptstatusData[$event.target.selectedIndex])"
-                          (ngModel)="appointment.appointment_statuses">
-                          <option *ngFor="let status of aptstatusData" [ngValue]="appointment_statuses" [selected]="appointment.appointment_statuses">{{status.name}}</option>
-                        </select>
+                        <ng-select [items]="aptstatusData" bindLabel="name" class="form-control" [searchable]="false"
+                        [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
+                        <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.name}}</span>
+                        </ng-template>
+                      </ng-select>
                       </div>
                     </div>
 
@@ -100,7 +102,6 @@
                         (ngModel)="appointment.customer" [value]="appointment?.customer?._id">
                         <option *ngFor="let customer of customersData" [value]="customer._id" [selected]="appointment.customer">{{customer.firstname}}
                           {{customer.lastname}}
-                          <!-- *ngFor="let customer of customersData" -->
                         </option>
                       </select>
                     </div>
@@ -227,11 +228,11 @@
                     </div>
                     <div class="col-1 px-0">
                       <input class="form-control" (change)="manualTotal()" formControlName="serviceqty" type="text"
-                        placeholder="QTY" title="QTY" maxlength="3" [ngModel]="addServices.qty" />
+                        placeholder="QTY" title="QTY" maxlength="3" [(ngModel)]="addServices[i].qty" />
                     </div>
                     <div class="col-2">
                       <input class="form-control" (change)="manualTotal()" formControlName="servicetotal" tabindex="-1"
-                        type="text" placeholder="0.00" [ngModel]="addServices.cost" />
+                        type="text" placeholder="0.00" [(ngModel)]="addServices[i].cost" />
                     </div>
                   </div>
                 </div>
@@ -254,7 +255,7 @@
                       </button>
                     </div>
                     <div class="col-9">
-                      <ng-select [items]="servicesData" bindLabel="name" class="form-control" [searchable]="false"
+                      <ng-select [items]="serviceAddOnData" bindLabel="name" class="form-control" [searchable]="false"
                         [(ngModel)]="addServiceAddon[i]" [ngModelOptions]="{standalone: true}">
                         <ng-template ng-option-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.name}}</span>
@@ -262,12 +263,12 @@
                       </ng-select>
                     </div>
                     <div class="col-1 px-0">
-                      <input class="form-control" formControlName="serviceqty" type="text" placeholder="QTY" title="QTY"
-                        maxlength="3" [(ngModel)]="servicesAddonArr.qty" (change)="manualTotal()" />
+                      <input class="form-control" formControlName="serviceAddonQty" type="text" placeholder="QTY" title="QTY"
+                        maxlength="3" [(ngModel)]="addServiceAddon[i].qty" (change)="manualTotal()" />
                     </div>
                     <div class="col-2">
-                      <input class="form-control" formControlName="servicetotal" tabindex="-1" type="text" placeholder="0.00"
-                        [(ngModel)]="servicesAddonArr.cost" (change)="manualTotal()" />
+                      <input class="form-control" formControlName="serviceAddonTotal" tabindex="-1" type="text" placeholder="0.00"
+                        [(ngModel)]="addServiceAddon[i].cost" (change)="manualTotal()" />
                     </div>
                   </div>
                 </div>
@@ -295,11 +296,11 @@
                     </div>
                     <div class="col-1 px-0">
                       <input class="form-control" type="text" placeholder="QTY" title="QTY" maxlength="3"
-                        formControlName="ManualItemqty" (change)="manualTotal()" />
+                        formControlName="ManualItemqty" (change)="manualTotal()" [(ngModel)]="addManualItems[i].qty" />
                     </div>
                     <div class="col-2">
                       <input class="form-control" tabindex="-1" type="text" placeholder="0.00" formControlName="ManualItemtotal"
-                        (change)="manualTotal()" id="service_cost" />
+                        (change)="manualTotal()" [(ngModel)]="addManualItems[i].cost" id="service_cost" />
                     </div>
                   </div>
                 </div>
