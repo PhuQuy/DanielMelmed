@@ -17,6 +17,7 @@ import HelperService from '../../shared/HelperService';
 //import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '@app/stork_features/shared/auth.service';
 //import { NgControl, Directive, Input } from '@angular/forms';
 
 @Component({
@@ -44,10 +45,10 @@ export class AppointmentComponent implements OnInit {
     servicesData: service[];
     // addTherapist = [{ value: '' }];
     addTherapist: therapist[];
-    addServices = [{ service: '' }];
-    addServiceAddon = [{ serviceAddOn: '' }];
+    addServices: [any] = [{ service: '' }];
+    addServiceAddon: [any] = [{ serviceAddOn: '', qty: null, cost: null }];
     manualItems: manual_enteries[];
-    addManualItems = [{ name: '', qty: null, cost: null }];
+    addManualItems: [any] = [{ name: '', qty: null, cost: null }];
     servicesArr: any = [];
     servicesAddonArr: any = [];
     therapistArr: any = [];
@@ -56,7 +57,7 @@ export class AppointmentComponent implements OnInit {
     therapist: therapist[];
     notes: string;
     manualService: {};
-    Total: any = 0.00;
+    total: any = 0.00;
     customerid: any;
     therapistId: any;
     gratuity: any = 0.00;
@@ -120,8 +121,11 @@ export class AppointmentComponent implements OnInit {
         format: 'MMM-dd-yyyy hh:mm a',
         defaultOpen: false
     }
-    therapistList: any[] = [{ _id: null }];
+    therapistList: [any] = [{ _id: null }];
     selectedTherapist: any;
+    addonCostPerUnit = 0;
+    serviceCostPerUnit = 0;
+    tip = 0;
     constructor(
         private activatedRoute: ActivatedRoute,
         public modalService: BsModalService,
@@ -129,6 +133,7 @@ export class AppointmentComponent implements OnInit {
         private appointmentService: AppointmentService,
         public bookMassageService: BookMassageService,
         private route: Router,
+        protected authService: AuthService
         //  private datePipe: DatePipe
     ) {
         //debugger;
@@ -183,7 +188,9 @@ export class AppointmentComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-        this.message = this.alertNotificationComponent.color
+        if (this.alertNotificationComponent) {
+            this.message = this.alertNotificationComponent.color
+        }
         // alert(this.message);
     }
 
@@ -290,18 +297,19 @@ export class AppointmentComponent implements OnInit {
         //     this.customersData = result.ResponseMessage;
         // })
     }
-    //  StartDateChange(startdate: any) {
-
-    //     let aptDuration = env.environment.aptDuration
-    //     this.appointment.start_date = startdate.value;
-    //      startdate = HelperService.toStringDate(this.appointment.start_date);
-    //     let condition = {
-    //         startdate: startdate,
-    //         enddate: new Date(startdate.getTime() + (aptDuration * 60000)),
-    //         // servedregion: [{ "regionId": this.appointment.customer.address["0"].region._id, "subregionId": this.appointment.customer.address["0"].subregion._id }]
-    //     }
-    //     this.conditionArr = condition;
-    // }
+     StartDateChange(startdate: any) {
+        console.log(this.appointment.start_date);
+        
+        // let aptDuration = env.environment.aptDuration
+        // this.appointment.start_date = startdate.value;
+        //  startdate = HelperService.toStringDate(this.appointment.start_date);
+        // let condition = {
+        //     startdate: startdate,
+        //     enddate: new Date(startdate.getTime() + (aptDuration * 60000)),
+        //     // servedregion: [{ "regionId": this.appointment.customer.address["0"].region._id, "subregionId": this.appointment.customer.address["0"].subregion._id }]
+        // }
+        // this.conditionArr = condition;
+    }
 
     selectcustomer(Select_customer: string) {
         //debugger
@@ -527,15 +535,7 @@ export class AppointmentComponent implements OnInit {
         })
     }
     addMoretherapist() {
-        //debugger;
-        //this.addTherapist.push({ value: '' })
-
-        // this.addTherapist.push({ value: this.therapistArr.name })
-        // this.marginset = "-9px";
-        // let therapistadd = this.appointmentform.value.therapist;
-        // this.therapist.push(therapistadd);
         this.therapistList.push({ _id: null });
-
     }
     removeTherapist(i) {
         // let index = this.addTherapist.indexOf(value);
@@ -547,25 +547,15 @@ export class AppointmentComponent implements OnInit {
 
     addMoreServices() {
         this.addServices.push({ service: '' })
-
-        // this.addServices.push({ service: this.servicesArr.name })
-
-        // let serviceadd = this.appointmentform.value.servicesData;
-        // this.servicesData.push(serviceadd);
     }
 
     removeService(value) {
         let index = this.addServices.indexOf(value);
         this.addServices.splice(index, 1);
-
     }
 
     addMoreServicesAddon() {
         this.addServiceAddon.push({ serviceAddOn: '' })
-
-        // this.addServiceAddon.push({ serviceAddOn: this.servicesAddonArr.name })
-        // let serviceaddon = this.appointmentform.value.serviceAddOnData;
-        // this.serviceAddOnData.push(serviceaddon);
     }
 
     removeServiceAddon(value) {
@@ -576,11 +566,6 @@ export class AppointmentComponent implements OnInit {
 
     addMoreManualItem() {
         this.addManualItems.push({ name: '', qty: null, cost: null });
-        //{ manualItem: this.appointmentform.value.ManualItem }
-        //  let manual_entery = new manual_enteries();
-
-        // let manual_entery = this.appointmentform.value.ManualItem;
-        // this.manualItems.push(manual_entery);
     }
 
     removeManualItem(value) {
@@ -589,40 +574,38 @@ export class AppointmentComponent implements OnInit {
 
     }
     manualTotal() {
-        //debugger;
-        this.Total = 0.00;
-        let addontotal: any = 0;
-        let servicetotal = parseFloat(this.servicesArr.qty) * parseFloat(this.servicesArr.cost);
-        this.Total += servicetotal;
-        if (this.servicesAddonArr.cost) {
-            addontotal = parseFloat(this.servicesAddonArr.qty) * parseFloat(this.servicesAddonArr.cost);
-            this.Total += addontotal;
+        this.total = 0;
+        this.addManualItems.map(x => {
+            if (x.cost) {
+                this.total += parseFloat(x.cost);
+            }
+        });
+        this.addServiceAddon.map(x => {
+            if (x.cost) {
+                this.total += parseFloat(x.cost);
+            }
+        });
+        this.addServices.map(x => {
+            if (x.cost) {
 
-
-        }
-        else {
-            this.Total += servicetotal;
-        }
-        if (this.appointmentform.value.ManualItemtotal) {
-            let manualtotal = parseFloat(this.appointmentform.value.ManualItemqty) * parseFloat(this.appointmentform.value.ManualItemtotal);
-            this.Total += manualtotal;
-        }
-        else {
-            if (addontotal)
-                this.Total = addontotal + servicetotal;
-            else
-                this.Total = servicetotal;
+                this.total += parseFloat(x.cost);
+            }
+        });
+        if (this.tip) {
+            this.total += this.tip;
         }
     }
-    calgratuity() {
-        if (this.appointmentform.value.gratuity)
-            this.Total += parseFloat(this.appointmentform.value.gratuity);
-        else
-            this.manualTotal();
+
+    changeAddonQty(i) {
+        this.addServiceAddon[i].cost = this.addServiceAddon[i].qty * this.addonCostPerUnit;
+        this.manualTotal();
     }
 
+    changeServiceQty(i) {
+        this.addServices[i].cost = this.addServices[i].qty * this.serviceCostPerUnit;
+        this.manualTotal();
+    }
 
-    //
     reset_appointment() {
         //debugger;
         //this.alert_notification.CfieldArrayT=null;
@@ -643,46 +626,56 @@ export class AppointmentComponent implements OnInit {
 
     //
     create_appoinment() {
-        console.log(this.appointment);
-        console.log(this.therapistList);
-        console.log(this.addServices);
-        console.log(this.addServiceAddon);
-        console.log(this.addManualItems);
         let aptDuration = env.environment.aptDuration
-        //this.appointment.start_date =start_date.value;
+
+        console.log(this.appointment.start_date);
+
         let startdate = HelperService.toStringDate(this.appointment.start_date);
+        console.log(startdate);
+
         let condition = {
             startdate: startdate,
             enddate: new Date(startdate.getTime() + (aptDuration * 60000)),
-            // servedregion: [{ "regionId": this.appointment.customer.address["0"].region._id, "subregionId": this.appointment.customer.address["0"].subregion._id }]
         }
+
         this.conditionArr = condition;
+        if (this.alertNotificationComponent) {
+            let CfieldArrayT = this.alertNotificationComponent.CfieldArrayT;
+            let CfieldArrayC = this.alertNotificationComponent.CfieldArrayC;
+            let RfieldArrayT = this.alertNotificationComponent.RfieldArrayT;
+            let RfieldArrayC = this.alertNotificationComponent.RfieldArrayC;
+        }
 
-        let CfieldArrayT = this.alertNotificationComponent.CfieldArrayT;
-        let CfieldArrayC = this.alertNotificationComponent.CfieldArrayC;
-        let RfieldArrayT = this.alertNotificationComponent.RfieldArrayT;
-        let RfieldArrayC = this.alertNotificationComponent.RfieldArrayC;
-        // if (this.appointmentStatus == {}) {
-        //     this.appointmentStatus = { name: this.aptstatusData[0].name, icon: this.aptstatusData[0]., color: this.aptstatusData[0].color, font_color: this.aptstatusData[0].fontcolor }
-        // }
+        let data = {
+            customer: this.appointment.customer,
+            appointment_statuses: this.appointment.appointment_statuses ? this.appointment.appointment_statuses : {
+                name: "Active", icon: "fa-check",
+                font_color: "2F2F2F", color: "5610AD"
+            },
+            start_date_Time: condition.startdate,
+            end_date_Time: condition.enddate,
+            therapist: this.therapistList,
+            service: this.addServices,
+            service_addons: this.addServiceAddon,
+            manual_enteries: this.addManualItems,
+            tip: this.appointment.tip ? this.appointment.tip : "0.00",
+            total_cost: this.appointment.total_cost,
+            grand_total_cost: '',
+            work_order_notes: this.appointment.work_order_notes,
+            privacy_notes: this.appointment.privacy_notes,
+            invoice_notes: this.appointment.invoice_notes,
+            summary: this.appointment.summary,
+            user: {
+                email: this.authService.user.email
+            },
+            CfieldArrayT: null,
+            CfieldArrayC: null,
+            RfieldArrayT: null,
+            RfieldArrayC: null
+        }
+
         this.notes = "";
-        this.manualService = { name: this.appointmentform.value.ManualItem, qty: this.appointmentform.value.ManualItemqty, cost: this.appointmentform.value.ManualItemtotal }
-        // this.bookMassageService.create_appoinment(this.appointment.customer,
-        //     this.addServices,
-        //     this.appointmentStatus,
-        //     this.therapistList,
-        //     this.addServiceAddon,
-        //     this.conditionArr,
-        //     this.addManualItems,
-        //     this.appointmentform.value,
-        //     this.notes,
-        //     this.Total,
-        //     CfieldArrayT,
-        //     CfieldArrayC,
-        //     RfieldArrayT,
-        //     RfieldArrayC
-
-        // ).subscribe(data => {
+        // this.bookMassageService.create_appoinment(data).subscribe(data => {
         //     alert(data)
         // })
     }

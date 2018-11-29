@@ -31,9 +31,9 @@
 
 
       <div class="appointment-content">
-        <div class="row pl-md-3">
-          <div class="col-lg-7 pt-4">
-            <form [formGroup]="appointmentform">
+        <form [formGroup]="appointmentform">
+          <div class="row pl-md-3">
+            <div class="col-lg-7 pt-4">
 
               <!-- Start of select type and other appointment status -->
               <div class="row">
@@ -67,11 +67,11 @@
                     <div class="row">
                       <div class="col-12">
                         <ng-select [items]="aptstatusData" bindLabel="name" class="form-control" [searchable]="false"
-                        [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
-                        <ng-template ng-option-tmp let-item="item" let-clear="clear">
-                          <span class="ng-value-label">{{item.name}}</span>
-                        </ng-template>
-                      </ng-select>
+                          [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
+                          <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                            <span class="ng-value-label">{{item.name}}</span>
+                          </ng-template>
+                        </ng-select>
                       </div>
                     </div>
 
@@ -220,20 +220,20 @@
                     </div>
                     <div class="col-9">
                       <ng-select [items]="servicesData" bindLabel="name" class="form-control" [searchable]="false"
-                        [(ngModel)]="addServices[i]" [ngModelOptions]="{standalone: true}">
+                        [(ngModel)]="addServices[i]" (change)="manualTotal(); serviceCostPerUnit = addServices[i].cost" [ngModelOptions]="{standalone: true}">
                         <ng-template ng-option-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.name}}</span>
                         </ng-template>
                       </ng-select>
                     </div>
                     <div class="col-1 px-0">
-                      <input class="form-control" (change)="manualTotal()" formControlName="serviceqty" type="text"
+                      <input class="form-control" (change)="changeServiceQty(i)" formControlName="serviceqty" type="text"
                         placeholder="QTY" title="QTY" maxlength="3" [(ngModel)]="addServices[i].qty" />
                     </div>
                     <div class="col-2">
                       <i class="dollar-inside">$</i>
-                      <input class="form-control text-right padding-left-20" (change)="manualTotal()" formControlName="servicetotal"
-                        tabindex="-1" type="number" placeholder="0.00" [(ngModel)]="addServices[i].cost" />
+                      <input class="form-control text-right padding-left-20" formControlName="servicetotal" tabindex="-1"
+                        type="number" placeholder="0.00" [(ngModel)]="addServices[i].cost" readonly/>
                     </div>
                   </div>
                 </div>
@@ -257,20 +257,20 @@
                     </div>
                     <div class="col-9">
                       <ng-select [items]="serviceAddOnData" bindLabel="name" class="form-control" [searchable]="false"
-                        [(ngModel)]="addServiceAddon[i]" [ngModelOptions]="{standalone: true}">
+                        [(ngModel)]="addServiceAddon[i]" (change)="manualTotal(i); addonCostPerUnit = addServiceAddon[i].cost" [ngModelOptions]="{standalone: true}">
                         <ng-template ng-option-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.name}}</span>
                         </ng-template>
                       </ng-select>
                     </div>
                     <div class="col-1 px-0">
-                      <input class="form-control" formControlName="serviceAddonQty" type="text" placeholder="QTY" title="QTY"
-                        maxlength="3" [(ngModel)]="addServiceAddon[i].qty" (change)="manualTotal()" />
+                      <input class="form-control" formControlName="serviceaddonqty" type="text" placeholder="QTY" title="QTY"
+                        maxlength="3" [(ngModel)]="addServiceAddon[i].qty" (change)="changeAddonQty(i)" />
                     </div>
                     <div class="col-2">
                       <i class="dollar-inside">$</i>
-                      <input class="form-control text-right padding-left-20" formControlName="serviceAddonTotal" tabindex="-1"
-                        type="number" placeholder="0.00" [(ngModel)]="addServiceAddon[i].cost" (change)="manualTotal()" />
+                      <input class="form-control text-right padding-left-20" formControlName="serviceaddontotal"
+                        tabindex="-1" type="number" placeholder="0.00" [(ngModel)]="addServiceAddon[i].cost" readonly/>
                     </div>
                   </div>
                 </div>
@@ -298,12 +298,12 @@
                     </div>
                     <div class="col-1 px-0">
                       <input class="form-control" type="text" placeholder="QTY" title="QTY" maxlength="3"
-                        formControlName="ManualItemqty" (change)="manualTotal()" [(ngModel)]="addManualItems[i].qty" />
+                        formControlName="ManualItemqty" [(ngModel)]="addManualItems[i].qty" />
                     </div>
                     <div class="col-2">
                       <i class="dollar-inside">$</i>
                       <input class="form-control text-right padding-left-20" tabindex="-1" type="number" placeholder="0.00"
-                        formControlName="ManualItemtotal" (change)="manualTotal()" id="service_cost" [(ngModel)]="addManualItems[i].cost"/>
+                        formControlName="ManualItemtotal" (change)="manualTotal()" id="service_cost" [(ngModel)]="addManualItems[i].cost" />
                     </div>
                   </div>
                 </div>
@@ -320,7 +320,7 @@
                     <div class="col-2">
                       <i class="dollar-inside">$</i>
                       <input class="form-control text-right padding-left-20" tabindex="-1" placeholder="0.00" type="number"
-                        formControlName="gratuity" [(ngModel)]="appointment.tip" (change)="calgratuity()">
+                        formControlName="gratuity" [(ngModel)]="tip" (change)="manualTotal()">
                     </div>
                   </div>
                 </div>
@@ -337,85 +337,84 @@
                     <div class="col-2">
                       <i class="dollar-inside">$</i>
                       <input class="form-control text-right padding-left-20" tabindex="-1" formControlName="total"
-                        placeholder="0.00" name="total" type="number" [ngModel]="appointment.total_cost" readonly>
+                        placeholder="0.00" name="total" type="number" [(ngModel)]="total" readonly>
                     </div>
                   </div>
                 </div>
               </div>
               <!-- End of Total -->
-
-            </form>
-          </div>
-          <div class="col-lg-5">
-            <div class="row">
-              <div class="col-12 pl-md-5">
-                <mat-tab-group style="margin-top:5px;">
-                  <mat-tab label="Work Order">
-                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="worknotes"
-                      placeholder="Work Order Notes" [ngModel]="appointment.work_order_notes"></textarea>
-                  </mat-tab>
-                  <mat-tab label="Private">
-                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="privatenotes"
-                      placeholder="Private Notes" [ngModel]="appointment.privacy_notes"></textarea>
-                  </mat-tab>
-                  <mat-tab label="Invoice">
-                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="invoicenotes"
-                      placeholder="Invoice notes" [ngModel]="appointment.invoice_notes"></textarea>
-                  </mat-tab>
-                  <mat-tab label="Summary">
-                    <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="summarynotes"
-                      placeholder="Summary notes" [ngModel]="appointment.summary"></textarea>
-                  </mat-tab>
-                </mat-tab-group>
-              </div>
             </div>
-          </div>
-
-          <div class="col-12">
-            <div class="row mt-4">
-              <div class="col-12 divider mb-3">
-
-              </div>
-              <div class="col-md-6">
-                <div style="padding-top:5px;">
-                  <button type="text" class="button newbtn" (click)="reset_appointment()">New</button>
-                  <button type="submit" class="button savebtn" (click)="create_appoinment()">Save</button>
-                  <button class="button canclebtn">Cancel</button>
-                  <button class="button deletebtn">Delete</button>
-                </div>
-              </div>
-
-
-              <div class="col-md-6 my-auto">
-                <div class="crms-btn">
-                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
-                    style="background:grey; cursor: pointer;" matTooltip="Alert/Notification" matTooltip="Add New Service"
-                    matTooltipPosition="below">
-                    <i class="fa fa-bell" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
-                    </i>
-                  </a>&nbsp;
-                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openInvoiceApp(apt._id)"
-                    style="background:grey; cursor: pointer;" matTooltip="Create Invoice" matTooltipPosition="below">
-                    <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
-                  </a>&nbsp;
-                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
-                    style="background:grey;" matTooltip="Email Invoice" matTooltipPosition="below">
-                    <i class="fa fa-share" aria-hidden="true" style="font-size: 18px;"></i>
-                  </a>&nbsp;
-                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" style="background:grey;"
-                    matTooltip="CRMS" matTooltipPosition="below">
-                    <i class="fa fa-users" aria-hidden="true" style="font-size: 18px;"></i>
-                  </a>&nbsp;
-                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
-                    style="background:grey; cursor: pointer;" matTooltip="Payment" matTooltipPosition="below">
-                    <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
-                    </i>
-                  </a>
+            <div class="col-lg-5">
+              <div class="row">
+                <div class="col-12 pl-md-5">
+                  <mat-tab-group style="margin-top:5px;">
+                    <mat-tab label="Work Order">
+                      <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="worknotes"
+                        placeholder="Work Order Notes" [ngModel]="appointment.work_order_notes"></textarea>
+                    </mat-tab>
+                    <mat-tab label="Private">
+                      <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="privatenotes"
+                        placeholder="Private Notes" [ngModel]="appointment.privacy_notes"></textarea>
+                    </mat-tab>
+                    <mat-tab label="Invoice">
+                      <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="invoicenotes"
+                        placeholder="Invoice notes" [ngModel]="appointment.invoice_notes"></textarea>
+                    </mat-tab>
+                    <mat-tab label="Summary">
+                      <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="summarynotes"
+                        placeholder="Summary notes" [ngModel]="appointment.summary"></textarea>
+                    </mat-tab>
+                  </mat-tab-group>
                 </div>
               </div>
             </div>
+
+            <div class="col-12">
+              <div class="row mt-4">
+                <div class="col-12 divider mb-3">
+
+                </div>
+                <div class="col-md-6">
+                  <div style="padding-top:5px;">
+                    <button type="text" class="button newbtn" (click)="reset_appointment()">New</button>
+                    <button type="submit" class="button savebtn" (click)="create_appoinment()">Save</button>
+                    <button class="button canclebtn">Cancel</button>
+                    <button class="button deletebtn">Delete</button>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6 my-auto">
+                  <div class="crms-btn">
+                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
+                      style="background:grey; cursor: pointer;" matTooltip="Alert/Notification" matTooltip="Add New Service"
+                      matTooltipPosition="below">
+                      <i class="fa fa-bell" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
+                      </i>
+                    </a>&nbsp;
+                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openInvoiceApp(apt._id)"
+                      style="background:grey; cursor: pointer;" matTooltip="Create Invoice" matTooltipPosition="below">
+                      <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
+                    </a>&nbsp;
+                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
+                      style="background:grey;" matTooltip="Email Invoice" matTooltipPosition="below">
+                      <i class="fa fa-share" aria-hidden="true" style="font-size: 18px;"></i>
+                    </a>&nbsp;
+                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" style="background:grey;"
+                      matTooltip="CRMS" matTooltipPosition="below">
+                      <i class="fa fa-users" aria-hidden="true" style="font-size: 18px;"></i>
+                    </a>&nbsp;
+                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
+                      style="background:grey; cursor: pointer;" matTooltip="Payment" matTooltipPosition="below">
+                      <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
+                      </i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
