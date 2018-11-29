@@ -4851,13 +4851,14 @@ table.multi_sel td {
   min-height: 30px !important;
 }
 
-.form-control {
-  height: 30px !important;
-}
-
 app-appointment {
   .form-control {
-    height: 36px !important;
+
+    &input,
+    &select {
+      height: 36px !important;
+    }
+
     outline: none;
     border-radius: 0.25rem;
     box-shadow: none !important;
@@ -4892,6 +4893,8 @@ app-appointment {
     /* margin-bottom: 1px; */
     font-size: 16px;
     padding: 5px;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
     border-radius: 0.25rem;
     text-align: left;
     cursor: pointer;
@@ -4925,5 +4928,22 @@ app-appointment {
 
   .search-button {
     height: 36px;
+  }
+}
+
+
+ng-dropdown-panel.form-control {
+  background-color: white;
+  border-radius: 0px;
+  padding: 0.25rem 0rem !important;
+  margin-left: -13px;
+  margin-top: 8px;
+
+  .ng-option {
+    padding: 5px;
+
+    &:hover {
+      background: #f0f0f0;
+    }
   }
 }
