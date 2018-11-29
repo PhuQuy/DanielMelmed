@@ -19,6 +19,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '@app/stork_features/shared/auth.service';
 //import { NgControl, Directive, Input } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-appointment',
@@ -321,8 +322,9 @@ export class AppointmentComponent implements OnInit {
         //     this.customersData = result.ResponseMessage;
         // })
     }
-    StartDateChange(startdate: any) {
-        console.log(this.appointment.start_date);
+    // StartDateChange(startdate: any) {
+    //     console.log(this.appointment.start_date);
+    //     console.log(startdate);
 
         // let aptDuration = env.environment.aptDuration
         // this.appointment.start_date = startdate.value;
@@ -333,7 +335,7 @@ export class AppointmentComponent implements OnInit {
         //     // servedregion: [{ "regionId": this.appointment.customer.address["0"].region._id, "subregionId": this.appointment.customer.address["0"].subregion._id }]
         // }
         // this.conditionArr = condition;
-    }
+    // }
 
     selectcustomer(Select_customer: string) {
         //debugger
@@ -665,18 +667,19 @@ export class AppointmentComponent implements OnInit {
     create_appoinment() {
         let aptDuration = env.environment.aptDuration
 
-        console.log(this.appointment.start_date);
-
-        let startdate = HelperService.toStringDate(this.appointment.start_date);
-        console.log(startdate);
-
+        let startdate = moment(this.appointment.start_date).format('YYYY-MM-DD HH:mm:ss');
+        let temp = new Date(this.appointment.start_date).getTime() + (aptDuration * 60000);
+        let enddate = moment(temp).format('YYYY-MM-DD HH:mm:ss');
+        
         let condition = {
             startdate: startdate,
-            enddate: new Date(startdate.getTime() + (aptDuration * 60000)),
+            enddate: enddate
         }
 
         this.conditionArr = condition;
         if (this.alertNotificationComponent) {
+            console.log('hello world');
+            
             let CfieldArrayT = this.alertNotificationComponent.CfieldArrayT;
             let CfieldArrayC = this.alertNotificationComponent.CfieldArrayC;
             let RfieldArrayT = this.alertNotificationComponent.RfieldArrayT;
@@ -712,9 +715,9 @@ export class AppointmentComponent implements OnInit {
         }
 
         this.notes = "";
-        // this.bookMassageService.create_appoinment(data).subscribe(data => {
-        //     alert(data)
-        // })
+        this.bookMassageService.create_appoinment(data).subscribe(data => {
+            alert("Ok ne !!!!!!")
+        })
     }
     //add new customer========================================================
     Imageupload(image) {
