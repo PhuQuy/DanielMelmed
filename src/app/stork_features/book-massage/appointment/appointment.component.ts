@@ -272,6 +272,30 @@ export class AppointmentComponent implements OnInit {
         }
     }
 
+    therapistTooltips: any;
+    toggleTherapistsToolstip(tooltip?, greeting?, phone?) {
+        console.log(phone);
+
+        if (tooltip) {
+            this.therapistTooltips = tooltip;
+        }
+        if (this.therapistTooltips.isOpen()) {
+            this.therapistTooltips.close();
+        } else {
+            this.therapistTooltips.open({ greeting, phone });
+        }
+    }
+
+    openTherapistsToolstip(tooltip, greeting, phone) {
+        this.therapistTooltips = tooltip;
+        if (this.therapistTooltips.isOpen()) {
+            this.therapistTooltips.close();
+            this.therapistTooltips.open({ greeting, phone, tooltip });
+        } else {
+            this.therapistTooltips.open({ greeting, phone, tooltip });
+        }
+    }
+
     //filter
     customer_filter() {
         let condition = {};
@@ -297,9 +321,9 @@ export class AppointmentComponent implements OnInit {
         //     this.customersData = result.ResponseMessage;
         // })
     }
-     StartDateChange(startdate: any) {
+    StartDateChange(startdate: any) {
         console.log(this.appointment.start_date);
-        
+
         // let aptDuration = env.environment.aptDuration
         // this.appointment.start_date = startdate.value;
         //  startdate = HelperService.toStringDate(this.appointment.start_date);
@@ -436,15 +460,15 @@ export class AppointmentComponent implements OnInit {
         //debugger;
         // console.log(address.zipcode);
 
-        if(addr) {
+        if (addr) {
             this.customer_adress = addr;
             return;
         }
         let address = this.customerAdress.filter(address => address.street1 = street);
-        if(address) {
+        if (address) {
             this.customer_adress = address[0];
         }
-        
+
         //this.customerPhone=this.customerContactno.phone
     }
 
