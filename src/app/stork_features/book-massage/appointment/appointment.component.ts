@@ -401,17 +401,20 @@ export class AppointmentComponent implements OnInit {
         })
     }
 
-    public onCustomerChange(customer: any) {
+    onCustomerChange(id) {
         //debugger
-        this.appointment.customer = customer;
-        this.customerid = this.appointment.customer._id
-        // this.customerAdress = this.appointment.customer.address
-        // this.customerContact = this.appointment.customer.contacts;
+        let cus = this.customersData.filter(customer => customer._id == id);
+        this.appointment.customer = cus ? cus[0] : null;
+        console.log(this.appointment.customer);
+
+        this.customerid = id;
+        this.customerAdress = this.appointment.customer.addresses;
+        this.customerContact = this.appointment.customer.contacts;
         this.get_all_available_therapists();
         this.get_all_available_services();
         this.get_all_service_addon();
-        // this.onContactChange(this.customerContact);
-        //this.onAddressChange(this.customerAdress["0"]);
+        this.onContactChangeContactno(this.customerContact["0"] ? this.customerContact["0"] : null);
+        this.onAddressChange(this.customerAdress["0"] ? this.customerAdress["0"].street1 : null, this.customerAdress["0"] ? this.customerAdress["0"] : null);
     }
 
     public onContactChange(customerContact: any[]) {
@@ -425,15 +428,25 @@ export class AppointmentComponent implements OnInit {
         this.customerContactno = this.customerContact.find(c => c.contact_name == customerContact.contact_name);
         this.customerPhone = this.customerContactno.phone;
         //debugger;
+        this.customerPhone = [];
         this.customerPhone.push({ 'phone': this.customerContactno.mobileno });
     }
     onChangereload() {
 
     }
-    onAddressChange(customerAdress: any) {
+    onAddressChange(street, addr?) {
         //debugger;
+        // console.log(address.zipcode);
 
-        this.customer_adress = this.customerAdress.find(c => c._id == customerAdress._id);
+        if(addr) {
+            this.customer_adress = addr;
+            return;
+        }
+        let address = this.customerAdress.filter(address => address.street1 = street);
+        if(address) {
+            this.customer_adress = address[0];
+        }
+        
         //this.customerPhone=this.customerContactno.phone
     }
 
