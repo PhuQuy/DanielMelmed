@@ -158,8 +158,8 @@
                 </div> -->
 
                 <div class="col-12">
-                  <angular2-date-picker [settings]="settings" name="bdaytime" formControlName="start_date" [ngModel]="appointment.start_date | date:'MMM-dd-yyyy hh:mm a'"
-                    required (dateChange)="StartDateChange($event)"></angular2-date-picker>
+                  <angular2-date-picker [settings]="settings" name="bdaytime" formControlName="start_date" [(ngModel)]="appointment.start_date"
+                    required></angular2-date-picker>
                   <control-messages [control]="appointmentform.controls.start_date" style="color: #E82C0C;margin: 6px 0;"></control-messages>
                 </div>
 
@@ -384,8 +384,8 @@
                 </div>
 
 
-                <div class="col-md-6 my-auto">
-                  <div class="crms-btn">
+                <div class="col-md-6 my-auto pr-0">
+                  <div class="crms-btn text-right w-100">
                     <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
                       style="background:grey; cursor: pointer;" matTooltip="Alert/Notification" matTooltip="Add New Service"
                       matTooltipPosition="below">
