@@ -483,6 +483,8 @@ export class AppointmentsComponent implements OnInit {
 
   create_appoinment() {
     //debugger;
+    console.log('hi guys');
+    
     if (this.appointmentStatus == {}) {
       //debugger;
       this.appointmentStatus = { name: this.aptstatusData[0].name, icon: this.aptstatusData[0].icon.class_name, color: this.aptstatusData[0].icon.color, font_color: this.aptstatusData[0].fontcolor }
@@ -502,6 +504,11 @@ export class AppointmentsComponent implements OnInit {
     let CfieldArrayC = this.appointment.CfieldArrayC;
     let RfieldArrayT = this.appointment.RfieldArrayT;
     let RfieldArrayC = this.appointment.RfieldArrayC;
+    console.log(CfieldArrayT);
+    console.log(CfieldArrayC);
+    console.log(RfieldArrayT);
+    console.log(RfieldArrayC);
+    
     this.notes = "";
     this.manualService = { name: this.appointmentform.value.ManualItem, qty: this.appointmentform.value.ManualItemqty, cost: this.appointmentform.value.ManualItemtotal }
     this.bookMassageService.create_appoinment(this.appointment.customer,

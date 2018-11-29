@@ -47,7 +47,7 @@ export class AppointmentComponent implements OnInit {
     addServices = [{ service: '' }];
     addServiceAddon = [{ serviceAddOn: '' }];
     manualItems: manual_enteries[];
-    addManualItems = [{name: ''}];
+    addManualItems = [{name: '', qty: null, cost: null}];
     servicesArr: any = [];
     servicesAddonArr: any = [];
     therapistArr: any = [];
@@ -434,11 +434,10 @@ export class AppointmentComponent implements OnInit {
     }
 
     onServiceChange(service: any) {
-        //debugger;
-        this.serviceVal = service;
-        //this.serviceId=service._id;
-        this.servicesArr.push(service);
-        this.addServiceName = service.name;
+        console.log(service);
+        if(service) {
+
+        }
         this.manualTotal()
 
     }
@@ -561,7 +560,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     addMoreManualItem() {
-        this.addManualItems.push({name: ''});
+        this.addManualItems.push({name: '', qty: null, cost: null});
         //{ manualItem: this.appointmentform.value.ManualItem }
         //  let manual_entery = new manual_enteries();
 
@@ -629,7 +628,8 @@ export class AppointmentComponent implements OnInit {
 
     //
     create_appoinment() {
-        //debugger;
+        console.log(this.appointment);
+        
         let aptDuration = env.environment.aptDuration
         //this.appointment.start_date =start_date.value;
         let startdate = HelperService.toStringDate(this.appointment.start_date);
@@ -649,24 +649,24 @@ export class AppointmentComponent implements OnInit {
         // }
         this.notes = "";
         this.manualService = { name: this.appointmentform.value.ManualItem, qty: this.appointmentform.value.ManualItemqty, cost: this.appointmentform.value.ManualItemtotal }
-        this.bookMassageService.create_appoinment(this.appointment.customer,
-            this.servicesArr,
-            this.appointmentStatus,
-            this.therapistArr,
-            this.servicesAddonArr,
-            this.conditionArr,
-            this.manualService,
-            this.appointmentform.value,
-            this.notes,
-            this.Total,
-            CfieldArrayT,
-            CfieldArrayC,
-            RfieldArrayT,
-            RfieldArrayC
+        // this.bookMassageService.create_appoinment(this.appointment.customer,
+        //     this.addServices,
+        //     this.appointmentStatus,
+        //     this.therapistList,
+        //     this.addServiceAddon,
+        //     this.conditionArr,
+        //     this.addManualItems,
+        //     this.appointmentform.value,
+        //     this.notes,
+        //     this.Total,
+        //     CfieldArrayT,
+        //     CfieldArrayC,
+        //     RfieldArrayT,
+        //     RfieldArrayC
 
-        ).subscribe(data => {
-            alert(data)
-        })
+        // ).subscribe(data => {
+        //     alert(data)
+        // })
     }
     //add new customer========================================================
     Imageupload(image) {
