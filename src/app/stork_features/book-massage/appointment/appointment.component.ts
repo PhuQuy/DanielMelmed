@@ -47,7 +47,7 @@ export class AppointmentComponent implements OnInit {
     addServices = [{ service: '' }];
     addServiceAddon = [{ serviceAddOn: '' }];
     manualItems: manual_enteries[];
-    addManualItems = [{name: ''}];
+    addManualItems = [{ name: '' }];
     servicesArr: any = [];
     servicesAddonArr: any = [];
     therapistArr: any = [];
@@ -252,14 +252,19 @@ export class AppointmentComponent implements OnInit {
         this.filter = filter
     }
 
-    toggleWithGreeting(tooltip, greeting: string) {
-        if (tooltip.isOpen()) {
-          tooltip.close();
-        } else {
-          tooltip.open({greeting});
+    tooltip: any;
+
+    toggleToolstip(tooltip?) {
+        if(tooltip) {
+            this.tooltip = tooltip;
         }
-      }
-      
+        if (this.tooltip.isOpen()) {
+            this.tooltip.close();
+        } else {
+            this.tooltip.open();
+        }
+    }
+
     //filter
     customer_filter() {
         let condition = {};
@@ -437,7 +442,7 @@ export class AppointmentComponent implements OnInit {
         this.bookMassageService.get_all_available_services(condition).subscribe(servicesData => {
             this.servicesData = servicesData;
             console.log(this.servicesData);
-            
+
             //this.servicesData = therapistsData.ResponseMessage;
         })
 
@@ -461,7 +466,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     onTherapistChange() {
-        
+
         // this.therapistList[i] = this.selectedTherapist;
 
         // if (this.therapistList.length > 0) {
@@ -571,7 +576,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     addMoreManualItem() {
-        this.addManualItems.push({name: ''});
+        this.addManualItems.push({ name: '' });
         //{ manualItem: this.appointmentform.value.ManualItem }
         //  let manual_entery = new manual_enteries();
 
