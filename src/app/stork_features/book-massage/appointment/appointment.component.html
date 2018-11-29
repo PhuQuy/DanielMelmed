@@ -32,7 +32,7 @@
 
       <div class="appointment-content">
         <div class="row pl-md-3">
-          <div class="col-lg-7 pt-4">
+          <div class="col-lg-7 pt-4 pr-4">
             <form [formGroup]="appointmentform">
 
               <!-- Start of select type and other appointment status -->
@@ -67,11 +67,11 @@
                     <div class="row">
                       <div class="col-12">
                         <ng-select [items]="aptstatusData" bindLabel="name" class="form-control" [searchable]="false"
-                        [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
-                        <ng-template ng-option-tmp let-item="item" let-clear="clear">
-                          <span class="ng-value-label">{{item.name}}</span>
-                        </ng-template>
-                      </ng-select>
+                          [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
+                          <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                            <span class="ng-value-label">{{item.name}}</span>
+                          </ng-template>
+                        </ng-select>
                       </div>
                     </div>
 
@@ -98,18 +98,20 @@
                     </div>
 
                     <div class="col-12">
-                      <select (change)="onCustomerChange(customersData[$event.target.selectedIndex])" class="form-control"
-                        (ngModel)="appointment.customer" [value]="appointment?.customer?._id">
-                        <option *ngFor="let customer of customersData" [value]="customer._id" [selected]="appointment.customer">{{customer.firstname}}
+                      <select class="form-control" #t (change)="onCustomerChange($event.target.value)" (ngModel)="appointment.customer">
+                        <option *ngFor="let customer of customersData" [value]="customer._id">{{customer.firstname}}
                           {{customer.lastname}}
                         </option>
                       </select>
                     </div>
 
                     <div class="px-2 my-auto flex-right-button">
-                      <a class="custbutton" [routerLink]="['/customer/profile/',appointment.customerId]" target="_blank"
+                      <a *ngIf="customerid" class="custbutton" [routerLink]="['/customer/profile/', customerid]" target="_blank"
                         [ngbTooltip]="tipContent" placement="right" [autoClose]="'outside'" triggers="manual" #t1="ngbTooltip"
                         (mouseenter)="toggleToolstip(t1)">
+                        <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
+                      </a>
+                      <a *ngIf="!customerid" class="custbutton">
                         <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                       </a>
                     </div>
@@ -192,9 +194,8 @@
                     </div>
 
                     <div class="px-2 my-auto flex-right-button">
-                      <a class="custbutton" [routerLink]="['/customer/profile/',appointment.customerId]" target="_blank"
-                        [ngbTooltip]="tipContent" placement="right" [autoClose]="'outside'" triggers="manual" #t1="ngbTooltip"
-                        (mouseenter)="toggleToolstip(t1)">
+                      <a class="custbutton" [ngbTooltip]="tipTherapistContent" placement="right" [autoClose]="'outside'"
+                        triggers="manual" #t1="ngbTooltip" (mouseenter)="toggleToolstip(t1)">
                         <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                       </a>
                     </div>
@@ -269,8 +270,8 @@
                     </div>
                     <div class="col-2">
                       <i class="dollar-inside">$</i>
-                      <input class="form-control text-right padding-left-20" formControlName="serviceAddonTotal" tabindex="-1"
-                        type="number" placeholder="0.00" [(ngModel)]="addServiceAddon[i].cost" (change)="manualTotal()" />
+                      <input class="form-control text-right padding-left-20" formControlName="serviceAddonTotal"
+                        tabindex="-1" type="number" placeholder="0.00" [(ngModel)]="addServiceAddon[i].cost" (change)="manualTotal()" />
                     </div>
                   </div>
                 </div>
@@ -303,7 +304,7 @@
                     <div class="col-2">
                       <i class="dollar-inside">$</i>
                       <input class="form-control text-right padding-left-20" tabindex="-1" type="number" placeholder="0.00"
-                        formControlName="ManualItemtotal" (change)="manualTotal()" id="service_cost" [(ngModel)]="addManualItems[i].cost"/>
+                        formControlName="ManualItemtotal" (change)="manualTotal()" id="service_cost" [(ngModel)]="addManualItems[i].cost" />
                     </div>
                   </div>
                 </div>
@@ -425,9 +426,8 @@
 <ng-template #tipContent let-greeting="greeting">
   <div class="row" style="margin-top:10%;">
     <div class="col-sm-8">
-      <select class="selectArrow form-control" (change)="onAddressChange(customerAdress[$event.target.selectedIndex])">
-        <option *ngFor="let address of appointment. customerAdress ">{{address.city}} {{address.zipcode}}
-          <!-- customerAdress -->
+      <select class="selectArrow form-control" (change)="onAddressChange($event.target.value)">
+        <option *ngFor="let address of customerAdress" [value]="address.street1">{{address.city}} {{address.zipcode}}
         </option>
       </select>
 
@@ -447,11 +447,11 @@
     </div>
 
     <div class="col-sm-8">
-      <label>{{customer_adress.street1}}</label>
+      <label>{{customer_adress?.street1}}</label>
       <br>
-      <label>{{customer_adress.state}}</label>
-      <label>{{customer_adress.city}}</label>
-      <label>{{customer_adress.zipcode}}</label>
+      <label>{{customer_adress?.state}}</label>
+      <label>{{customer_adress?.city}}</label>
+      <label>{{customer_adress?.zipcode}}</label>
     </div>
     <div class="col-sm-8">
       <select class="selectArrow form-control" (change)="onContactChangeContactno(customerContact[$event.target.selectedIndex])">
@@ -472,4 +472,16 @@
       </div>
     </div>
   </div>
+</ng-template>
+
+
+<ng-template #tipTherapistContent let-greeting="greeting">
+  <div class="row" style="margin-top:10%;">
+    <div class="col-sm-2" style="position:absolute; right:4px;text-align:right;top:2px;">
+      <button type="button" (click)="toggleToolstip()" class="custbutton">
+        <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+      </button>
+    </div>
+  </div>
+
 </ng-template>
