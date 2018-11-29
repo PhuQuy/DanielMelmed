@@ -511,26 +511,26 @@ export class AppointmentsComponent implements OnInit {
     
     this.notes = "";
     this.manualService = { name: this.appointmentform.value.ManualItem, qty: this.appointmentform.value.ManualItemqty, cost: this.appointmentform.value.ManualItemtotal }
-    this.bookMassageService.create_appoinment(this.appointment.customer,
-      this.addServices,
-      this.appointmentStatus,
-      this.therapistArr,
-      this.addServiceAddon,
-     // this.servicesAddonArr,
-      this.conditionArr,
-      this.manualService,
-      this.appointmentform.value,
-      this.notes,
-      this.Total,
-      CfieldArrayT,
-      CfieldArrayC,
-      RfieldArrayT,
-      RfieldArrayC
-    ).subscribe(data => {
-      //debugger;
-      alert(data);
-      this.get_all_appointment();
-    })
+    // this.bookMassageService.create_appoinment(this.appointment.customer,
+    //   this.addServices,
+    //   this.appointmentStatus,
+    //   this.therapistArr,
+    //   this.addServiceAddon,
+    //  // this.servicesAddonArr,
+    //   this.conditionArr,
+    //   this.manualService,
+    //   this.appointmentform.value,
+    //   this.notes,
+    //   this.Total,
+    //   CfieldArrayT,
+    //   CfieldArrayC,
+    //   RfieldArrayT,
+    //   RfieldArrayC
+    // ).subscribe(data => {
+    //   //debugger;
+    //   alert(data);
+    //   this.get_all_appointment();
+    // })
   }
 
   onServiceChange(selectedservice: service, currentserviceid: string) {

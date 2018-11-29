@@ -247,43 +247,51 @@ export class BookMassageService extends BaseService {
     }
 
 
-    create_appoinment(Customer: any, service, appointmentStatus, therapistArr, serviceAddOnData, conditionArr, ManualItem, appointmentform, notes, Total,
-        CfieldArrayT, CfieldArrayC, RfieldArrayT, RfieldArrayC) {
+    // create_appoinment(Customer: any, service, appointmentStatus, therapistArr, serviceAddOnData, conditionArr, ManualItem, appointmentform, notes, Total,
+    //     CfieldArrayT, CfieldArrayC, RfieldArrayT, RfieldArrayC) {
+    //     //debugger;
+    //     var appsts = appointmentStatus.name;
+    //     if (!appsts) {
+    //         appointmentStatus = {
+    //             name: "Active", icon: "fa-check",
+    //             font_color: "2F2F2F", color: "5610AD"
+    //         };
+    //     }
+    //     let apilink = env.environment.serviceuri + "/appoinment";
+    //     return this.http.post<any>(apilink,
+    //         {
+    //             customer: Customer,
+    //             appointment_statuses: appointmentStatus,
+    //             start_date_Time: conditionArr.startdate,
+    //             end_date_Time: conditionArr.enddate,
+    //             therapist: therapistArr,
+    //             service: service,
+    //             service_addons: serviceAddOnData,
+    //             manual_enteries: ManualItem,
+    //             therapist_availability: therapistArr,
+    //             tip: appointmentform.gratuity,
+    //             total_cost: Total,
+    //             grand_total_cost: '',
+    //             notes: notes,
+    //             work_order_notes: appointmentform.worknotes,
+    //             privacy_notes: appointmentform.privatenotes,
+    //             invoice_notes: appointmentform.invoicenotes,
+    //             summary: appointmentform.summarynotes,
+    //             user: this.authService.user,
+    //             CfieldArrayT: CfieldArrayT,
+    //             CfieldArrayC: CfieldArrayC,
+    //             RfieldArrayT: RfieldArrayT,
+    //             RfieldArrayC: RfieldArrayC
+    //         }).map(res => res);
+    // }
+
+    create_appoinment(data: any) {
         //debugger;
-        var appsts = appointmentStatus.name;
-        if (!appsts) {
-            appointmentStatus = {
-                name: "Active", icon: "fa-check",
-                font_color: "2F2F2F", color: "5610AD"
-            };
-        }
+
         let apilink = env.environment.serviceuri + "/appoinment";
-        return this.http.post<any>(apilink,
-            {
-                customer: Customer,
-                appointment_statuses: appointmentStatus,
-                start_date_Time: conditionArr.startdate,
-                end_date_Time: conditionArr.enddate,
-                therapist: therapistArr,
-                service: service,
-                service_addons: serviceAddOnData,
-                manual_enteries: ManualItem,
-                therapist_availability: therapistArr,
-                tip: appointmentform.gratuity,
-                total_cost: Total,
-                grand_total_cost: '',
-                notes: notes,
-                work_order_notes: appointmentform.worknotes,
-                privacy_notes: appointmentform.privatenotes,
-                invoice_notes: appointmentform.invoicenotes,
-                summary: appointmentform.summarynotes,
-                user: this.authService.user,
-                CfieldArrayT: CfieldArrayT,
-                CfieldArrayC: CfieldArrayC,
-                RfieldArrayT: RfieldArrayT,
-                RfieldArrayC: RfieldArrayC
-            }).map(res => res);
+        return this.http.post<any>(apilink, data).map(res => res);
     }
+
     customer_filter(condition) {
         //debugger;
         let apilink = env.environment.serviceuri + "/customer/filter";
