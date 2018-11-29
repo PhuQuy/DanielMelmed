@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12">
+  <div class="col-12 pr-0">
     <div class="appointment">
       <div class="leftside-configuration appointment-slider">
         <h2 style="margin-bottom: 15px;"></h2>
@@ -32,7 +32,7 @@
 
       <div class="appointment-content">
         <div class="row pl-md-3">
-          <div class="col-lg-6 pt-4">
+          <div class="col-lg-7 pt-4">
             <form [formGroup]="appointmentform">
 
               <!-- Start of select type and other appointment status -->
@@ -231,8 +231,9 @@
                         placeholder="QTY" title="QTY" maxlength="3" [(ngModel)]="addServices[i].qty" />
                     </div>
                     <div class="col-2">
-                      <input class="form-control" (change)="manualTotal()" formControlName="servicetotal" tabindex="-1"
-                        type="text" placeholder="0.00" [(ngModel)]="addServices[i].cost" />
+                      <i class="dollar-inside">$</i>
+                      <input class="form-control text-right padding-left-20" (change)="manualTotal()" formControlName="servicetotal"
+                        tabindex="-1" type="number" placeholder="0.00" [(ngModel)]="addServices[i].cost" />
                     </div>
                   </div>
                 </div>
@@ -267,8 +268,9 @@
                         maxlength="3" [(ngModel)]="addServiceAddon[i].qty" (change)="manualTotal()" />
                     </div>
                     <div class="col-2">
-                      <input class="form-control" formControlName="serviceAddonTotal" tabindex="-1" type="text" placeholder="0.00"
-                        [(ngModel)]="addServiceAddon[i].cost" (change)="manualTotal()" />
+                      <i class="dollar-inside">$</i>
+                      <input class="form-control text-right padding-left-20" formControlName="serviceAddonTotal" tabindex="-1"
+                        type="number" placeholder="0.00" [(ngModel)]="addServiceAddon[i].cost" (change)="manualTotal()" />
                     </div>
                   </div>
                 </div>
@@ -299,8 +301,9 @@
                         formControlName="ManualItemqty" (change)="manualTotal()" [(ngModel)]="addManualItems[i].qty" />
                     </div>
                     <div class="col-2">
-                      <input class="form-control" tabindex="-1" type="text" placeholder="0.00" formControlName="ManualItemtotal"
-                        (change)="manualTotal()" [(ngModel)]="addManualItems[i].cost" id="service_cost" />
+                      <i class="dollar-inside">$</i>
+                      <input class="form-control text-right padding-left-20" tabindex="-1" type="number" placeholder="0.00"
+                        formControlName="ManualItemtotal" (change)="manualTotal()" id="service_cost" [(ngModel)]="addManualItems[i].cost"/>
                     </div>
                   </div>
                 </div>
@@ -315,8 +318,9 @@
                       <label>Gratuity</label>
                     </div>
                     <div class="col-2">
-                      <input class="form-control" tabindex="-1" placeholder="0.00" type="text" formControlName="gratuity"
-                        [(ngModel)]="appointment.tip" (change)="calgratuity()">
+                      <i class="dollar-inside">$</i>
+                      <input class="form-control text-right padding-left-20" tabindex="-1" placeholder="0.00" type="number"
+                        formControlName="gratuity" [(ngModel)]="appointment.tip" (change)="calgratuity()">
                     </div>
                   </div>
                 </div>
@@ -331,8 +335,9 @@
                       <label>Total</label>
                     </div>
                     <div class="col-2">
-                      <input class="form-control" tabindex="-1" formControlName="total" placeholder="0.00" name="total"
-                        type="text" [ngModel]="appointment.total_cost" readonly>
+                      <i class="dollar-inside">$</i>
+                      <input class="form-control text-right padding-left-20" tabindex="-1" formControlName="total"
+                        placeholder="0.00" name="total" type="number" [ngModel]="appointment.total_cost" readonly>
                     </div>
                   </div>
                 </div>
@@ -341,7 +346,7 @@
 
             </form>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-5">
             <div class="row">
               <div class="col-12 pl-md-5">
                 <mat-tab-group style="margin-top:5px;">
