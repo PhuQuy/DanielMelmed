@@ -488,19 +488,9 @@ export class AppointmentComponent implements OnInit {
         }
         this.bookMassageService.get_all_available_services(condition).subscribe(servicesData => {
             this.servicesData = servicesData;
-            console.log(this.servicesData);
 
             //this.servicesData = therapistsData.ResponseMessage;
         })
-
-    }
-
-    onServiceChange(service: any) {
-        console.log(service);
-        if (service) {
-
-        }
-        this.manualTotal()
 
     }
 
@@ -613,6 +603,8 @@ export class AppointmentComponent implements OnInit {
 
     }
     manualTotal() {
+        console.log(this.addServices);
+        
         this.total = 0;
         this.addManualItems.map(x => {
             if (x.cost) {

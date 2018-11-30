@@ -186,7 +186,7 @@
 
                     <div class="col-12">
                       <ng-select [items]="therapistsData" bindLabel="name" class="form-control" [searchable]="false"
-                        [(ngModel)]="therapistList[i]" [ngModelOptions]="{standalone: true}">
+                        (ngModel)="therapistList[i]" [ngModelOptions]="{standalone: true}">
                         <ng-template ng-option-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.name}}</span>
                         </ng-template>
@@ -276,7 +276,7 @@
                     <div class="col-2">
                       <i class="dollar-inside">$</i>
                       <input class="form-control text-right padding-left-20" formControlName="serviceaddontotal"
-                        tabindex="-1" type="number" placeholder="0.00" [(ngModel)]="addServiceAddon[i].cost" readonly />
+                        tabindex="-1" type="number" placeholder="0.00" [(ngModel)]="addServiceAddon[i].cost" />
                     </div>
                   </div>
                 </div>
