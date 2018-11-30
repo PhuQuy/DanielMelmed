@@ -194,11 +194,11 @@
                     </div>
 
                     <div class="px-2 my-auto flex-right-button">
-                      <a *ngIf="therapistList[i]" class="custbutton" [ngbTooltip]="tipTherapistContent" placement="right"
+                      <a *ngIf="therapistList[i]._id" class="custbutton" [ngbTooltip]="tipTherapistContent" placement="right"
                         #t1="ngbTooltip" (mouseenter)="openTherapistsToolstip(t1, therapist.email, therapist.phone)">
                         <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                       </a>
-                      <a *ngIf="!therapistList[i]" class="custbutton">
+                      <a *ngIf="!therapistList[i]._id" class="custbutton">
                         <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                       </a>
                     </div>
