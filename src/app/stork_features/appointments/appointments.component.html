@@ -441,7 +441,7 @@
 
                         </div>
                         <div>
-                            <button type="button" class="btn btn-primary" (click)="load_appointment()" style="margin-left:30px;">Load</button>
+                            <button type="button" class="btn btn-primary" [routerLink]="['/book-massage/appointment', appointment._id]" (click)="load_appointment()" style="margin-left:30px;">Load</button>
                             <button type="button" class="btn btn-secondary">Open</button>
                         </div>
                     </div>

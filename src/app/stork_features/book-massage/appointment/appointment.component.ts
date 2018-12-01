@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common';
 import { AuthService } from '@app/stork_features/shared/auth.service';
 //import { NgControl, Directive, Input } from '@angular/forms';
 import * as moment from 'moment';
+import { SharedService } from '@app/core/services/shared.service';
 
 @Component({
     selector: 'app-appointment',
@@ -134,7 +135,8 @@ export class AppointmentComponent implements OnInit {
         private appointmentService: AppointmentService,
         public bookMassageService: BookMassageService,
         private route: Router,
-        protected authService: AuthService
+        protected authService: AuthService,
+        private sharedService: SharedService
         //  private datePipe: DatePipe
     ) {
         //debugger;
@@ -182,6 +184,12 @@ export class AppointmentComponent implements OnInit {
 
         this.activatedRoute.queryParams.subscribe((params) => {
             let appointmentId = params['appointmentId'];
+            console.log(appointmentId);
+            
+            this.sharedService.appointment.subscribe(appointment => {
+                console.log(appointment);
+                
+            })
             if (appointmentId != undefined)
                 this.get_appointment_by_Id(appointmentId);
         });
