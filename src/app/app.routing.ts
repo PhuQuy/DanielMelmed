@@ -23,7 +23,7 @@ export const routes: Routes = [
         children: [
 
             {
-              path: 'book-massage/appointment/:appoinmentId',
+              path: 'book-massage/appointment/:appointmentId',
               loadChildren: './stork_features/book-massage/appointment/appointment.module#AppointmentModule'
             },
 

@@ -820,7 +820,7 @@ export class AppointmentsComponent implements OnInit {
   load_appointment() {
     //debugger;
     //this.get_appointment_by_Id(this.editappointmenttemplate);
-    this.route.navigate(['book-massage/appointment'], { queryParams: { appointmentId: this.appoinmentId } })
+    // this.route.navigate(['book-massage/appointment'], { queryParams: { appointmentId: this.appoinmentId } })
     this.sharedService.setAppointment(this.appointment);
     this.modalRef.hide();
 

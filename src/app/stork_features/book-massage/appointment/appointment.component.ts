@@ -182,13 +182,11 @@ export class AppointmentComponent implements OnInit {
         },]
 
 
-        this.activatedRoute.queryParams.subscribe((params) => {
+        this.activatedRoute.params.subscribe((params) => {
             let appointmentId = params['appointmentId'];
             console.log(appointmentId);
-            
             this.sharedService.appointment.subscribe(appointment => {
                 console.log(appointment);
-                
             })
             if (appointmentId != undefined)
                 this.get_appointment_by_Id(appointmentId);
