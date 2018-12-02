@@ -402,13 +402,13 @@ export class AppointmentComponent implements OnInit {
             if (this.appointment.service_addons.length > 0)
                 this.appointment.service_addons = this.appointment.service_addons;
             else {
-                this.appointment.service_addons.push(new service_addons("-1", 'Please Select', '0.00', 1, '', '', ''));
+                // this.appointment.service_addons.push(new service_addons());
             }
 
             if (this.appointment.service.length > 0)
                 this.appointment.service = this.appointment.service;
             else {
-                this.appointment.service.push(new service("-1", 'Please Select', '', '0.00', 1, '', '', 0, ''));
+                // this.appointment.service.push(new service());
             }
 
         })

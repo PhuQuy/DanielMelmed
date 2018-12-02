@@ -371,8 +371,8 @@ export class AppointmentsComponent implements OnInit {
     // if(this.appointment != undefined && this.appointment.manual_enteries != undefined && this.appointment.manual_enteries.length > 0)
     // this.appointment.manual_enteries.splice(0, this.appointment.manual_enteries.length);
 
-    this.addMoreServices(new service("-1", "please select a service", "", "", 1, "", "", 0, ""), true);
-    this.addMoreServicesAddon(new service_addons("-1", "please select serviceaddon", "", 1, "", "", ""), true);
+    this.addMoreServices(new service(), true);
+    this.addMoreServicesAddon(new service_addons(), true);
     //this.addMoreManualItem(new manual_enteries());
     this.get_all_appointment_status();
     this.get_all_customer_from_bookmassage();
@@ -393,12 +393,12 @@ export class AppointmentsComponent implements OnInit {
 
       // this.appointment.service_addons = this.appointment.service_addons;
       if (!this.appointment.service_addons || this.appointment.service_addons.length == 0) {
-        this.appointment.service_addons.push(new service_addons("-1", 'Please Select', '0.00', 1, '', '', ''));
+        this.appointment.service_addons.push(new service_addons());
       }
 
       // this.appointment.service = this.appointment.service;
       if (!this.appointment.service || this.appointment.service.length == 0) {
-        this.appointment.service.push(new service("-1", 'Please Select', '', '0.00', 1, '', '', 0, ''));
+        this.appointment.service.push(new service());
       }
 
       this.modalRef = this.modalService.show(this.editappointmenttemplate);

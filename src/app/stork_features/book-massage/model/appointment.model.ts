@@ -26,7 +26,7 @@ export class appointment {
     public created_at: String;
     public modified_by: user;
     public modified_at: String;
-    
+
     // constructor(customer: customer,
     //     appointment_statuses: appointment_statuses,
     //     end_date: String,
@@ -278,30 +278,70 @@ export class therapist {
     notification_enabled: Boolean;
     therapist_notes: String;
 
-    constructor(
-        _id: String,
+    // constructor(
+    //     _id: String,
+    //     name: string,
+    //     firstname: String,
+    //     lastname: String,
+    //     gender: String,
+    //     phone: [phone],
+    //     email: String,
+    //     address: therapist_address,
+    //     appoinment_preference: appoinment_preference,
+    //     notification_enabled: Boolean,
+    //     therapist_notes: String
+    // ) {
+    //     this._id = _id;
+    //     this.name = firstname +''+ lastname;
+    //     this.firstname = firstname;
+    //     this.lastname = lastname;
+    //     this.gender = gender;
+    //     this.phone = phone;
+    //     this.email = email;
+    //     this.address = address;
+    //     this.appoinment_preference = appoinment_preference;
+    //     this.notification_enabled = notification_enabled;
+    //     this.therapist_notes = therapist_notes;
+    // }
+
+    constructor(therapist?: {
+        _id: string,
         name: string,
-        firstname: String,
-        lastname: String,
-        gender: String,
+        firstname: string,
+        lastname: string,
+        gender: string,
         phone: [phone],
-        email: String,
+        email: string,
         address: therapist_address,
         appoinment_preference: appoinment_preference,
         notification_enabled: Boolean,
-        therapist_notes: String
-    ) {
-        this._id = _id;
-        this.name = firstname +''+ lastname;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.gender = gender;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.appoinment_preference = appoinment_preference;
-        this.notification_enabled = notification_enabled;
-        this.therapist_notes = therapist_notes;
+        therapist_notes: string
+    }) {
+        therapist = Object.assign({
+            _id: null,
+            name: null,
+            firstname: null,
+            lastname: null,
+            gender: null,
+            phone: [],
+            email: null,
+            address: null,
+            appoinment_preference: null,
+            notification_enabled: null,
+            therapist_notes: null
+        }, therapist);
+
+        this._id = therapist._id;
+        this.name = therapist.firstname ? therapist.firstname : '' + '' + therapist.lastname ? therapist.lastname : '';
+        this.firstname = therapist.firstname;
+        this.lastname = therapist.lastname;
+        this.gender = therapist.gender;
+        this.phone = therapist.phone;
+        this.email = therapist.email;
+        this.address = therapist.address;
+        this.appoinment_preference = therapist.appoinment_preference;
+        this.notification_enabled = therapist.notification_enabled;
+        this.therapist_notes = therapist.therapist_notes;
     }
 }
 
@@ -346,70 +386,92 @@ export class appoinment_preference {
 }
 //
 export class service {
-    _id: String;
-    name: String;
-    image: String;
-    cost: String;
-    qty: Number;
-    service_subtotal: String;
-    currency: String;
-    duration: Number;
-    notes: String;
-    constructor(
-        _id: String,
-        name: String,
-        image: String,
-        cost: String,
-        qty: Number,
-        service_subtotal: String,
-        currency: String,
-        duration: Number,
-        notes: String
-    ) {
-        this._id = _id;
-        this.image = image;
-        this.name = name;
-        this.cost = cost;
-        this.qty = qty;
-        this.service_subtotal = service_subtotal;
-        this.currency = currency;
-        this.duration = duration;
-        this.notes = notes;
+    _id: string;
+    name: string;
+    image: string;
+    cost: string;
+    qty: number;
+    service_subtotal: string;
+    currency: string;
+    duration: number;
+    notes: string;
+
+    constructor(service?: {
+        _id: string,
+        name: string,
+        image: string,
+        cost: string,
+        qty: number,
+        service_subtotal: string,
+        currency: string,
+        duration: number,
+        notes: string
+    }) {
+        service = Object.assign({
+            _id: "-1",
+            name: 'Please Select',
+            image: '',
+            cost: '0.00',
+            qty: 1,
+            service_subtotal: '',
+            currency: '',
+            duration: 0,
+            notes: ''
+        }, service);
+        this._id = service._id;
+        this.image = service.image;
+        this.name = service.name;
+        this.cost = service.cost;
+        this.qty = service.qty;
+        this.service_subtotal = service.service_subtotal;
+        this.currency = service.currency;
+        this.duration = service.duration;
+        this.notes = service.notes;
     }
 }
 
 export class service_addons {
-    _id: String;
-    name: String;
-    duration: String;
-    cost: String;
-    qty: Number;
-    service_addons_subtotal: String;
-    notes: String;
-    constructor(
-        _id: String,
-        name: String,
-        cost: String,
-        qty: Number,
-        duration: String,
-        service_addons_subtotal: String,
-        notes: String
-    ) {
-        this._id = _id;
-        this.name = name;
-        this.cost = cost;
-        this.qty = qty;
-        this.duration = duration;
-        this.service_addons_subtotal = service_addons_subtotal;
-        this.notes = notes;
+    _id: string;
+    name: string;
+    duration: string;
+    cost: string;
+    qty: number;
+    service_addons_subtotal: string;
+    notes: string;
+
+    constructor(service_addons?: {
+        _id: string,
+        name: string,
+        cost: string,
+        qty: number,
+        duration: string,
+        service_addons_subtotal: string,
+        notes: string
+    }) {
+        service_addons = Object.assign({
+            _id: "-1",
+            name: 'Please Select',
+            cost: '0.00',
+            qty: 1,
+            duration: '',
+            service_addons_subtotal: '',
+            notes: ''
+        }, service_addons);
+        this._id = service_addons._id;
+        this.name = service_addons.name;
+        this.cost = service_addons.cost;
+        this.qty = service_addons.qty;
+        this.duration = service_addons.duration;
+        this.service_addons_subtotal = service_addons.service_addons_subtotal;
+        this.notes = service_addons.notes;
     }
 }
 
 export class manual_enteries {
-    name: String;
-    qty: Number;
-    cost: String;
-    manual_enteries_subtotal: String;
+    name: string;
+    qty: number;
+    cost: string;
+    manual_enteries_subtotal: string;
     // constructor(
     //     name: String,
     //     qty: Number,

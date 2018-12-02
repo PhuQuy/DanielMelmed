@@ -7,6 +7,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { environment } from '@env/environment';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '@app/core/services/shared.service';
+import * as moment from 'moment';
+import { AuthService } from '@app/stork_features/shared/auth.service';
 
 @Component({
     selector: 'app-appointment',
@@ -61,7 +63,7 @@ export class AppointmentComponent implements OnInit {
     public total: any = 0.00;
     public addManualItems: [any] = [{ name: '', qty: null, cost: null }];
     public addServiceAddon: [any] = [{ serviceAddOn: '', qty: null, cost: null }];
-    public tip = 0;
+    public tip = null;
     public addonCostPerUnit = 0;
     public manualItems: manual_enteries[];
     public addTherapist: therapist[];
@@ -73,26 +75,33 @@ export class AppointmentComponent implements OnInit {
         defaultOpen: false
     }
 
-    constructor(private bookMassageService: BookMassageService, public modalService: BsModalService, private activatedRoute: ActivatedRoute, private sharedService: SharedService) {
+    constructor(private bookMassageService: BookMassageService, public modalService: BsModalService, private activatedRoute: ActivatedRoute, private sharedService: SharedService,
+        protected authService: AuthService) {
         this.activatedRoute.params.subscribe((params) => {
             let appointmentId = params['appointmentId'];
             console.log(appointmentId);
             this.sharedService.appointment.subscribe(appointment => {
                 console.log(appointment);
             })
-            if (appointmentId != undefined)
+            if (appointmentId != undefined) {
                 this.get_appointment_by_Id(appointmentId);
+            } else {
+                this.loadInit();
+            }
         });
     }
 
     ngOnInit() {
-        this.loadInit();
         this.get_all_appointment_status();
         this.get_all_customer_from_bookmassage();
     }
 
     loadInit() {
-        this.appointment.start_date = HelperService.toDateString(new Date());;
+        this.appointment.start_date = HelperService.toDateString(new Date());
+        this.appointment.therapist = [new therapist()];
+        this.appointment.service = [new service()];
+        this.appointment.service_addons = [new service_addons()];
+        this.appointment.manual_enteries = [new manual_enteries()];
     }
 
     onSearchTypeChange(searchType) {
@@ -106,18 +115,18 @@ export class AppointmentComponent implements OnInit {
             this.appointment = aptbyIdData.ResponseMessage.Appoinment;
             console.log(this.appointment);
 
-            this.appointment.customer = this.appointment.customer;
-            if (this.customersData != undefined)
-                this.customersData.splice(0, this.customersData.length);
-            this.customersData.push(this.appointment.customer);
+            // this.appointment.customer = this.appointment.customer;
+            // if (this.customersData != undefined)
+            //     this.customersData.splice(0, this.customersData.length);
+            // this.customersData.push(this.appointment.customer);
 
             //let therapistadd = this.appointment.therapist;
             //this.addTherapist.splice(0, this.addTherapist.length);
-            this.therapistsData = this.addTherapist = this.appointment.therapist;
+            // this.therapistsData = this.addTherapist = this.appointment.therapist;
 
             // this.appointment.service = this.appointment.service;
             // this.servicesData.slice(0, this.servicesData.length);
-            this.servicesData = this.appointment.service;
+            // this.servicesData = this.appointment.service;
 
             // this.appointment.service_addons = this.appointment.service_addons;
             // this.serviceAddOnData = this.appointment.service_addons;
@@ -134,18 +143,22 @@ export class AppointmentComponent implements OnInit {
             this.manualItems = this.appointment.manual_enteries;
 
 
-            if (this.appointment.service_addons.length > 0)
-                this.appointment.service_addons = this.appointment.service_addons;
+            if (this.appointment.service_addons.length > 0) { }
+            // this.appointment.service_addons = this.appointment.service_addons;
             else {
-                this.appointment.service_addons.push(new service_addons("-1", 'Please Select', '0.00', 1, '', '', ''));
+                this.appointment.service_addons.push(new service_addons());
             }
 
-            if (this.appointment.service.length > 0)
-                this.appointment.service = this.appointment.service;
+            if (this.appointment.service.length > 0) { }
+            // this.appointment.service = this.appointment.service;
             else {
-                this.appointment.service.push(new service("-1", 'Please Select', '', '0.00', 1, '', '', 0, ''));
+                this.appointment.service.push(new service());
             }
 
+            this.get_all_available_therapists();
+            this.get_all_available_services();
+            this.get_all_service_addon();
+            this.manualTotal();
         })
     }
 
@@ -199,6 +212,8 @@ export class AppointmentComponent implements OnInit {
     }
 
     onCustomerChange() {
+        console.log(this.appointment.customer);
+
         if (this.appointment.customer.addresses) {
             this.customerAdress = this.appointment.customer.addresses[0];
         }
@@ -224,31 +239,32 @@ export class AppointmentComponent implements OnInit {
     }
 
     addMoretherapist() {
-        this.therapistList.push({ _id: null });
+        this.appointment.therapist.push(new therapist());
     }
 
     removeTherapist(i) {
-        if (this.therapistList.length > 1) {
-            this.therapistList.splice(i, 1);
+        if (this.appointment.therapist.length > 1) {
+            this.appointment.therapist.splice(i, 1);
         }
+        this.manualTotal();
+
     }
 
     addMoreServices() {
-        this.addServices.push({ service: '' })
+        this.appointment.service.push(new service());
     }
 
-    removeService(value) {
-        let index = this.addServices.indexOf(value);
-        this.addServices.splice(index, 1);
+    removeService(index) {
+        this.appointment.service.splice(index, 1);
     }
 
     addMoreServicesAddon() {
-        this.addServiceAddon.push({ serviceAddOn: '' })
+        this.appointment.service_addons.push(new service_addons());
     }
 
-    removeServiceAddon(value) {
-        let index = this.addServiceAddon.indexOf(value);
-        this.addServiceAddon.splice(index, 1);
+    removeServiceAddon(index) {
+        this.appointment.service_addons.splice(index, 1);
+        this.manualTotal();
     }
 
     addMoreManualItem() {
@@ -258,35 +274,36 @@ export class AppointmentComponent implements OnInit {
     removeManualItem(value) {
         let index = this.manualItems.indexOf(value);
         this.manualItems.splice(index, 1);
+        this.manualTotal();
     }
 
-    changeServiceQty(i) {
-        this.addServices[i].cost = this.addServices[i].qty * this.serviceCostPerUnit;
+    changeServiceQty(index) {
+        // this.appointment.service[index].cost = this.appointment.service[index].qty * this.serviceCostPerUnit + '';
         this.manualTotal();
     }
 
     changeAddonQty(i) {
-        this.addServiceAddon[i].cost = this.addServiceAddon[i].qty * this.addonCostPerUnit;
+        // this.addServiceAddon[i].cost = this.addServiceAddon[i].qty * this.addonCostPerUnit;
         this.manualTotal();
     }
 
     manualTotal() {
 
         this.total = 0;
-        this.addManualItems.map(x => {
+        this.appointment.manual_enteries.map(x => {
             if (x.cost) {
                 this.total += parseFloat(x.cost);
             }
         });
-        this.addServiceAddon.map(x => {
+        this.appointment.service_addons.map(x => {
             if (x.cost) {
-                this.total += parseFloat(x.cost);
+                this.total += parseFloat(x.cost) * x.qty;
             }
         });
-        this.addServices.map(x => {
+        this.appointment.service.map(x => {
             if (x.cost) {
 
-                this.total += parseFloat(x.cost);
+                this.total += parseFloat(x.cost) * x.qty;
             }
         });
         if (this.tip) {
@@ -328,7 +345,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     onSelectTherapist(value, index) {
-        this.therapistList[index] = value;
+        this.appointment.therapist[index] = value;
     }
 
     onSelectAddress(index) {
@@ -344,8 +361,53 @@ export class AppointmentComponent implements OnInit {
     }
 
     onServiceAddonChange(index, value) {
-        // this.addServiceAddon[index] = value;
-        console.log(this.addServiceAddon[index]);
+        this.appointment.service_addons[index] = value;
+    }
 
+    create_appoinment() {
+        let aptDuration = environment.aptDuration
+
+        this.appointment.start_date = moment(this.appointment.start_date).format('YYYY-MM-DD HH:mm:ss');
+        let temp = new Date(this.appointment.start_date).getTime() + (aptDuration * 60000);
+        this.appointment.end_date = moment(temp).format('YYYY-MM-DD HH:mm:ss');
+        // this.appointment.user = 
+
+        // this.conditionArr = condition;
+
+        // let data = {
+        //     customer: this.appointment.customer,
+        //     appointment_statuses: this.appointment.appointment_statuses ? this.appointment.appointment_statuses : {
+        //         name: "Active", icon: "fa-check",
+        //         font_color: "2F2F2F", color: "5610AD"
+        //     },
+        //     start_date_Time: condition.startdate,
+        //     end_date_Time: condition.enddate,
+        //     therapist: this.therapistList,
+        //     service: this.addServices,
+        //     service_addons: this.addServiceAddon,
+        //     manual_enteries: this.addManualItems,
+        //     tip: this.appointment.tip ? this.appointment.tip : "0.00",
+        //     total_cost: this.appointment.total_cost,
+        //     grand_total_cost: '',
+        //     work_order_notes: this.appointment.work_order_notes,
+        //     privacy_notes: this.appointment.privacy_notes,
+        //     invoice_notes: this.appointment.invoice_notes,
+        //     summary: this.appointment.summary,
+        //     user: {
+        //         email: this.authService.user.email
+        //     },
+        //     CfieldArrayT: null,
+        //     CfieldArrayC: null,
+        //     RfieldArrayT: null,
+        //     RfieldArrayC: null
+        // }
+
+        // this.notes = "";
+        let user = {
+            email: this.authService.user.email
+        }
+        this.bookMassageService.create_appoinment({ ...this.appointment, user }).subscribe(data => {
+            alert("Ok ne !!!!!!")
+        })
     }
 }
