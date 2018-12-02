@@ -378,4 +378,18 @@ export class BookMassageService extends BaseService {
         return this.http.get<any>(apilink).map(res => res);
     }
 
+    create_invoice(_id: String){
+        let apilink = `${this.URL}/invoice`
+        console.log(apilink);
+        
+        return this.http.post<any>(apilink, {_id: _id}).pipe(
+            map((res) => {
+                console.log(res);
+                
+                return res
+            }),
+            catchError(this.handleError)
+        );
+
+    }
 }

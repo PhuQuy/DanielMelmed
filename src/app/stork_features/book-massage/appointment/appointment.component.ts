@@ -348,4 +348,10 @@ export class AppointmentComponent implements OnInit {
         console.log(this.addServiceAddon[index]);
 
     }
+
+    createInvoice(id){
+        console.log('wtf');
+        
+        this.bookMassageService.create_invoice('5bfeae4e911b27335c31f046');
+    }
 }
