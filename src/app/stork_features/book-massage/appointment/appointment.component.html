@@ -31,396 +31,385 @@
 
 
       <div class="appointment-content">
-        <form [formGroup]="appointmentform">
-          <div class="row pl-md-3">
-            <div class="col-lg-7 pt-4 pr-4">
+        <div class="row pl-md-3">
+          <div class="col-lg-7 pt-4 pr-4">
 
-              <!-- Start of select type and other appointment status -->
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-title">
-                    <label class="inputlabel">Select Search Type</label>
-                  </div>
-                  <div class="form-inputs">
-                    <div class="row">
-                      <div class="col-11">
-                        <select class="bookAptBox form-control" (change)="onFilterChange(filterArr[$event.target.selectedIndex])"
-                          title="Select Search Type" style="margin-left:0px;margin-top:0px;">
-                          <option *ngFor="let filter of filterArr" [value]="filter">{{filter.name}}</option>
-                        </select>
-                      </div>
-                      <div class="col-1" style="margin-left: -35px;">
-                        <button type="button" (click)="customer_filter()" style="background-color: #54598C;" class="btn2 btn-default search-button">
-                          <i class="fa fa-search"></i>
-                        </button>
-                      </div>
-                    </div>
-
-                  </div>
+            <!-- Start of select type and other appointment status -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-title">
+                  <label class="inputlabel">Select Search Type</label>
                 </div>
-
-                <div class="col-md-6">
-                  <div class="form-title">
-                    <label class="inputlabel">Appointment Status</label>
-                  </div>
-                  <div class="form-inputs">
-                    <div class="row">
-                      <div class="col-12">
-                        <ng-select [items]="aptstatusData" bindLabel="name" class="form-control" [searchable]="false"
-                          [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
-                          <ng-template ng-option-tmp let-item="item" let-clear="clear">
-                            <span class="ng-value-label">{{item.name}}</span>
-                          </ng-template>
-                        </ng-select>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-              <!-- End of select type and other appointment status -->
-
-              <!-- Start of Select customer -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="form-title">
-                    <label class="mb-1">Select Customer</label>
-                  </div>
-                </div>
-                <div class="col-12">
+                <div class="form-inputs">
                   <div class="row">
-                    <div class="my-auto px-0 flex-left-button">
-                      <button type="button" class="servicebtn float-right" (click)="openModal(template)">
-                        <i class="fa fa-user-plus fontclr" matTooltip="Add New Customer" [matTooltipPosition]="position"
-                          style="font-size:140% ;"></i>
-                      </button>
-                    </div>
-
-                    <div class="col-12">
-                      <select class="form-control" #t (change)="onCustomerChange($event.target.value)" (ngModel)="appointment.customer">
-                        <option *ngFor="let customer of customersData" [value]="customer._id">{{customer.firstname}}
-                          {{customer.lastname}}
-                        </option>
+                    <div class="col-11">
+                      <select class="bookAptBox form-control" (change)="onSearchTypeChange($event.target.value)" title="Select Search Type"
+                        style="margin-left:0px;margin-top:0px;">
+                        <option *ngFor="let filter of searchTypes" [value]="filter.value">{{filter.name}}</option>
                       </select>
                     </div>
-
-                    <div class="px-2 my-auto flex-right-button">
-                      <a *ngIf="customerid" class="custbutton" [routerLink]="['/customer/profile/', customerid]" target="_blank"
-                        [ngbTooltip]="tipContent" placement="right" [autoClose]="'outside'" triggers="manual" #t1="ngbTooltip"
-                        (mouseenter)="toggleToolstip(t1)">
-                        <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
-                      </a>
-                      <a *ngIf="!customerid" class="custbutton">
-                        <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End of Select customer -->
-
-              <!-- Start Select date and time -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="form-title">
-                    <label class="mb-1">Start Date and Time</label>
-                  </div>
-                </div>
-                <!-- <div class="col-6">
-                  <form class="form-inline w-100">
-                    <div class="form-group w-100">
-                      <div class="input-group w-100">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model"
-                          ngbDatepicker #d="ngbDatepicker">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
-                            <i class="fa fa-calendar-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-
-                <div class="col-6">
-                  <form class="form-inline w-100">
-                    <div class="form-group w-100">
-                      <div class="input-group w-100">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model"
-                          ngbDatepicker #d="ngbDatepicker">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
-                            <i class="fa fa-calendar-alt"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div> -->
-
-                <div class="col-12">
-                  <angular2-date-picker [settings]="settings" name="bdaytime" formControlName="start_date" [(ngModel)]="appointment.start_date"
-                    required></angular2-date-picker>
-                  <control-messages [control]="appointmentform.controls.start_date" style="color: #E82C0C;margin: 6px 0;"></control-messages>
-                </div>
-
-              </div>
-              <!-- End Select date and time -->
-
-              <!--  Start Select Therapist -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="form-title">
-                    <label class="mb-1">Select Therapist</label>
-                  </div>
-                </div>
-                <div class="col-12" *ngFor="let therapist of therapistList; let i = index">
-                  <div class="row">
-                    <div class="my-auto px-0 flex-left-button">
-                      <button type="button" class="servicebtn float-right" (click)="addMoretherapist(therapist)">
-                        <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Therapist" [matTooltipPosition]="position"
-                          style="font-size:140% ;"></i>
+                    <div class="col-1" style="margin-left: -35px;">
+                      <button type="button" (click)="customer_filter()" style="background-color: #54598C;" class="btn2 btn-default search-button">
+                        <i class="fa fa-search"></i>
                       </button>
                     </div>
+                  </div>
 
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-title">
+                  <label class="inputlabel">Appointment Status</label>
+                </div>
+                <div class="form-inputs">
+                  <div class="row">
                     <div class="col-12">
-                      <ng-select [items]="therapistsData" bindLabel="name" class="form-control" [searchable]="false"
-                        (ngModel)="therapistList[i]" [ngModelOptions]="{standalone: true}">
+                      <ng-select [items]="aptstatusData" bindLabel="name" class="form-control" [searchable]="false"
+                        [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
                         <ng-template ng-option-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.name}}</span>
                         </ng-template>
                       </ng-select>
                     </div>
-
-                    <div class="px-2 my-auto flex-right-button">
-                      <a *ngIf="therapistList[i]._id" class="custbutton" [ngbTooltip]="tipTherapistContent" placement="right"
-                        #t1="ngbTooltip" (mouseenter)="openTherapistsToolstip(t1, therapist.email, therapist.phone)">
-                        <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
-                      </a>
-                      <a *ngIf="!therapistList[i]._id" class="custbutton">
-                        <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
-                      </a>
-                    </div>
                   </div>
+
                 </div>
               </div>
-              <!--  End Select Therapist -->
 
-              <!-- Start Select Service -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="form-title">
-                    <label class="mb-1">Select Service</label>
-                  </div>
-                </div>
-                <div class="col-12" *ngFor="let service of addServices; let i = index">
-                  <div class="row">
-                    <div class="my-auto px-0 flex-left-button">
-                      <button type="button" class="servicebtn float-right" (click)="addMoreServices()">
-                        <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Service" [matTooltipPosition]="position"
-                          style="font-size:140% ;"></i>
-                      </button>
-                    </div>
-                    <div class="col-9">
-                      <ng-select [items]="servicesData" bindLabel="name" class="form-control" [searchable]="false"
-                        [(ngModel)]="addServices[i]" (change)="manualTotal(); serviceCostPerUnit = addServices[i].cost"
-                        [ngModelOptions]="{standalone: true}">
-                        <ng-template ng-option-tmp let-item="item" let-clear="clear">
-                          <span class="ng-value-label">{{item.name}}</span>
-                        </ng-template>
-                      </ng-select>
-                    </div>
-                    <div class="col-1 px-0">
-                      <input class="form-control" (change)="changeServiceQty(i)" formControlName="serviceqty" type="text"
-                        placeholder="QTY" title="QTY" maxlength="3" [(ngModel)]="addServices[i].qty" />
-                    </div>
-                    <div class="col-2">
-                      <i class="dollar-inside">$</i>
-                      <input class="form-control text-right padding-left-20" formControlName="servicetotal" tabindex="-1"
-                        type="number" placeholder="0.00" [(ngModel)]="addServices[i].cost" readonly />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End Select Service -->
-
-              <!-- Start Select Service Add On -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="form-title">
-                    <label class="mb-1">Select Service Add On</label>
-                  </div>
-                </div>
-                <div class="col-12" *ngFor="let serviceaddon of addServiceAddon; let i = index">
-                  <div class="row">
-                    <div class="my-auto px-0 flex-left-button">
-                      <button type="button" class="servicebtn float-right" (click)="addMoreServicesAddon()">
-                        <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Service Add On"
-                          [matTooltipPosition]="position" style="font-size:140% ;"></i>
-                      </button>
-                    </div>
-                    <div class="col-9">
-                      <ng-select [items]="serviceAddOnData" bindLabel="name" class="form-control" [searchable]="false"
-                        [(ngModel)]="addServiceAddon[i]" (change)="manualTotal(i); addonCostPerUnit = addServiceAddon[i].cost"
-                        [ngModelOptions]="{standalone: true}">
-                        <ng-template ng-option-tmp let-item="item" let-clear="clear">
-                          <span class="ng-value-label">{{item.name}}</span>
-                        </ng-template>
-                      </ng-select>
-                    </div>
-                    <div class="col-1 px-0">
-                      <input class="form-control" formControlName="serviceaddonqty" type="text" placeholder="QTY" title="QTY"
-                        maxlength="3" [(ngModel)]="addServiceAddon[i].qty" (change)="changeAddonQty(i)" />
-                    </div>
-                    <div class="col-2">
-                      <i class="dollar-inside">$</i>
-                      <input class="form-control text-right padding-left-20" formControlName="serviceaddontotal"
-                        tabindex="-1" type="number" placeholder="0.00" [(ngModel)]="addServiceAddon[i].cost" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End Select Service Add On -->
-
-              <!-- Start Manual Item Entry -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="form-title">
-                    <label class="mb-1">Manual Item Entry</label>
-                  </div>
-                </div>
-                <div class="col-12" *ngFor="let manual of addManualItems; let i = index">
-                  <div class="row">
-                    <div class="my-auto px-0 flex-left-button">
-                      <button type="button" class="servicebtn float-right" (click)="addMoreManualItem()">
-                        <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Manual Item Entry"
-                          [matTooltipPosition]="position" style="font-size:140% ;"></i>
-                      </button>
-                    </div>
-                    <div class="col-9">
-                      <input class="form-control" [(ngModel)]="addManualItems[i].name" placeholder={{manualNameById}}
-                        formControlName="ManualItem" />
-                    </div>
-                    <div class="col-1 px-0">
-                      <input class="form-control" type="text" placeholder="QTY" title="QTY" maxlength="3"
-                        formControlName="ManualItemqty" [(ngModel)]="addManualItems[i].qty" />
-                    </div>
-                    <div class="col-2">
-                      <i class="dollar-inside">$</i>
-                      <input class="form-control text-right padding-left-20" tabindex="-1" type="number" placeholder="0.00"
-                        formControlName="ManualItemtotal" (change)="manualTotal()" id="service_cost" [(ngModel)]="addManualItems[i].cost" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End Select Service Add On -->
-
-              <!-- Start of Gratuity -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-10 text-right px-0 my-auto">
-                      <label>Gratuity</label>
-                    </div>
-                    <div class="col-2">
-                      <i class="dollar-inside">$</i>
-                      <input class="form-control text-right padding-left-20" tabindex="-1" placeholder="0.00" type="number"
-                        formControlName="gratuity" [(ngModel)]="tip" (change)="manualTotal()">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End of Gratuity -->
-
-              <!-- Start of Total -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-10 text-right px-0 my-auto">
-                      <label>Total</label>
-                    </div>
-                    <div class="col-2">
-                      <i class="dollar-inside">$</i>
-                      <input class="form-control text-right padding-left-20" tabindex="-1" formControlName="total"
-                        placeholder="0.00" name="total" type="number" [(ngModel)]="total" readonly>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- End of Total -->
             </div>
-            <div class="col-lg-5">
-              <div class="row">
-                <div class="col-12 pl-md-5">
-                  <mat-tab-group style="margin-top:5px;">
-                    <mat-tab label="Work Order">
-                      <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="worknotes"
-                        placeholder="Work Order Notes" [ngModel]="appointment.work_order_notes"></textarea>
-                    </mat-tab>
-                    <mat-tab label="Private">
-                      <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="privatenotes"
-                        placeholder="Private Notes" [ngModel]="appointment.privacy_notes"></textarea>
-                    </mat-tab>
-                    <mat-tab label="Invoice">
-                      <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="invoicenotes"
-                        placeholder="Invoice notes" [ngModel]="appointment.invoice_notes"></textarea>
-                    </mat-tab>
-                    <mat-tab label="Summary">
-                      <textarea class="txtarea form-control" style="height: 395px!important;" formControlName="summarynotes"
-                        placeholder="Summary notes" [ngModel]="appointment.summary"></textarea>
-                    </mat-tab>
-                  </mat-tab-group>
+            <!-- End of select type and other appointment status -->
+
+            <!-- Start of Select customer -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="form-title">
+                  <label class="mb-1">Select Customer</label>
                 </div>
               </div>
-            </div>
-
-            <div class="col-12">
-              <div class="row mt-4">
-                <div class="col-12 divider mb-3">
-
-                </div>
-                <div class="col-md-6">
-                  <div style="padding-top:5px;">
-                    <button type="text" class="button newbtn" (click)="reset_appointment()">New</button>
-                    <button type="submit" class="button savebtn" (click)="create_appoinment()">Save</button>
-                    <button class="button canclebtn">Cancel</button>
-                    <button class="button deletebtn">Delete</button>
+              <div class="col-12">
+                <div class="row">
+                  <div class="my-auto px-0 flex-left-button">
+                    <button type="button" class="servicebtn float-right" (click)="openModal(template)">
+                      <i class="fa fa-user-plus fontclr" matTooltip="Add New Customer" [matTooltipPosition]="'after'"
+                        style="font-size:140% ;"></i>
+                    </button>
                   </div>
-                </div>
 
+                  <div class="col-12">
+                    <!-- <select class="form-control" (change)="onCustomerChange($event.target.value)" (ngModel)="appointment.customer">
+                      <option *ngFor="let customer of customersData" [value]="customer._id">{{customer.firstname}}
+                        {{customer.lastname}}
+                      </option>
+                    </select> -->
 
-                <div class="col-md-6 my-auto pr-0">
-                  <div class="crms-btn text-right w-100">
-                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
-                      style="background:grey; cursor: pointer;" matTooltip="Alert/Notification" matTooltip="Add New Service"
-                      matTooltipPosition="below">
-                      <i class="fa fa-bell" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
-                      </i>
-                    </a>&nbsp;
-                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openInvoiceApp(apt._id)"
-                      style="background:grey; cursor: pointer;" matTooltip="Create Invoice" matTooltipPosition="below">
-                      <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
-                    </a>&nbsp;
-                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
-                      style="background:grey;" matTooltip="Email Invoice" matTooltipPosition="below">
-                      <i class="fa fa-share" aria-hidden="true" style="font-size: 18px;"></i>
-                    </a>&nbsp;
-                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" style="background:grey;"
-                      matTooltip="CRMS" matTooltipPosition="below">
-                      <i class="fa fa-users" aria-hidden="true" style="font-size: 18px;"></i>
-                    </a>&nbsp;
-                    <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
-                      style="background:grey; cursor: pointer;" matTooltip="Payment" matTooltipPosition="below">
-                      <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
-                      </i>
+                    <ng-select *ngIf="customersData" (change)="onCustomerChange()" [items]="customersData" class="form-control"
+                      [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer" [ngModelOptions]="{standalone: true}">
+                      <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.firstname}} {{item.lastname}}</span>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+
+                  <div class="px-2 my-auto flex-right-button">
+                    <a *ngIf="appointment.customer" class="custbutton" [routerLink]="['/customer/profile/', customerid]"
+                      target="_blank" [ngbTooltip]="tipContent" placement="right" [autoClose]="'outside'" triggers="manual"
+                      #t1="ngbTooltip" (mouseenter)="toggleToolstip(t1)">
+                      <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
+                    </a>
+                    <a *ngIf="!appointment.customer" class="custbutton">
+                      <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                     </a>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- End of Select customer -->
+
+            <!-- Start Select date and time -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="form-title">
+                  <label class="mb-1">Start Date and Time</label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <angular2-date-picker [settings]="settings" name="bdaytime" [(ngModel)]="appointment.start_date"
+                  required></angular2-date-picker>
+                <!-- <control-messages [control]="appointmentform.controls.start_date" style="color: #E82C0C;margin: 6px 0;"></control-messages> -->
+              </div>
+            </div>
+            <!-- End Select date and time -->
+
+            <!--  Start Select Therapist -->
+            <div class="row mt-4 multi-line">
+              <div class="col-12">
+                <div class="form-title">
+                  <label class="mb-1">Select Therapist</label>
+                </div>
+              </div>
+              <div class="col-12" *ngFor="let therapist of therapistList; let i = index">
+                <div class="row">
+                  <div class="my-auto px-0 flex-left-button">
+                    <button type="button" class="servicebtn float-right" (click)="addMoretherapist(therapist)">
+                      <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Therapist" [matTooltipPosition]="'after'"
+                        style="font-size:140% ;"></i>
+                    </button>
+                  </div>
+
+                  <div class="col-12">
+                    <ng-select [items]="therapistsData" bindLabel="name" class="form-control" [searchable]="false"
+                      [(ngModel)]="therapistList[i]" (change)="onSelectTherapist($event, index)" [ngModelOptions]="{standalone: true}">
+                      <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.name}}</span>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+
+                  <div class="px-2 my-auto flex-right-button" [class.remove-button]="therapistList.length > 1">
+                    <a *ngIf="therapistList[i]._id" #t2="ngbTooltip" class="custbutton" [ngbTooltip]="tipTherapistContent"
+                      placement="right" (mouseenter)="openTherapistsToolstip(t2, therapist.email, therapist.phone)">
+                      <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
+                    </a>
+                    <a *ngIf="!therapistList[i]._id" class="custbutton">
+                      <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
+                    </a>
+                    <button *ngIf="therapistList.length > 1" style="background: none; border: none;" (click)="removeTherapist(i)">
+                      <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove Therapist" [matTooltipPosition]="'after'"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  End Select Therapist -->
+
+            <!-- Start Select Service -->
+            <div class="row mt-4 multi-line">
+              <div class="col-12">
+                <div class="form-title">
+                  <label class="mb-1">Select Service</label>
+                </div>
+              </div>
+              <div class="col-12" *ngFor="let service of addServices; let i = index">
+                <div class="row">
+                  <div class="my-auto px-0 flex-left-button">
+                    <button type="button" class="servicebtn float-right" (click)="addMoreServices()">
+                      <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Service" [matTooltipPosition]="'after'"
+                        style="font-size:140% ;"></i>
+                    </button>
+                  </div>
+                  <div class="col-9">
+                    <ng-select [items]="servicesData" bindLabel="name" class="form-control" [searchable]="false"
+                      [(ngModel)]="addServices[i]" (change)="manualTotal(); serviceCostPerUnit = addServices[i].cost"
+                      [ngModelOptions]="{standalone: true}">
+                      <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.name}}</span>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                  <div class="col-1 px-0">
+                    <input class="form-control" (change)="changeServiceQty(i)" type="number" placeholder="QTY" title="QTY"
+                      maxlength="3" [(ngModel)]="addServices[i].qty" name="serviceQty" />
+                  </div>
+                  <div class="col-2">
+                    <i class="dollar-inside">$</i>
+                    <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" placeholder="0.00"
+                      [ngModel]="addServices[i].cost | number:'.2-2'" (ngModelChange)="addServices[i].cost=$event" name="serviceCost"
+                      readonly />
+                  </div>
+                </div>
+                <div class="px-2 my-auto flex-right-button" [style.right]="'-25px'" *ngIf="addServices.length > 1">
+                  <button style="background: none; border: none;" (click)="removeService(i)">
+                    <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove Service" [matTooltipPosition]="'after'"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End Select Service -->
+
+            <!-- Start Select Service Add On -->
+            <div class="row mt-4 multi-line">
+              <div class="col-12">
+                <div class="form-title">
+                  <label class="mb-1">Select Service Add On</label>
+                </div>
+              </div>
+              <div class="col-12" *ngFor="let serviceaddon of addServiceAddon; let i = index">
+                <div class="row">
+                  <div class="my-auto px-0 flex-left-button">
+                    <button type="button" class="servicebtn float-right" (click)="addMoreServicesAddon()">
+                      <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Service Add On"
+                        [matTooltipPosition]="'after'" style="font-size:140% ;"></i>
+                    </button>
+                  </div>
+                  <div class="col-9">
+                    <ng-select [items]="serviceAddOnData" bindLabel="name" class="form-control" [searchable]="false"
+                      [(ngModel)]="addServiceAddon[i]" (change)="onServiceAddonChange(i, $event);manualTotal(); addonCostPerUnit = addServiceAddon[i].cost"
+                      [ngModelOptions]="{standalone: true}">
+                      <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.name}}</span>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                  <div class="col-1 px-0">
+                    <input class="form-control" name="serviceaddonqty" type="number" placeholder="QTY" title="QTY"
+                      maxlength="3" [(ngModel)]="addServiceAddon[i].qty" (change)="changeAddonQty(i)" />
+                  </div>
+                  <div class="col-2">
+                    <i class="dollar-inside">$</i>
+                    <input class="form-control text-right padding-left-20  pr-2" name="serviceaddontotal" tabindex="-1"
+                      placeholder="0.00" [ngModel]="addServiceAddon[i].cost | number:'.2-2'" (ngModelChange)="addServiceAddon[i].cost=$event"
+                      readonly />
+                  </div>
+                </div>
+                <div class="px-2 my-auto flex-right-button" [style.right]="'-25px'" *ngIf="addServiceAddon.length > 1">
+                  <button style="background: none; border: none;" (click)="removeServiceAddon(i)">
+                    <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove Service Add On"
+                      [matTooltipPosition]="'after'"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End Select Service Add On -->
+
+            <!-- Start Manual Item Entry -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="form-title">
+                  <label class="mb-1">Manual Item Entry</label>
+                </div>
+              </div>
+              <div class="col-12" *ngFor="let manual of addManualItems; let i = index">
+                <div class="row">
+                  <div class="my-auto px-0 flex-left-button">
+                    <button type="button" class="servicebtn float-right" (click)="addMoreManualItem()">
+                      <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Manual Item Entry"
+                        [matTooltipPosition]="position" style="font-size:140% ;"></i>
+                    </button>
+                  </div>
+                  <div class="col-9">
+                    <input class="form-control" [(ngModel)]="addManualItems[i].name" placeholder={{manualNameById}}
+                      name="ManualItem" />
+                  </div>
+                  <div class="col-1 px-0">
+                    <input class="form-control" type="text" placeholder="QTY" title="QTY" maxlength="3" name="ManualItemqty"
+                      [(ngModel)]="addManualItems[i].qty" />
+                  </div>
+                  <div class="col-2">
+                    <i class="dollar-inside">$</i>
+                    <input class="form-control text-right padding-left-20" tabindex="-1" type="number" placeholder="0.00"
+                      name="ManualItemtotal" (change)="manualTotal()" id="service_cost" [(ngModel)]="addManualItems[i].cost" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Select Service Add On -->
+
+            <!-- Start of Gratuity -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-10 text-right px-0 my-auto">
+                    <label>Gratuity</label>
+                  </div>
+                  <div class="col-2">
+                    <i class="dollar-inside">$</i>
+                    <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" placeholder="0.00"
+                      name="gratuity" (change)="manualTotal()" [ngModel]="tip | number:'.2-2'"  (ngModelChange)="tip=$event">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End of Gratuity -->
+
+            <!-- Start of Total -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-10 text-right px-0 my-auto">
+                    <label>Total</label>
+                  </div>
+                  <div class="col-2">
+                    <i class="dollar-inside">$</i>
+                    <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" name="total" placeholder="0.00"
+                      name="total" readonly [ngModel]="total | number:'.2-2'"  (ngModelChange)="total=$event">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End of Total -->
           </div>
-        </form>
+          <div class="col-lg-5">
+            <div class="row">
+              <div class="col-12 pl-md-5">
+                <mat-tab-group style="margin-top:5px;">
+                  <mat-tab label="Work Order">
+                    <textarea class="txtarea form-control" style="height: 395px!important;" name="worknotes"
+                      placeholder="Work Order Notes" [ngModel]="appointment.work_order_notes"></textarea>
+                  </mat-tab>
+                  <mat-tab label="Private">
+                    <textarea class="txtarea form-control" style="height: 395px!important;" name="privatenotes"
+                      placeholder="Private Notes" [ngModel]="appointment.privacy_notes"></textarea>
+                  </mat-tab>
+                  <mat-tab label="Invoice">
+                    <textarea class="txtarea form-control" style="height: 395px!important;" name="invoicenotes"
+                      placeholder="Invoice notes" [ngModel]="appointment.invoice_notes"></textarea>
+                  </mat-tab>
+                  <mat-tab label="Summary">
+                    <textarea class="txtarea form-control" style="height: 395px!important;" name="summarynotes"
+                      placeholder="Summary notes" [ngModel]="appointment.summary"></textarea>
+                  </mat-tab>
+                </mat-tab-group>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="row mt-4">
+              <div class="col-12 divider mb-3">
+
+              </div>
+              <div class="col-md-6">
+                <div style="padding-top:5px;">
+                  <button type="text" class="button newbtn" (click)="reset_appointment()">New</button>
+                  <button type="submit" class="button savebtn" (click)="create_appoinment()">Save</button>
+                  <button class="button canclebtn">Cancel</button>
+                  <button class="button deletebtn">Delete</button>
+                </div>
+              </div>
+
+
+              <div class="col-md-6 my-auto pr-0">
+                <div class="crms-btn text-right w-100">
+                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
+                    style="background:grey; cursor: pointer;" matTooltip="Alert/Notification" matTooltip="Add New Service"
+                    matTooltipPosition="below">
+                    <i class="fa fa-bell" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
+                    </i>
+                  </a>&nbsp;
+                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openInvoiceApp(apt._id)"
+                    style="background:grey; cursor: pointer;" matTooltip="Create Invoice" matTooltipPosition="below">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
+                  </a>&nbsp;
+                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
+                    style="background:grey;" matTooltip="Email Invoice" matTooltipPosition="below">
+                    <i class="fa fa-share" aria-hidden="true" style="font-size: 18px;"></i>
+                  </a>&nbsp;
+                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" style="background:grey;"
+                    matTooltip="CRMS" matTooltipPosition="below">
+                    <i class="fa fa-users" aria-hidden="true" style="font-size: 18px;"></i>
+                  </a>&nbsp;
+                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'false')"
+                    style="background:grey; cursor: pointer;" matTooltip="Payment" matTooltipPosition="below">
+                    <i class="fa fa-credit-card" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -430,11 +419,11 @@
 <ng-template #tipContent let-greeting="greeting">
   <div class="row" style="margin-top:10%;">
     <div class="col-sm-8">
-      <select class="selectArrow form-control" (change)="onAddressChange($event.target.value)">
-        <option *ngFor="let address of customerAdress" [value]="address.street1">{{address.city}} {{address.zipcode}}
+      <select class="selectArrow form-control" (change)="onSelectAddress($event.target.selectedIndex)">
+        <option *ngFor="let address of appointment?.customer?.addresses" [value]="address.street1">{{address.city}}
+          {{address.zipcode}}
         </option>
       </select>
-
     </div>
     <div class="col-sm-2 refresh" style="text-align: right;padding-left:11%;">
       <div class="row h-100" (click)="onChangereload()">
@@ -451,15 +440,15 @@
     </div>
 
     <div class="col-sm-8">
-      <label>{{customer_adress?.street1}}</label>
+      <label>{{customerAdress?.street1}}</label>
       <br>
-      <label>{{customer_adress?.state}}</label>
-      <label>{{customer_adress?.city}}</label>
-      <label>{{customer_adress?.zipcode}}</label>
+      <label>{{customerAdress?.state}}</label>
+      <label>{{customerAdress?.city}}</label>
+      <label>{{customerAdress?.zipcode}}</label>
     </div>
     <div class="col-sm-8">
-      <select class="selectArrow form-control" (change)="onContactChangeContactno(customerContact[$event.target.selectedIndex])">
-        <option *ngFor="let contact of customerContact ">{{contact.contact_name}}
+      <select class="selectArrow form-control" (change)="onContactChangeContactno($event.target.selectedIndex)">
+        <option *ngFor="let contact of appointment?.customer?.contacts ">{{contact.contact_name}}
         </option>
       </select>
     </div>
@@ -471,7 +460,7 @@
       </div>
     </div>
     <div class="col-sm-8">
-      <div *ngFor="let phone of customerPhone">
+      <div *ngFor="let phone of customerContact?.phone">
         <label *ngIf="phone.phone!=null">{{phone.phone}}</label>
       </div>
     </div>
@@ -510,370 +499,365 @@
 </app-appointment-log>
 
 <ng-template #template>
-        <div class="modal-header" id="myModal" style="background:#54598c;margin-top:-31px;">
-          <div style="background:#54598C;font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
-            Add New Customer
-          </div>
-          <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="modalRef.hide()">
-            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
-          </a>
-        </div>
-        <div class="modal-body fontclr">
-          <section style="padding-top:20px;">
-            <form (submit)="create_customer()" [formGroup]="customer">
-              <div class="account">
-                <table class="account1_tbl">
-                  <tr>
-                    <td style="position:relative;">
-                      <div class="left_m">1</div>
-                      <h3 style="padding-top:0px;">Account</h3>
-                    </td>
-                    <td>
-                      <span>*</span> Required</td>
-                  </tr>
-                </table>
-                <table class="act_fom " style="width: 113%;">
-                  <div class="row">
-                    <div class="col-sm-12" style="margin-left: 200%">
-                      <img *ngIf="!this.image" class="thapp_c" src="../../../assets/img/custom.jpg">
-                      <img *ngIf="this.image" class="thapp_c" [src]="image.data">
-
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-12" style="margin-left: 200%">
-                      <label class="custom-file-upload file_upload" (click)="selectImage()">
-                        <div style="color:#4B889A;text-shadow: 1px 1px #E6FFFF;">
-                          <i class="fa fa-cloud-upload"></i> UPLOAD PROFILE PICTURE
-                          <input #detectFile type="file" accept="image/png, image/jpeg, image/gif" hidden (change)="detectFiles($event)"
-                            name="input-file-preview" />
-                        </div>
-                      </label>
-                    </div>
-                    <ng-template #ImageTemplate>
-                      <div class="modal-body">
-                        <div class="cropimage">
-                          Image Crop
-                          <a id="closeNewTherapistForm" style="float:right;  cursor: pointer;" (click)="confirmModalRef.hide()">
-                            <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
-                          </a>
-
-                        </div>
-                        <div class="row" style="margin-top: 5%">
-                          <div class="col-sm-2">
-
-                          </div>
-                          <div class="col-sm-6">
-                            <img-cropper class="thapp_c" [image]="data" [settings]="cropperSettings"></img-cropper>
-
-                          </div>
-                          <div class="col-sm-4">
-                            <img [src]="data.image">
-                          </div>
-                        </div>
-
-                      </div>
-                      <div class="modalfooter fontclr">
-                        <button type="button" class="btn btn-default" id="modal-btn-si" (click)="Imageupload(data.image)">Yes</button>
-                        <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
-                      </div>
-                    </ng-template>
-                  </div>
-                  <tr>
-                    <td> Address Name:</td>
-                    <td>
-                      <input class="form-control" type="text" formControlName="addressname" name="addressname"
-                        placeholder="Enter Address Name" maxlength="50" [ngModel]="addressname">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td> CUSTOMER TYPE:</td>
-                    <td>
-
-                      <select class="form-control" name="CUSTOMERTYPE" (change)="selectcustomer($event.target.value)">
-                        <option value="custtype">Select Customer Type</option>
-                        <option value="Individual">Individual</option>
-                        <option value="Corporate">Corporate</option>
-                        <option value="HotelIndividyal">Hotel-Individual</option>
-                      </select>
-
-                    </td>
-                  </tr>
-                  <tr *ngIf="isCustomertype">
-                    <td>
-                      <span>*</span>COMPANY NAME</td>
-                    <td>
-                      <input type="text" class="form-control" name="companyname" placeholder="Enter Company Name"
-                        formControlName="companyname" [ngModel]="companyname">
-                      <control-messages [control]="customer.controls.companyname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
-
-                    </td>
-
-                  </tr>
-                  <tr *ngIf="!isCustomertype">
-                    <td>
-                      <span>*</span>FIRST NAME</td>
-                    <td>
-                      <input type="text" class="form-control" name="firstname" placeholder="Enter First Name" maxlength="50"
-                        formControlName="firstname" [ngModel]="firstname">
-                      <control-messages [control]="customer.controls.firstname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
-
-                    </td>
-                  </tr>
-                  <tr *ngIf="!isCustomertype">
-                    <td>
-                      <span>*</span>LAST NAME</td>
-                    <td>
-                      <input type="text" class="form-control" name="lastname" placeholder="Enter Last Name" maxlength="50"
-                        formControlName="lastname" [ngModel]="lastname">
-                      <control-messages [control]="customer.controls.lastname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
-
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <span>*</span> EMAIL</td>
-                    <td>
-                      <input type="email" class="form-control" name="email" placeholder="name@example.com"
-                        formControlName="email" [ngModel]="email">
-                      <control-messages [control]="customer.controls.email" style="color: #E82C0C;margin: 6px 0;"></control-messages>
-
-                    </td>
-                  </tr>
-                </table>
-                <table class="account1_tbl">
-                  <tr>
-                    <td style="position:relative;">
-                      <div class="left_m" style="top:15px;">2</div>
-                      <h3>Home Address</h3>
-                    </td>
-                  </tr>
-                </table>
-                <table class="act_fom " style="width: 156%;">
-                  <tr>
-                    <td>STREET</td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Enter Street" maxlength="100"
-                        formControlName="homestreet">
-
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>CITY</td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Enter City" maxlength="50" formControlName="homecity">
-
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>STATE</td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Enter State" maxlength="50" formControlName="homestate">
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>ZIP</td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Enter Zip" maxlength="6" formControlName="homezip">
-
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td> REGION</td>
-                    <td>
-                      <select id="regionn" placeholder="Select Region" class="textbox form-control" name="region"
-                        [ngModel]="region" (change)="selectedregionRow(regions[$event.target.selectedIndex])"
-                        formControlName="region" [(ngModel)]="region">
-                        <option *ngFor="let region of regions" [value]="region">{{region.name}}</option>
-                      </select>
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td> SUB-REGION</td>
-                    <td>
-                      <select class="textbox form-control" placeholder="Select Region" formControlName="sub_region"
-                        [ngModel]="sub_region">
-                        <option *ngFor="let subregion of subregions" [ngValue]="subregion">{{subregion.name}}</option>
-                      </select>
-                    </td>
-                  </tr>
-                </table>
-                <table class="account1_tbl">
-                  <tr>
-                    <td style="position:relative;">
-                      <div class="left_m" style="top:15px;">3</div>
-                      <h3>Billing Address</h3>
-                    </td>
-                  </tr>
-                </table>
-                <table class="account2_tbl">
-                </table>
-                <table class="act_fom" style="width: 200%;">
-                  <tr>
-                    <td>STREET</td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Enter Street" maxlength="100"
-                        formControlName="billingstreet">
-
-
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>CITY</td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Enter City" maxlength="50" formControlName="billingcity">
-
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>STATE</td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Enter City" maxlength="50" formControlName="billingstate">
-
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>ZIP</td>
-                    <td>
-                      <input type="text" class="form-control" placeholder="Enter Zip" maxlength="6" formControlName="billingzip">
-
-
-                    </td>
-                  </tr>
-
-                </table>
-                <table class="account1_tbl">
-                  <tr>
-                    <td style="position:relative;">
-                      <div class="left_m" style="top:15px;">4</div>
-                      <h3>Contact Numbers</h3>
-                    </td>
-                  </tr>
-                </table>
-                <table class="act_fom" style="width:83%;">
-                  <tr>
-                    <td>CELL PHONE</td>
-                    <td>
-                      <input class="form-control" type="text" name="cellphone" placeholder="Enter Cell Phone" maskrate=""
-                        formControlName="cellphone">
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td> WORK PHONE</td>
-                    <td>
-                      <input class="form-control" type="text" placeholder="Enter Work Phone" maskrate=""
-                        formControlName="workphone">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td> HOME PHONE</td>
-                    <td>
-                      <input class="form-control" type="text" placeholder="Enter Home Phone" maskrate=""
-                        formControlName="homephone">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width:130px;">COMMUNICATION PREFERENCE</td>
-                    <td>
-                      <table class="multi_sel" style="width:77%;">
-                        <tr>
-                          <td>
-                            <input class="form-control" type="checkbox" formControlName="emailpreferenceforcommunication"
-                              [(ngModel)]="emailpreferenceforcommunication">
-                            <label>Email</label>
-                          </td>
-                          <td>
-                            <input class="form-control" type="checkbox" formControlName="phonepreferenceforcommunication"
-                              [(ngModel)]="phonepreferenceforcommunication">
-                            <label>Phone</label>
-                          </td>
-                          <td>
-                            <input class="form-control" type="checkbox" formControlName="messagepreferenceforcommunication"
-                              [(ngModel)]="messagepreferenceforcommunication">
-                            <label>Message</label>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-                <table class="account1_tbl">
-                  <tr>
-                    <td style="position:relative;">
-                      <div class="left_m" style="top:15px;">5</div>
-                      <h3>Payment Details</h3>
-                    </td>
-                  </tr>
-                </table>
-                <table class="act_fom" style="width:114%;">
-                  <tr>
-                    <td> CARD NUMBER</td>
-                    <td>
-                      <input class="form-control" type="text" name="card_number" placeholder="Enter Card Number"
-                        valid-number ng-minlength="12" ng-maxlength="16">
-
-
-                    </td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td> EXP. &nbsp; MONTH/YEAR</td>
-                    <td>
-                      <table>
-                        <tr>
-                          <td>
-                            <input class="form-control" type="text" name="exp_month" placeholder="Exp. Month(MM)"
-                              maxlength="2" style="width:301px;">
-
-                          </td>
-                          <td>
-                            <input class="form-control" type="text" placeholder="Exp. Year(YYYY)" name="exp_year"
-                              maxlength="4" style="width:301px;">
-
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td> CVC</td>
-                    <td>
-                      <input class="form-control" type="text" name="cvc_number" placeholder="Enter CVC" maxlength="4">
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" style="position:relative">
-                      <div class="flash_messages_div" style="left: 3%; width:100%; top:-60px;">
-                      </div>
-                      <button id="saveCustomer" [disabled]="!customer.valid" class="btn" style="width: 94%;padding:10px;margin-top:16px;font-size:16px;background:#54598c;">Save
-                        Customer </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" STYLE="TEXT-ALIGN:CENTER; padding:10px 0px;">
-                      <div>Please fill out all required (*) fields.</div>
-                    </td>
-                  </tr>
-                </table>
+  <div class="modal-header" id="myModal" style="background:#54598c;margin-top:-31px;">
+    <div style="background:#54598C;font-weight:bold;font-size:20px;text-align:center;color:#fff;width:100%;">
+      Add New Customer
+    </div>
+    <a id="closeNewTherapistForm" style="float:right; margin-right:5px; cursor: pointer;" (click)="modalRef.hide()">
+      <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+    </a>
+  </div>
+  <div class="modal-body fontclr">
+    <section style="padding-top:20px;">
+      <form (submit)="create_customer()" [formGroup]="customer">
+        <div class="account">
+          <table class="account1_tbl">
+            <tr>
+              <td style="position:relative;">
+                <div class="left_m">1</div>
+                <h3 style="padding-top:0px;">Account</h3>
+              </td>
+              <td>
+                <span>*</span> Required</td>
+            </tr>
+          </table>
+          <table class="act_fom " style="width: 113%;">
+            <div class="row">
+              <div class="col-sm-12" style="margin-left: 200%">
+                <img *ngIf="!this.image" class="thapp_c" src="../../../assets/img/custom.jpg">
+                <img *ngIf="this.image" class="thapp_c" [src]="image.data">
 
               </div>
-            </form>
+            </div>
+            <div class="row">
+              <div class="col-sm-12" style="margin-left: 200%">
+                <label class="custom-file-upload file_upload" (click)="selectImage()">
+                  <div style="color:#4B889A;text-shadow: 1px 1px #E6FFFF;">
+                    <i class="fa fa-cloud-upload"></i> UPLOAD PROFILE PICTURE
+                    <input #detectFile type="file" accept="image/png, image/jpeg, image/gif" hidden (change)="detectFiles($event)"
+                      name="input-file-preview" />
+                  </div>
+                </label>
+              </div>
+              <ng-template #ImageTemplate>
+                <div class="modal-body">
+                  <div class="cropimage">
+                    Image Crop
+                    <a id="closeNewTherapistForm" style="float:right;  cursor: pointer;" (click)="confirmModalRef.hide()">
+                      <i class="fa fa-times-circle" style="font-size: 28px; color:#FF6470!important;"></i>
+                    </a>
 
-          </section>
+                  </div>
+                  <div class="row" style="margin-top: 5%">
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-6">
+                      <img-cropper class="thapp_c" [image]="data" [settings]="cropperSettings"></img-cropper>
+
+                    </div>
+                    <div class="col-sm-4">
+                      <img [src]="data.image">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modalfooter fontclr">
+                  <button type="button" class="btn btn-default" id="modal-btn-si" (click)="Imageupload(data.image)">Yes</button>
+                  <button type="button" class="btn btn-no" id="modal-btn-no" (click)="confirmModalRef.hide()">No</button>
+                </div>
+              </ng-template>
+            </div>
+            <tr>
+              <td> Address Name:</td>
+              <td>
+                <input class="form-control" type="text" formControlName="addressname" name="addressname" placeholder="Enter Address Name"
+                  maxlength="50" [ngModel]="addressname">
+              </td>
+            </tr>
+            <tr>
+              <td> CUSTOMER TYPE:</td>
+              <td>
+
+                <select class="form-control" name="CUSTOMERTYPE" (change)="selectcustomer($event.target.value)">
+                  <option value="custtype">Select Customer Type</option>
+                  <option value="Individual">Individual</option>
+                  <option value="Corporate">Corporate</option>
+                  <option value="HotelIndividyal">Hotel-Individual</option>
+                </select>
+
+              </td>
+            </tr>
+            <tr *ngIf="isCustomertype">
+              <td>
+                <span>*</span>COMPANY NAME</td>
+              <td>
+                <input type="text" class="form-control" name="companyname" placeholder="Enter Company Name"
+                  formControlName="companyname" [ngModel]="companyname">
+                <control-messages [control]="customer.controls.companyname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+              </td>
+
+            </tr>
+            <tr *ngIf="!isCustomertype">
+              <td>
+                <span>*</span>FIRST NAME</td>
+              <td>
+                <input type="text" class="form-control" name="firstname" placeholder="Enter First Name" maxlength="50"
+                  formControlName="firstname" [ngModel]="firstname">
+                <control-messages [control]="customer.controls.firstname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+              </td>
+            </tr>
+            <tr *ngIf="!isCustomertype">
+              <td>
+                <span>*</span>LAST NAME</td>
+              <td>
+                <input type="text" class="form-control" name="lastname" placeholder="Enter Last Name" maxlength="50"
+                  formControlName="lastname" [ngModel]="lastname">
+                <control-messages [control]="customer.controls.lastname" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <span>*</span> EMAIL</td>
+              <td>
+                <input type="email" class="form-control" name="email" placeholder="name@example.com" formControlName="email"
+                  [ngModel]="email">
+                <control-messages [control]="customer.controls.email" style="color: #E82C0C;margin: 6px 0;"></control-messages>
+
+              </td>
+            </tr>
+          </table>
+          <table class="account1_tbl">
+            <tr>
+              <td style="position:relative;">
+                <div class="left_m" style="top:15px;">2</div>
+                <h3>Home Address</h3>
+              </td>
+            </tr>
+          </table>
+          <table class="act_fom " style="width: 156%;">
+            <tr>
+              <td>STREET</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" formControlName="homestreet">
+
+
+              </td>
+            </tr>
+            <tr>
+              <td>CITY</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter City" maxlength="50" formControlName="homecity">
+
+
+              </td>
+            </tr>
+            <tr>
+              <td>STATE</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter State" maxlength="50" formControlName="homestate">
+
+              </td>
+            </tr>
+            <tr>
+              <td>ZIP</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter Zip" maxlength="6" formControlName="homezip">
+
+              </td>
+            </tr>
+
+            <tr>
+              <td> REGION</td>
+              <td>
+                <select id="regionn" placeholder="Select Region" class="textbox form-control" name="region" [ngModel]="region"
+                  (change)="selectedregionRow(regions[$event.target.selectedIndex])" formControlName="region"
+                  [(ngModel)]="region">
+                  <option *ngFor="let region of regions" [value]="region">{{region.name}}</option>
+                </select>
+
+              </td>
+            </tr>
+            <tr>
+              <td> SUB-REGION</td>
+              <td>
+                <select class="textbox form-control" placeholder="Select Region" formControlName="sub_region" [ngModel]="sub_region">
+                  <option *ngFor="let subregion of subregions" [ngValue]="subregion">{{subregion.name}}</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+          <table class="account1_tbl">
+            <tr>
+              <td style="position:relative;">
+                <div class="left_m" style="top:15px;">3</div>
+                <h3>Billing Address</h3>
+              </td>
+            </tr>
+          </table>
+          <table class="account2_tbl">
+          </table>
+          <table class="act_fom" style="width: 200%;">
+            <tr>
+              <td>STREET</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" formControlName="billingstreet">
+
+
+
+              </td>
+            </tr>
+            <tr>
+              <td>CITY</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter City" maxlength="50" formControlName="billingcity">
+
+
+              </td>
+            </tr>
+            <tr>
+              <td>STATE</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter City" maxlength="50" formControlName="billingstate">
+
+
+              </td>
+            </tr>
+            <tr>
+              <td>ZIP</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter Zip" maxlength="6" formControlName="billingzip">
+
+
+              </td>
+            </tr>
+
+          </table>
+          <table class="account1_tbl">
+            <tr>
+              <td style="position:relative;">
+                <div class="left_m" style="top:15px;">4</div>
+                <h3>Contact Numbers</h3>
+              </td>
+            </tr>
+          </table>
+          <table class="act_fom" style="width:83%;">
+            <tr>
+              <td>CELL PHONE</td>
+              <td>
+                <input class="form-control" type="text" name="cellphone" placeholder="Enter Cell Phone" maskrate=""
+                  formControlName="cellphone">
+
+              </td>
+            </tr>
+            <tr>
+              <td> WORK PHONE</td>
+              <td>
+                <input class="form-control" type="text" placeholder="Enter Work Phone" maskrate="" formControlName="workphone">
+              </td>
+            </tr>
+            <tr>
+              <td> HOME PHONE</td>
+              <td>
+                <input class="form-control" type="text" placeholder="Enter Home Phone" maskrate="" formControlName="homephone">
+              </td>
+            </tr>
+            <tr>
+              <td style="width:130px;">COMMUNICATION PREFERENCE</td>
+              <td>
+                <table class="multi_sel" style="width:77%;">
+                  <tr>
+                    <td>
+                      <input class="form-control" type="checkbox" formControlName="emailpreferenceforcommunication"
+                        [(ngModel)]="emailpreferenceforcommunication">
+                      <label>Email</label>
+                    </td>
+                    <td>
+                      <input class="form-control" type="checkbox" formControlName="phonepreferenceforcommunication"
+                        [(ngModel)]="phonepreferenceforcommunication">
+                      <label>Phone</label>
+                    </td>
+                    <td>
+                      <input class="form-control" type="checkbox" formControlName="messagepreferenceforcommunication"
+                        [(ngModel)]="messagepreferenceforcommunication">
+                      <label>Message</label>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <table class="account1_tbl">
+            <tr>
+              <td style="position:relative;">
+                <div class="left_m" style="top:15px;">5</div>
+                <h3>Payment Details</h3>
+              </td>
+            </tr>
+          </table>
+          <table class="act_fom" style="width:114%;">
+            <tr>
+              <td> CARD NUMBER</td>
+              <td>
+                <input class="form-control" type="text" name="card_number" placeholder="Enter Card Number" valid-number
+                  ng-minlength="12" ng-maxlength="16">
+
+
+              </td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td> EXP. &nbsp; MONTH/YEAR</td>
+              <td>
+                <table>
+                  <tr>
+                    <td>
+                      <input class="form-control" type="text" name="exp_month" placeholder="Exp. Month(MM)" maxlength="2"
+                        style="width:301px;">
+
+                    </td>
+                    <td>
+                      <input class="form-control" type="text" placeholder="Exp. Year(YYYY)" name="exp_year" maxlength="4"
+                        style="width:301px;">
+
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td> CVC</td>
+              <td>
+                <input class="form-control" type="text" name="cvc_number" placeholder="Enter CVC" maxlength="4">
+
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3" style="position:relative">
+                <div class="flash_messages_div" style="left: 3%; width:100%; top:-60px;">
+                </div>
+                <button id="saveCustomer" [disabled]="!customer.valid" class="btn" style="width: 94%;padding:10px;margin-top:16px;font-size:16px;background:#54598c;">Save
+                  Customer </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3" STYLE="TEXT-ALIGN:CENTER; padding:10px 0px;">
+                <div>Please fill out all required (*) fields.</div>
+              </td>
+            </tr>
+          </table>
 
         </div>
+      </form>
+
+    </section>
+
+  </div>
 
 
 
-      </ng-template>
+</ng-template>

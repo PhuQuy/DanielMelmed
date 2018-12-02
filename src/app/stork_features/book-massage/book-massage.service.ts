@@ -235,9 +235,9 @@ export class BookMassageService extends BaseService {
                     return new service_addons(
                         item._id,
                         item.name,
-                        item.duration,
                         item.cost,
-                        item.qty,
+                        item.qty ? item.qty : 1,
+                        item.duration,
                         item.service_addons_subtotal,
                         item.notes
                     )
