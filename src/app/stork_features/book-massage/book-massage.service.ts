@@ -115,20 +115,20 @@ export class BookMassageService extends BaseService {
         return this.http.get<any>(apilink)
             .map(res => {
                 return res.ResponseMessage.map(item => {
-                    return new therapist(
-                        item._id,
-                        item.name,
-                        item.firstname,
-                        item.lastname,
-                        item.gender,
-                        item.phone.map(item1 => {
+                    let therapistData = {
+                        _id: item._id,
+                        name: item.name,
+                        firstname: item.firstname,
+                        lastname: item.lastname,
+                        gender :item.gender,
+                        phone: item.phone.map(item1 => {
                             return new phone(
                                 item1.default,
                                 item1.phone
                             )
                         }),
-                        item.email,
-                        new therapist_address(
+                        email: item.email,
+                        address: new therapist_address(
                             new Region((item.address.region != undefined) ? item.address.region._id : "",
                                 (item.address.region != undefined) ? item.address.region.name : ""),
                             new Subregion(
@@ -141,10 +141,48 @@ export class BookMassageService extends BaseService {
                             item.address.country,
                             item.address.zipcode
                         ),
-                        item.appoinment_preference,
-                        item.notification_enabled,
-                        item.therapist_notes
-                    );
+                        //item.emailpreferenceforcommunication,
+                        //item.address; therapist_address;
+                        // item.appoinment_preference: appoinment_preference,
+                        appoinment_preference: item.appoinment_preference,
+                        notification_enabled: item.notification_enabled,
+                        therapist_notes:item.therapist_notes,
+
+                        // start_date_time: condition.startdate,
+                        // end_date_time: condition.enddate,
+                        // served_regions: condition.servedregion
+                    }
+                    return new therapist(therapistData);
+                    // return new therapist(
+                    //     item._id,
+                    //     item.name,
+                    //     item.firstname,
+                    //     item.lastname,
+                    //     item.gender,
+                    //     item.phone.map(item1 => {
+                    //         return new phone(
+                    //             item1.default,
+                    //             item1.phone
+                    //         )
+                    //     }),
+                    //     item.email,
+                    //     new therapist_address(
+                    //         new Region((item.address.region != undefined) ? item.address.region._id : "",
+                    //             (item.address.region != undefined) ? item.address.region.name : ""),
+                    //         new Subregion(
+                    //             (item.address.subregion != undefined) ? item.address.subregion._id : "",
+                    //             (item.address.subregion != undefined) ? item.address.subregion.name : ""
+                    //         ),
+                    //         item.address.street,
+                    //         item.address.city,
+                    //         item.address.state,
+                    //         item.address.country,
+                    //         item.address.zipcode
+                    //     ),
+                    //     item.appoinment_preference,
+                    //     item.notification_enabled,
+                    //     item.therapist_notes
+                    // );
                 });
             });
 
@@ -162,20 +200,20 @@ export class BookMassageService extends BaseService {
             .map(res => {
                 if (res) {
                     return res.ResponseMessage.map(item => {
-                        return new therapist(
-                            item._id,
-                            item.name,
-                            item.firstname,
-                            item.lastname,
-                            item.gender,
-                            item.phone.map(item1 => {
+                        let therapistData = {
+                            _id: item._id,
+                            name: item.name,
+                            firstname: item.firstname,
+                            lastname: item.lastname,
+                            gender :item.gender,
+                            phone: item.phone.map(item1 => {
                                 return new phone(
                                     item1.default,
                                     item1.phone
                                 )
                             }),
-                            item.email,
-                            new therapist_address(
+                            email: item.email,
+                            address: new therapist_address(
                                 new Region((item.address.region != undefined) ? item.address.region._id : "",
                                     (item.address.region != undefined) ? item.address.region.name : ""),
                                 new Subregion(
@@ -191,14 +229,15 @@ export class BookMassageService extends BaseService {
                             //item.emailpreferenceforcommunication,
                             //item.address; therapist_address;
                             // item.appoinment_preference: appoinment_preference,
-                            item.appoinment_preference,
-                            item.notification_enabled,
-                            item.therapist_notes,
+                            appoinment_preference: item.appoinment_preference,
+                            notification_enabled: item.notification_enabled,
+                            therapist_notes:item.therapist_notes,
 
                             // start_date_time: condition.startdate,
                             // end_date_time: condition.enddate,
                             // served_regions: condition.servedregion
-                        );
+                        }
+                        return new therapist(therapistData);
                     });
                 } else {
                     return res;
@@ -216,17 +255,7 @@ export class BookMassageService extends BaseService {
         return this.http.get<any>(apilink)//.map(res => res);
             .map(res => {
                 return res.ResponseMessage.map(item => {
-                    return new service(
-                        item._id,
-                        item.name,
-                        item.image,
-                        item.cost,
-                        item.qty,
-                        item.service_subtotal,
-                        item.currency,
-                        item.duration,
-                        item.notes
-                    )
+                    return new service(item)
                 })
             });
     }
@@ -236,15 +265,7 @@ export class BookMassageService extends BaseService {
         return this.http.get<any>(apilink)//.map(res => res);
             .map(res => {
                 return res.ResponseMessage.map(item => {
-                    return new service_addons(
-                        item._id,
-                        item.name,
-                        item.cost,
-                        item.qty ? item.qty : 1,
-                        item.duration,
-                        item.service_addons_subtotal,
-                        item.notes
-                    )
+                    return new service_addons(item)
                 });
             });
 

@@ -32,7 +32,7 @@
 
       <div class="appointment-content">
         <div class="row pl-md-3">
-          <div class="col-lg-7 pt-4 pr-4">
+          <div class="col-lg-7 pt-4 pr-5">
 
             <!-- Start of select type and other appointment status -->
             <div class="row">
@@ -96,20 +96,27 @@
                     </button>
                   </div>
 
-                  <div class="col-12">
-                    <!-- <select class="form-control" (change)="onCustomerChange($event.target.value)" (ngModel)="appointment.customer">
-                      <option *ngFor="let customer of customersData" [value]="customer._id">{{customer.firstname}}
-                        {{customer.lastname}}
-                      </option>
-                    </select> -->
-
+                  <div class="col-12" *ngIf="appointment.customer">
                     <ng-select *ngIf="customersData" (change)="onCustomerChange()" [items]="customersData" class="form-control"
-                      [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer" [ngModelOptions]="{standalone: true}">
+                      [searchable]="false" bindLabel="name" bindValue="_id" [(ngModel)]="appointment.customer._id"
+                      [ngModelOptions]="{standalone: true}">
                       <ng-template ng-option-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.firstname}} {{item.lastname}}</span>
                       </ng-template>
                     </ng-select>
                   </div>
+
+                  <div class="col-12"  *ngIf="!(appointment.customer)">
+                    <ng-select *ngIf="customersData" (change)="onCustomerChange()" [items]="customersData" class="form-control"
+                      [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer"
+                      [ngModelOptions]="{standalone: true}">
+                      <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.firstname}} {{item.lastname}}</span>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                  <!-- <ng-template #no_customer>
+                  </ng-template> -->
 
                   <div class="px-2 my-auto flex-right-button">
                     <a *ngIf="appointment.customer" class="custbutton" [routerLink]="['/customer/profile/', customerid]"
@@ -149,33 +156,34 @@
                   <label class="mb-1">Select Therapist</label>
                 </div>
               </div>
-              <div class="col-12" *ngFor="let therapist of therapistList; let i = index">
+              <div class="col-12" *ngFor="let therapist of appointment.therapist; let i = index">
                 <div class="row">
                   <div class="my-auto px-0 flex-left-button">
-                    <button type="button" class="servicebtn float-right" (click)="addMoretherapist(therapist)">
+                    <button type="button" class="servicebtn float-right" (click)="addMoretherapist()">
                       <i class="fa fa-plus-circle fontclr mt-1" matTooltip="Add More Therapist" [matTooltipPosition]="'after'"
                         style="font-size:140% ;"></i>
                     </button>
                   </div>
 
                   <div class="col-12">
-                    <ng-select [items]="therapistsData" bindLabel="name" class="form-control" [searchable]="false"
-                      [(ngModel)]="therapistList[i]" (change)="onSelectTherapist($event, index)" [ngModelOptions]="{standalone: true}">
+                    <ng-select [items]="therapistsData" bindLabel="name" bindValue="_id" class="form-control"
+                      [searchable]="false" [(ngModel)]="appointment.therapist[i]._id" (change)="onSelectTherapist($event, i)"
+                      [ngModelOptions]="{standalone: true}">
                       <ng-template ng-option-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.name}}</span>
                       </ng-template>
                     </ng-select>
                   </div>
 
-                  <div class="px-2 my-auto flex-right-button" [class.remove-button]="therapistList.length > 1">
-                    <a *ngIf="therapistList[i]._id" #t2="ngbTooltip" class="custbutton" [ngbTooltip]="tipTherapistContent"
-                      placement="right" (mouseenter)="openTherapistsToolstip(t2, therapist.email, therapist.phone)">
+                  <div class="px-2 my-auto flex-right-button" [class.remove-button]="appointment.therapist.length > 1">
+                    <a *ngIf="appointment.therapist[i]._id" #t2="ngbTooltip" class="custbutton" [ngbTooltip]="tipTherapistContent"
+                      placement="right" (mouseenter)="openTherapistsToolstip(t2, appointment.therapist[i].email, appointment.therapist[i].phone)">
                       <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                     </a>
-                    <a *ngIf="!therapistList[i]._id" class="custbutton">
+                    <a *ngIf="!appointment.therapist[i]._id" class="custbutton">
                       <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                     </a>
-                    <button *ngIf="therapistList.length > 1" style="background: none; border: none;" (click)="removeTherapist(i)">
+                    <button *ngIf="appointment.therapist.length > 1" style="background: none; border: none;" (click)="removeTherapist(i)">
                       <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove Therapist" [matTooltipPosition]="'after'"></i>
                     </button>
                   </div>
@@ -191,7 +199,7 @@
                   <label class="mb-1">Select Service</label>
                 </div>
               </div>
-              <div class="col-12" *ngFor="let service of addServices; let i = index">
+              <div class="col-12" *ngFor="let service of appointment.service; let i = index">
                 <div class="row">
                   <div class="my-auto px-0 flex-left-button">
                     <button type="button" class="servicebtn float-right" (click)="addMoreServices()">
@@ -201,7 +209,7 @@
                   </div>
                   <div class="col-9">
                     <ng-select [items]="servicesData" bindLabel="name" class="form-control" [searchable]="false"
-                      [(ngModel)]="addServices[i]" (change)="manualTotal(); serviceCostPerUnit = addServices[i].cost"
+                      [(ngModel)]="appointment.service[i]" (change)="manualTotal(); serviceCostPerUnit = appointment.service[i].cost"
                       [ngModelOptions]="{standalone: true}">
                       <ng-template ng-option-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.name}}</span>
@@ -210,16 +218,16 @@
                   </div>
                   <div class="col-1 px-0">
                     <input class="form-control" (change)="changeServiceQty(i)" type="number" placeholder="QTY" title="QTY"
-                      maxlength="3" [(ngModel)]="addServices[i].qty" name="serviceQty" />
+                      maxlength="3" [(ngModel)]="appointment.service[i].qty" name="serviceQty" />
                   </div>
                   <div class="col-2">
                     <i class="dollar-inside">$</i>
                     <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" placeholder="0.00"
-                      [ngModel]="addServices[i].cost | number:'.2-2'" (ngModelChange)="addServices[i].cost=$event" name="serviceCost"
-                      readonly />
+                      [value]="(appointment.service[i].cost * appointment.service[i].qty) | number:'.2-2'"
+                      (ngModelChange)="appointment.service[i].cost=$event" name="serviceCost" readonly />
                   </div>
                 </div>
-                <div class="px-2 my-auto flex-right-button" [style.right]="'-25px'" *ngIf="addServices.length > 1">
+                <div class="px-2 my-auto flex-right-button" [style.right]="'-25px'" *ngIf="appointment.service.length > 1">
                   <button style="background: none; border: none;" (click)="removeService(i)">
                     <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove Service" [matTooltipPosition]="'after'"></i>
                   </button>
@@ -235,7 +243,7 @@
                   <label class="mb-1">Select Service Add On</label>
                 </div>
               </div>
-              <div class="col-12" *ngFor="let serviceaddon of addServiceAddon; let i = index">
+              <div class="col-12" *ngFor="let serviceaddon of appointment.service_addons; let i = index">
                 <div class="row">
                   <div class="my-auto px-0 flex-left-button">
                     <button type="button" class="servicebtn float-right" (click)="addMoreServicesAddon()">
@@ -244,26 +252,29 @@
                     </button>
                   </div>
                   <div class="col-9">
-                    <ng-select [items]="serviceAddOnData" bindLabel="name" class="form-control" [searchable]="false"
-                      [(ngModel)]="addServiceAddon[i]" (change)="onServiceAddonChange(i, $event);manualTotal(); addonCostPerUnit = addServiceAddon[i].cost"
+                    <ng-select [items]="serviceAddOnData" class="form-control" [searchable]="false"
+                      [(ngModel)]="appointment.service_addons[i]" (change)="onServiceAddonChange(i, $event);manualTotal(); addonCostPerUnit = appointment.service_addons[i].cost"
                       [ngModelOptions]="{standalone: true}">
                       <ng-template ng-option-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.name}}</span>
                       </ng-template>
+                      <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">{{item.name}}</span>
+                    </ng-template>
                     </ng-select>
                   </div>
                   <div class="col-1 px-0">
                     <input class="form-control" name="serviceaddonqty" type="number" placeholder="QTY" title="QTY"
-                      maxlength="3" [(ngModel)]="addServiceAddon[i].qty" (change)="changeAddonQty(i)" />
+                      maxlength="3" [(ngModel)]="appointment.service_addons[i].qty" (change)="changeAddonQty(i)" />
                   </div>
                   <div class="col-2">
                     <i class="dollar-inside">$</i>
                     <input class="form-control text-right padding-left-20  pr-2" name="serviceaddontotal" tabindex="-1"
-                      placeholder="0.00" [ngModel]="addServiceAddon[i].cost | number:'.2-2'" (ngModelChange)="addServiceAddon[i].cost=$event"
+                      placeholder="0.00" [value]="(appointment.service_addons[i].cost * appointment.service_addons[i].qty) | number:'.2-2'" (ngModelChange)="appointment.service_addons[i].cost=$event"
                       readonly />
                   </div>
                 </div>
-                <div class="px-2 my-auto flex-right-button" [style.right]="'-25px'" *ngIf="addServiceAddon.length > 1">
+                <div class="px-2 my-auto flex-right-button" [style.right]="'-25px'" *ngIf="appointment.service_addons.length > 1">
                   <button style="background: none; border: none;" (click)="removeServiceAddon(i)">
                     <i class="fa fa-times-circle crossbtn fontclr" matTooltip="Remove Service Add On"
                       [matTooltipPosition]="'after'"></i>
@@ -280,7 +291,7 @@
                   <label class="mb-1">Manual Item Entry</label>
                 </div>
               </div>
-              <div class="col-12" *ngFor="let manual of addManualItems; let i = index">
+              <div class="col-12" *ngFor="let manual of appointment.manual_enteries; let i = index">
                 <div class="row">
                   <div class="my-auto px-0 flex-left-button">
                     <button type="button" class="servicebtn float-right" (click)="addMoreManualItem()">
@@ -289,17 +300,17 @@
                     </button>
                   </div>
                   <div class="col-9">
-                    <input class="form-control" [(ngModel)]="addManualItems[i].name" placeholder={{manualNameById}}
+                    <input class="form-control" [(ngModel)]="appointment.manual_enteries[i].name" placeholder={{manualNameById}}
                       name="ManualItem" />
                   </div>
                   <div class="col-1 px-0">
                     <input class="form-control" type="text" placeholder="QTY" title="QTY" maxlength="3" name="ManualItemqty"
-                      [(ngModel)]="addManualItems[i].qty" />
+                      [(ngModel)]="appointment.manual_enteries[i].qty" (change)="manualTotal()" />
                   </div>
                   <div class="col-2">
                     <i class="dollar-inside">$</i>
                     <input class="form-control text-right padding-left-20" tabindex="-1" type="number" placeholder="0.00"
-                      name="ManualItemtotal" (change)="manualTotal()" id="service_cost" [(ngModel)]="addManualItems[i].cost" />
+                      name="ManualItemtotal"  id="service_cost" (change)="manualTotal()" [(ngModel)]="appointment.manual_enteries[i].cost" />
                   </div>
                 </div>
               </div>
@@ -315,8 +326,8 @@
                   </div>
                   <div class="col-2">
                     <i class="dollar-inside">$</i>
-                    <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" placeholder="0.00"
-                      name="gratuity" (change)="manualTotal()" [ngModel]="tip | number:'.2-2'"  (ngModelChange)="tip=$event">
+                    <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" placeholder="0.00" name="gratuity" type="number"
+                      (change)="manualTotal()" [ngModel]="tip" (ngModelChange)="tip=$event">
                   </div>
                 </div>
               </div>
@@ -333,7 +344,7 @@
                   <div class="col-2">
                     <i class="dollar-inside">$</i>
                     <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" name="total" placeholder="0.00"
-                      name="total" readonly [ngModel]="total | number:'.2-2'"  (ngModelChange)="total=$event">
+                      name="total" readonly [ngModel]="total | number:'.2-2'" (ngModelChange)="total=$event">
                   </div>
                 </div>
               </div>
