@@ -22,10 +22,10 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
         children: [
 
-            // {
-            //   path: 'book-massage/appointment',
-            //   loadChildren: './stork_features/book-massage/appointment/appointment.module#AppointmentModule'
-            // },
+            {
+              path: 'book-massage/appointment/:appointmentId',
+              loadChildren: './stork_features/book-massage/appointment/appointment.module#AppointmentModule'
+            },
 
             {
                 path: 'appointments',

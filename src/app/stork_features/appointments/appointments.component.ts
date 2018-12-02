@@ -11,21 +11,22 @@ import { CropperSettings } from 'ng2-img-cropper';
 import { AppointmentService } from './apoointments.service';
 import { BookMassageService } from '../book-massage/book-massage.service';
 import HelperService from '../shared/HelperService';
-import { service_addons, service, therapist ,manual_enteries} from '../book-massage/model/appointment.model';
+import { service_addons, service, therapist, manual_enteries } from '../book-massage/model/appointment.model';
 //import { AppointmentseditComponent } from '../appointmentsedit/appointmentsedit.component';
 //import { Constants } from './../util/constants';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import { SharedService } from '@app/core/services/shared.service';
 
 // @NgModule({
-  
+
 //   imports: [
 //     AngularDateTimePickerModule,
 //   ]
-  
+
 // }
-declare var $:any;
+declare var $: any;
 @Component({
   selector: 'app-appointment',
   templateUrl: './appointments.component.html',
@@ -124,11 +125,11 @@ export class AppointmentsComponent implements OnInit {
   addServiceAddOnName: any;
   addTherapistName: any;
 
-	settings = {
-		bigBanner: true,
-		timePicker: true,
-		format: 'MMM-dd-yyyy hh:mm a',
-		defaultOpen: false
+  settings = {
+    bigBanner: true,
+    timePicker: true,
+    format: 'MMM-dd-yyyy hh:mm a',
+    defaultOpen: false
   }
 
   constructor(
@@ -138,7 +139,8 @@ export class AppointmentsComponent implements OnInit {
     private appointmentService: AppointmentService,
     private AppointmentService: AppointmentService,
     public bookMassageService: BookMassageService,
-    private route: Router
+    private route: Router,
+    private sharedService: SharedService
   ) {
     this.activatedRoute.queryParams.subscribe((params) => {
       //let appointmentIdVal = params['appointmentId'];
@@ -364,10 +366,10 @@ export class AppointmentsComponent implements OnInit {
     if (this.addServices != undefined && this.addServices.length > 0)
       this.addServices.splice(0, this.addServices.length);
 
-      // if(this.manualService != undefined && this.manualService.length > 0)
-      // this.manualService.splice(0, this.manualService.length);
-      // if(this.appointment != undefined && this.appointment.manual_enteries != undefined && this.appointment.manual_enteries.length > 0)
-      // this.appointment.manual_enteries.splice(0, this.appointment.manual_enteries.length);
+    // if(this.manualService != undefined && this.manualService.length > 0)
+    // this.manualService.splice(0, this.manualService.length);
+    // if(this.appointment != undefined && this.appointment.manual_enteries != undefined && this.appointment.manual_enteries.length > 0)
+    // this.appointment.manual_enteries.splice(0, this.appointment.manual_enteries.length);
 
     this.addMoreServices(new service("-1", "please select a service", "", "", 1, "", "", 0, ""), true);
     this.addMoreServicesAddon(new service_addons("-1", "please select serviceaddon", "", 1, "", "", ""), true);
@@ -382,25 +384,21 @@ export class AppointmentsComponent implements OnInit {
   get_appointment_by_Id(appointmentIdVal) {
     //debugger;
     this.appointmentService.get_appoinment_by_Id(appointmentIdVal).subscribe(aptbyIdData => {
-      // this.aptbyIdData = aptbyIdData.ResponseMessage;
-      // this.startDateById = this.aptbyIdData.Appoinment;
-      //debugger;
       this.appointment = aptbyIdData.ResponseMessage.Appoinment;
-      this.appointment.customer = this.appointment.customer;
-      this.appointment.therapist = this.appointment.therapist;
-      this.appointment.start_date = HelperService.toDateString(new Date(this.appointment.start_date));
-      this.appointment.manual_enteries = this.appointment.manual_enteries;
+      // this.appointment.customer = this.appointment.customer;
 
-      if (this.appointment.service_addons.length > 0)
-        this.appointment.service_addons = this.appointment.service_addons;
-      else {
+      // this.appointment.therapist = this.appointment.therapist;
+      this.appointment.start_date = HelperService.toDateString(new Date(this.appointment.start_date));
+      // this.appointment.manual_enteries = this.appointment.manual_enteries;
+
+      // this.appointment.service_addons = this.appointment.service_addons;
+      if (!this.appointment.service_addons || this.appointment.service_addons.length == 0) {
         this.appointment.service_addons.push(new service_addons("-1", 'Please Select', '0.00', 1, '', '', ''));
       }
 
-      if (this.appointment.service.length > 0)
-        this.appointment.service = this.appointment.service;
-      else {
-        this.appointment.service.push(new service("-1", 'Please Select', '', '0.00',1, '', '', 0, ''));
+      // this.appointment.service = this.appointment.service;
+      if (!this.appointment.service || this.appointment.service.length == 0) {
+        this.appointment.service.push(new service("-1", 'Please Select', '', '0.00', 1, '', '', 0, ''));
       }
 
       this.modalRef = this.modalService.show(this.editappointmenttemplate);
@@ -484,7 +482,7 @@ export class AppointmentsComponent implements OnInit {
   create_appoinment() {
     //debugger;
     console.log('hi guys');
-    
+
     if (this.appointmentStatus == {}) {
       //debugger;
       this.appointmentStatus = { name: this.aptstatusData[0].name, icon: this.aptstatusData[0].icon.class_name, color: this.aptstatusData[0].icon.color, font_color: this.aptstatusData[0].fontcolor }
@@ -508,7 +506,7 @@ export class AppointmentsComponent implements OnInit {
     console.log(CfieldArrayC);
     console.log(RfieldArrayT);
     console.log(RfieldArrayC);
-    
+
     this.notes = "";
     this.manualService = { name: this.appointmentform.value.ManualItem, qty: this.appointmentform.value.ManualItemqty, cost: this.appointmentform.value.ManualItemtotal }
     // this.bookMassageService.create_appoinment(this.appointment.customer,
@@ -774,7 +772,7 @@ export class AppointmentsComponent implements OnInit {
   customerpop(event) {
     //debugger;
     this.isCustomer = true
-   // this.appointment.customerAdress;
+    // this.appointment.customerAdress;
     //this.appointment.customerContact;
 
   }
@@ -822,7 +820,8 @@ export class AppointmentsComponent implements OnInit {
   load_appointment() {
     //debugger;
     //this.get_appointment_by_Id(this.editappointmenttemplate);
-    this.route.navigate(['book-massage/appointment'], { queryParams: { appointmentId: this.appoinmentId } })
+    // this.route.navigate(['book-massage/appointment'], { queryParams: { appointmentId: this.appoinmentId } })
+    this.sharedService.setAppointment(this.appointment);
     this.modalRef.hide();
 
   }

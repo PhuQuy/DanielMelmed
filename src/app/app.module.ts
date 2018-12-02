@@ -17,6 +17,7 @@ import { AuthGuardService } from './core/guard/auth-guard.service';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { TokenInterceptor } from './core/services/token.interceptor';
 import { AuthService } from './stork_features/shared/auth.service';
+import { SharedService } from './core/services/shared.service';
 
 @NgModule({
     declarations: [
@@ -44,7 +45,8 @@ import { AuthService } from './stork_features/shared/auth.service';
             useClass: TokenInterceptor,
             multi: true
         },
-        AuthService
+        AuthService,
+        SharedService
     ],
     bootstrap: [AppComponent]
 })

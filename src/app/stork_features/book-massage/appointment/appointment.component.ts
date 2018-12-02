@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, TemplateRef } from '@angular/core';
 import { BookMassageService } from '../book-massage.service';
 import { AppointmentService } from './appointment.service';
-import { appointment, manual_enteries } from '../model/appointment.model';
+import { appointment, manual_enteries, service_addons, service, therapist } from '../model/appointment.model';
 import HelperService from '@app/stork_features/shared/HelperService';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { environment } from '@env/environment';
+import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '@app/core/services/shared.service';
 
 @Component({
     selector: 'app-appointment',
@@ -62,6 +64,7 @@ export class AppointmentComponent implements OnInit {
     public tip = 0;
     public addonCostPerUnit = 0;
     public manualItems: manual_enteries[];
+    public addTherapist: therapist[];
 
     public settings = {
         bigBanner: true,
@@ -70,8 +73,16 @@ export class AppointmentComponent implements OnInit {
         defaultOpen: false
     }
 
-    constructor(private bookMassageService: BookMassageService, public modalService: BsModalService) {
-
+    constructor(private bookMassageService: BookMassageService, public modalService: BsModalService, private activatedRoute: ActivatedRoute, private sharedService: SharedService) {
+        this.activatedRoute.params.subscribe((params) => {
+            let appointmentId = params['appointmentId'];
+            console.log(appointmentId);
+            this.sharedService.appointment.subscribe(appointment => {
+                console.log(appointment);
+            })
+            if (appointmentId != undefined)
+                this.get_appointment_by_Id(appointmentId);
+        });
     }
 
     ngOnInit() {
@@ -88,6 +99,54 @@ export class AppointmentComponent implements OnInit {
         this.filter = searchType;
         console.log(this.appointment.appointment_statuses);
 
+    }
+
+    get_appointment_by_Id(appointmentIdVal) {
+        this.bookMassageService.get_appoinment_by_Id(appointmentIdVal).subscribe(aptbyIdData => {
+            this.appointment = aptbyIdData.ResponseMessage.Appoinment;
+            console.log(this.appointment);
+
+            this.appointment.customer = this.appointment.customer;
+            if (this.customersData != undefined)
+                this.customersData.splice(0, this.customersData.length);
+            this.customersData.push(this.appointment.customer);
+
+            //let therapistadd = this.appointment.therapist;
+            //this.addTherapist.splice(0, this.addTherapist.length);
+            this.therapistsData = this.addTherapist = this.appointment.therapist;
+
+            // this.appointment.service = this.appointment.service;
+            // this.servicesData.slice(0, this.servicesData.length);
+            this.servicesData = this.appointment.service;
+
+            // this.appointment.service_addons = this.appointment.service_addons;
+            // this.serviceAddOnData = this.appointment.service_addons;
+
+
+            //  this.appointment.appointment_statuses = this.appointment.appointment_statuses;
+            //if (this.aptstatusData != undefined)
+            // this.aptstatusData.splice(0, this.aptstatusData.length);
+
+            // let appointment_statuses= this.appointmentform.value.aptstatusData;
+            // this.aptstatusData.push(appointment_statuses); 
+
+            this.appointment.start_date = HelperService.toDateString(new Date(this.appointment.start_date));
+            this.manualItems = this.appointment.manual_enteries;
+
+
+            if (this.appointment.service_addons.length > 0)
+                this.appointment.service_addons = this.appointment.service_addons;
+            else {
+                this.appointment.service_addons.push(new service_addons("-1", 'Please Select', '0.00', 1, '', '', ''));
+            }
+
+            if (this.appointment.service.length > 0)
+                this.appointment.service = this.appointment.service;
+            else {
+                this.appointment.service.push(new service("-1", 'Please Select', '', '0.00', 1, '', '', 0, ''));
+            }
+
+        })
     }
 
     get_all_appointment_status() {
@@ -287,6 +346,6 @@ export class AppointmentComponent implements OnInit {
     onServiceAddonChange(index, value) {
         // this.addServiceAddon[index] = value;
         console.log(this.addServiceAddon[index]);
-        
+
     }
 }

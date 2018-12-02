@@ -160,45 +160,49 @@ export class BookMassageService extends BaseService {
             served_regions: condition.servedregion
         })
             .map(res => {
-                return res.ResponseMessage.map(item => {
-                    return new therapist(
-                        item._id,
-                        item.name,
-                        item.firstname,
-                        item.lastname,
-                        item.gender,
-                        item.phone.map(item1 => {
-                            return new phone(
-                                item1.default,
-                                item1.phone
-                            )
-                        }),
-                        item.email,
-                        new therapist_address(
-                            new Region((item.address.region != undefined) ? item.address.region._id : "",
-                                (item.address.region != undefined) ? item.address.region.name : ""),
-                            new Subregion(
-                                (item.address.subregion != undefined) ? item.address.subregion._id : "",
-                                (item.address.subregion != undefined) ? item.address.subregion.name : ""
+                if (res) {
+                    return res.ResponseMessage.map(item => {
+                        return new therapist(
+                            item._id,
+                            item.name,
+                            item.firstname,
+                            item.lastname,
+                            item.gender,
+                            item.phone.map(item1 => {
+                                return new phone(
+                                    item1.default,
+                                    item1.phone
+                                )
+                            }),
+                            item.email,
+                            new therapist_address(
+                                new Region((item.address.region != undefined) ? item.address.region._id : "",
+                                    (item.address.region != undefined) ? item.address.region.name : ""),
+                                new Subregion(
+                                    (item.address.subregion != undefined) ? item.address.subregion._id : "",
+                                    (item.address.subregion != undefined) ? item.address.subregion.name : ""
+                                ),
+                                item.address.street,
+                                item.address.city,
+                                item.address.state,
+                                item.address.country,
+                                item.address.zipcode
                             ),
-                            item.address.street,
-                            item.address.city,
-                            item.address.state,
-                            item.address.country,
-                            item.address.zipcode
-                        ),
-                        //item.emailpreferenceforcommunication,
-                        //item.address; therapist_address;
-                        // item.appoinment_preference: appoinment_preference,
-                        item.appoinment_preference,
-                        item.notification_enabled,
-                        item.therapist_notes,
+                            //item.emailpreferenceforcommunication,
+                            //item.address; therapist_address;
+                            // item.appoinment_preference: appoinment_preference,
+                            item.appoinment_preference,
+                            item.notification_enabled,
+                            item.therapist_notes,
 
-                        // start_date_time: condition.startdate,
-                        // end_date_time: condition.enddate,
-                        // served_regions: condition.servedregion
-                    );
-                });
+                            // start_date_time: condition.startdate,
+                            // end_date_time: condition.enddate,
+                            // served_regions: condition.servedregion
+                        );
+                    });
+                } else {
+                    return res;
+                }
             });
     }
 
