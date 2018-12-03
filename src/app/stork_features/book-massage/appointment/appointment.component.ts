@@ -1,14 +1,16 @@
-import { Component, OnInit, ViewEncapsulation, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { BookMassageService } from '../book-massage.service';
 import { AppointmentService } from './appointment.service';
-import { appointment, manual_enteries, service_addons, service, therapist } from '../model/appointment.model';
+import { appointment, manual_enteries, service_addons, service, therapist, Subregion, Region } from '../model/appointment.model';
 import HelperService from '@app/stork_features/shared/HelperService';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { environment } from '@env/environment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '@app/core/services/shared.service';
 import * as moment from 'moment';
 import { AuthService } from '@app/stork_features/shared/auth.service';
+import { CropperSettings } from 'ng2-img-cropper';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-appointment',
@@ -42,7 +44,7 @@ export class AppointmentComponent implements OnInit {
         "name": "Contact Name",
         "value": "contactname"
     }];
-    public appointment: appointment = new appointment();
+    public appointment: appointment;
     public filter;
     public aptstatusData;
     public modalRef: BsModalRef;
@@ -76,7 +78,7 @@ export class AppointmentComponent implements OnInit {
     }
 
     constructor(private bookMassageService: BookMassageService, public modalService: BsModalService, private activatedRoute: ActivatedRoute, private sharedService: SharedService,
-        protected authService: AuthService) {
+        protected authService: AuthService, private formBuilder: FormBuilder, private router: Router) {
         this.activatedRoute.params.subscribe((params) => {
             let appointmentId = params['appointmentId'];
             console.log(appointmentId);
@@ -97,17 +99,17 @@ export class AppointmentComponent implements OnInit {
     }
 
     loadInit() {
+        this.appointment = new appointment();
         this.appointment.start_date = HelperService.toDateString(new Date());
         this.appointment.therapist = [new therapist()];
         this.appointment.service = [new service()];
         this.appointment.service_addons = [new service_addons()];
         this.appointment.manual_enteries = [new manual_enteries()];
+        this.initloadNewCustomerModal();
     }
 
     onSearchTypeChange(searchType) {
         this.filter = searchType;
-        console.log(this.appointment.appointment_statuses);
-
     }
 
     get_appointment_by_Id(appointmentIdVal) {
@@ -211,9 +213,8 @@ export class AppointmentComponent implements OnInit {
         this.modalRef = this.modalService.show(template);
     }
 
-    onCustomerChange() {
-        console.log(this.appointment.customer);
-
+    onCustomerChange(customer) {
+        this.appointment.customer = customer;
         if (this.appointment.customer.addresses) {
             this.customerAdress = this.appointment.customer.addresses[0];
         }
@@ -247,7 +248,6 @@ export class AppointmentComponent implements OnInit {
             this.appointment.therapist.splice(i, 1);
         }
         this.manualTotal();
-
     }
 
     addMoreServices() {
@@ -278,12 +278,10 @@ export class AppointmentComponent implements OnInit {
     }
 
     changeServiceQty(index) {
-        // this.appointment.service[index].cost = this.appointment.service[index].qty * this.serviceCostPerUnit + '';
         this.manualTotal();
     }
 
     changeAddonQty(i) {
-        // this.addServiceAddon[i].cost = this.addServiceAddon[i].qty * this.addonCostPerUnit;
         this.manualTotal();
     }
 
@@ -366,48 +364,148 @@ export class AppointmentComponent implements OnInit {
 
     create_appoinment() {
         let aptDuration = environment.aptDuration
-
         this.appointment.start_date = moment(this.appointment.start_date).format('YYYY-MM-DD HH:mm:ss');
         let temp = new Date(this.appointment.start_date).getTime() + (aptDuration * 60000);
         this.appointment.end_date = moment(temp).format('YYYY-MM-DD HH:mm:ss');
-        // this.appointment.user = 
-
-        // this.conditionArr = condition;
-
-        // let data = {
-        //     customer: this.appointment.customer,
-        //     appointment_statuses: this.appointment.appointment_statuses ? this.appointment.appointment_statuses : {
-        //         name: "Active", icon: "fa-check",
-        //         font_color: "2F2F2F", color: "5610AD"
-        //     },
-        //     start_date_Time: condition.startdate,
-        //     end_date_Time: condition.enddate,
-        //     therapist: this.therapistList,
-        //     service: this.addServices,
-        //     service_addons: this.addServiceAddon,
-        //     manual_enteries: this.addManualItems,
-        //     tip: this.appointment.tip ? this.appointment.tip : "0.00",
-        //     total_cost: this.appointment.total_cost,
-        //     grand_total_cost: '',
-        //     work_order_notes: this.appointment.work_order_notes,
-        //     privacy_notes: this.appointment.privacy_notes,
-        //     invoice_notes: this.appointment.invoice_notes,
-        //     summary: this.appointment.summary,
-        //     user: {
-        //         email: this.authService.user.email
-        //     },
-        //     CfieldArrayT: null,
-        //     CfieldArrayC: null,
-        //     RfieldArrayT: null,
-        //     RfieldArrayC: null
-        // }
-
-        // this.notes = "";
         let user = {
             email: this.authService.user.email
         }
-        this.bookMassageService.create_appoinment({ ...this.appointment, user }).subscribe(data => {
-            alert("Ok ne !!!!!!")
+        this.bookMassageService.create_appoinment({
+            ...this.appointment, user, start_date_Time: this.appointment.start_date,
+            end_date_Time: this.appointment.end_date
+        }).subscribe(data => {
+            console.log(data);
+        })
+    }
+
+    reset_appointment() {
+        this.loadInit();
+        this.router.navigate(['/book-massage/appointment']);
+    }
+
+    cancelAppointment() {
+        if (this.appointment['_id']) {
+            this.get_appointment_by_Id(this.appointment['_id']);
+        } else {
+            this.reset_appointment();
+        }
+    }
+
+    deleteAppointment() {
+        this.delete_appoinment_by_Id()
+    }
+
+    delete_appoinment_by_Id() {
+        this.bookMassageService.delete_appoinment_by_Id(this.appointment['_id']).subscribe(result => {
+            console.log(result);
+            this.reset_appointment();
+        })
+    }
+
+    // add new customer modal
+    public image: any;
+    public cropperSettings: CropperSettings;
+    public customer;
+    public isCustomertype: boolean = false;
+    public Customertype: string;
+    public selectedregion: any = [];
+    public subregions: [Subregion];
+    public emailpreferenceforcommunication: boolean = false;
+    public phonepreferenceforcommunication: boolean = false;
+    public messagepreferenceforcommunication: boolean = false;
+    public regions: [Region];
+
+    @ViewChild('detectFile') detectFile: ElementRef;
+
+    initloadNewCustomerModal() {
+        this.customer = this.formBuilder.group({
+            email: ['', Validators.compose([Validators.required])],
+            firstname: ['', Validators.required],
+            lastname: ['', Validators.required],
+            addressname: [''],
+            companyname: [''],
+            homestreet: [''],
+            homecity: [''],
+            homestate: [''],
+            homezip: [''],
+            billingstreet: [''],
+            billingcity: [''],
+            billingstate: [''],
+            billingzip: [''],
+            cellphone: [''],
+            sub_region: [''],
+            region: [''],
+            workphone: '',
+            homephone: '',
+            emailpreferenceforcommunication: '',
+            phonepreferenceforcommunication: '',
+            messagepreferenceforcommunication: ''
+        });
+        this.get_all_region();
+    }
+
+    detectFiles(event) {
+        if (event.target.files) {
+            var reader = new FileReader();
+            let file = event.target.files.item(0);
+            reader.readAsDataURL(file);
+
+            this.image = new Object();
+            const that = this;
+            reader.onload = function (e) {
+                that.image.data = e.target['result'];
+            };
+            this.image.name = file.name;
+            this.image.type = file.type;
+        }
+    }
+
+    create_customer() {
+        // this.customer.value.emailpreferenceforcommunication = this.emailpreferenceforcommunication;
+        // this.customer.value.phonepreferenceforcommunication = this.phonepreferenceforcommunication;
+        // this.customer.value.messagepreferenceforcommunication = this.messagepreferenceforcommunication;
+
+        this.bookMassageService.create_customer(this.image, this.customer.value, this.selectedregion.name, this.Customertype).subscribe(Createdata => {
+            this.modalRef.hide();
+            this.get_all_customer_from_bookmassage();
+            console.log(Createdata);
+            this.image = new Object();
+        })
+
+
+    }
+
+    selectImage() {
+        if (this.detectFile) {
+            this.detectFile.nativeElement.click();
+        }
+    }
+
+    selectcustomer(Select_customer: string) {
+        if (Select_customer == "Corporate") {
+            this.isCustomertype = true;
+            this.Customertype = Select_customer
+        }
+        else {
+            this.isCustomertype = false;
+            this.Customertype = Select_customer
+        }
+    }
+
+    selectedregionRow(selectedregion) {
+        this.selectedregion = selectedregion;
+        this.get_all_subregion_by_regionId(this.selectedregion._id);
+    }
+
+    get_all_subregion_by_regionId(regionId) {
+        this.bookMassageService.get_all_subregion_by_regionId(regionId).subscribe(data => {
+            this.subregions = data.ResponseMessage.subregions;
+        })
+    }
+
+    get_all_region() {
+        this.bookMassageService.get_all_regions().subscribe(regionData => {
+            this.regions = regionData.ResponseMessage.regions.map(region => ({ _id: region._id, name: region.name, selected: false }));
         })
     }
 }

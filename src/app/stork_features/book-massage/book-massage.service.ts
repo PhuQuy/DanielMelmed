@@ -120,7 +120,7 @@ export class BookMassageService extends BaseService {
                         name: item.name,
                         firstname: item.firstname,
                         lastname: item.lastname,
-                        gender :item.gender,
+                        gender: item.gender,
                         phone: item.phone.map(item1 => {
                             return new phone(
                                 item1.default,
@@ -146,7 +146,7 @@ export class BookMassageService extends BaseService {
                         // item.appoinment_preference: appoinment_preference,
                         appoinment_preference: item.appoinment_preference,
                         notification_enabled: item.notification_enabled,
-                        therapist_notes:item.therapist_notes,
+                        therapist_notes: item.therapist_notes,
 
                         // start_date_time: condition.startdate,
                         // end_date_time: condition.enddate,
@@ -205,7 +205,7 @@ export class BookMassageService extends BaseService {
                             name: item.name,
                             firstname: item.firstname,
                             lastname: item.lastname,
-                            gender :item.gender,
+                            gender: item.gender,
                             phone: item.phone.map(item1 => {
                                 return new phone(
                                     item1.default,
@@ -231,7 +231,7 @@ export class BookMassageService extends BaseService {
                             // item.appoinment_preference: appoinment_preference,
                             appoinment_preference: item.appoinment_preference,
                             notification_enabled: item.notification_enabled,
-                            therapist_notes:item.therapist_notes,
+                            therapist_notes: item.therapist_notes,
 
                             // start_date_time: condition.startdate,
                             // end_date_time: condition.enddate,
@@ -345,9 +345,9 @@ export class BookMassageService extends BaseService {
             companyname: customers.companyname,
             firstname: customers.firstname,
             lastname: customers.lastname,
-            imageName: image.name,
-            imageData: image.data,
-            imageType: image.type,
+            imageName: image ? image.name : null,
+            imageData: image ? image.data : null,
+            imageType: image ? image.type : null,
             email: customers.email,
             emailpreferenceforcommunication: customers.emailpreferenceforcommunication,
             phonepreferenceforcommunication: customers.phonepreferenceforcommunication,
@@ -389,8 +389,8 @@ export class BookMassageService extends BaseService {
         );
 
     }
-    delete_appoinment_by_Id() {
-        let apilink = env.environment.serviceuri + "/appoinment/";
+    delete_appoinment_by_Id(id) {
+        let apilink = env.environment.serviceuri + "/appoinment/" + id;
         return this.http.delete<any>(apilink).map(res => res);
     }
 
