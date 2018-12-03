@@ -778,7 +778,7 @@ export class AppointmentComponent implements OnInit {
     }
     delete_appoinment_by_Id() {
         //debugger;
-        this.bookMassageService.delete_appoinment_by_Id().subscribe(result => {
+        this.bookMassageService.delete_appoinment_by_Id(1).subscribe(result => {
             //debugger;
         })
     }

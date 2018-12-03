@@ -30,7 +30,7 @@
       </div>
 
 
-      <div class="appointment-content">
+      <div class="appointment-content" *ngIf="appointment">
         <div class="row pl-md-3">
           <div class="col-lg-7 pt-4 pr-5">
 
@@ -65,7 +65,7 @@
                 <div class="form-inputs">
                   <div class="row">
                     <div class="col-12">
-                      <ng-select [items]="aptstatusData" bindLabel="name" class="form-control" [searchable]="false"
+                      <ng-select *ngIf="appointment" [items]="aptstatusData" bindLabel="name" class="form-control" [searchable]="false"
                         [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
                         <ng-template ng-option-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.name}}</span>
@@ -96,8 +96,8 @@
                     </button>
                   </div>
 
-                  <div class="col-12" *ngIf="appointment.customer">
-                    <ng-select *ngIf="customersData" (change)="onCustomerChange()" [items]="customersData" class="form-control"
+                  <div class="col-12" *ngIf="appointment?.customer; else no_customer">
+                    <ng-select *ngIf="customersData" (change)="onCustomerChange($event)" [items]="customersData" class="form-control"
                       [searchable]="false" bindLabel="name" bindValue="_id" [(ngModel)]="appointment.customer._id"
                       [ngModelOptions]="{standalone: true}">
                       <ng-template ng-option-tmp let-item="item" let-clear="clear">
@@ -106,24 +106,27 @@
                     </ng-select>
                   </div>
 
-                  <div class="col-12" *ngIf="!(appointment.customer)">
-                    <ng-select *ngIf="customersData" (change)="onCustomerChange()" [items]="customersData" class="form-control"
-                      [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer" [ngModelOptions]="{standalone: true}">
-                      <ng-template ng-option-tmp let-item="item" let-clear="clear">
-                        <span class="ng-value-label">{{item.firstname}} {{item.lastname}}</span>
-                      </ng-template>
-                    </ng-select>
-                  </div>
+                  <ng-template #no_customer>
+                      <div class="col-12" >
+                        <ng-select *ngIf="customersData" (change)="onCustomerChange($event)" [items]="customersData" class="form-control"
+                          [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer"
+                          [ngModelOptions]="{standalone: true}">
+                          <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                            <span class="ng-value-label">{{item.firstname}} {{item.lastname}}</span>
+                          </ng-template>
+                        </ng-select>
+                      </div>
+                  </ng-template>
                   <!-- <ng-template #no_customer>
                   </ng-template> -->
 
                   <div class="px-2 my-auto flex-right-button">
-                    <a *ngIf="appointment.customer" class="custbutton" [routerLink]="['/customer/profile/', customerid]"
+                    <a *ngIf="appointment?.customer" class="custbutton" [routerLink]="['/customer/profile/', customerid]"
                       target="_blank" [ngbTooltip]="tipContent" placement="right" [autoClose]="'outside'" triggers="manual"
                       #t1="ngbTooltip" (mouseenter)="toggleToolstip(t1)">
                       <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                     </a>
-                    <a *ngIf="!appointment.customer" class="custbutton">
+                    <a *ngIf="!appointment?.customer" class="custbutton">
                       <i class="fa fa-info-circle fontclr " aria-hidden="true"></i>
                     </a>
                   </div>
@@ -384,8 +387,8 @@
                 <div style="padding-top:5px;">
                   <button type="text" class="button newbtn" (click)="reset_appointment()">New</button>
                   <button type="submit" class="button savebtn" (click)="create_appoinment()">Save</button>
-                  <button class="button canclebtn">Cancel</button>
-                  <button class="button deletebtn">Delete</button>
+                  <button class="button canclebtn" (click)="cancelAppointment()">Cancel</button>
+                  <button class="button deletebtn" (click)="deleteAppointment()">Delete</button>
                 </div>
               </div>
 
@@ -519,7 +522,7 @@
   </div>
   <div class="modal-body fontclr">
     <section style="padding-top:20px;">
-      <form (submit)="create_customer()" [formGroup]="customer">
+      <form [formGroup]="customer">
         <div class="account">
           <table class="account1_tbl">
             <tr>
@@ -850,7 +853,7 @@
               <td colspan="3" style="position:relative">
                 <div class="flash_messages_div" style="left: 3%; width:100%; top:-60px;">
                 </div>
-                <button id="saveCustomer" [disabled]="!customer.valid" class="btn" style="width: 94%;padding:10px;margin-top:16px;font-size:16px;background:#54598c;">Save
+                <button (click)="create_customer()" class="btn" style="width: 94%;padding:10px;margin-top:16px;font-size:16px;background:#54598c;">Save
                   Customer </button>
               </td>
             </tr>
