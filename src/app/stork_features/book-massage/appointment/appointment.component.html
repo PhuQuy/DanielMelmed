@@ -65,8 +65,8 @@
                 <div class="form-inputs">
                   <div class="row">
                     <div class="col-12">
-                      <ng-select *ngIf="appointment" [items]="aptstatusData" bindLabel="name" class="form-control" [searchable]="false"
-                        [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
+                      <ng-select *ngIf="appointment" [items]="aptstatusData" bindLabel="name" class="form-control"
+                        [searchable]="false" [(ngModel)]="appointment.appointment_statuses" [ngModelOptions]="{standalone: true}">
                         <ng-template ng-option-tmp let-item="item" let-clear="clear">
                           <span class="ng-value-label">{{item.name}}</span>
                         </ng-template>
@@ -107,15 +107,15 @@
                   </div>
 
                   <ng-template #no_customer>
-                      <div class="col-12" >
-                        <ng-select *ngIf="customersData" (change)="onCustomerChange($event)" [items]="customersData" class="form-control"
-                          [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer"
-                          [ngModelOptions]="{standalone: true}">
-                          <ng-template ng-option-tmp let-item="item" let-clear="clear">
-                            <span class="ng-value-label">{{item.firstname}} {{item.lastname}}</span>
-                          </ng-template>
-                        </ng-select>
-                      </div>
+                    <div class="col-12">
+                      <ng-select *ngIf="customersData" (change)="onCustomerChange($event)" [items]="customersData"
+                        class="form-control" [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer"
+                        [ngModelOptions]="{standalone: true}">
+                        <ng-template ng-option-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label">{{item.firstname}} {{item.lastname}}</span>
+                        </ng-template>
+                      </ng-select>
+                    </div>
                   </ng-template>
                   <!-- <ng-template #no_customer>
                   </ng-template> -->
@@ -385,10 +385,10 @@
               </div>
               <div class="col-md-6">
                 <div style="padding-top:5px;">
-                  <button type="text" class="button newbtn" (click)="reset_appointment()">New</button>
+                  <button type="text" class="button newbtn" (click)="open(content, 'reset')">New</button>
                   <button type="submit" class="button savebtn" (click)="create_appoinment()">Save</button>
-                  <button class="button canclebtn" (click)="cancelAppointment()">Cancel</button>
-                  <button class="button deletebtn" (click)="deleteAppointment()">Delete</button>
+                  <button class="button canclebtn" (click)="open(content, 'cancel')">Cancel</button>
+                  <button class="button deletebtn" (click)="open(content, 'delete')">Delete</button>
                 </div>
               </div>
 
@@ -401,8 +401,8 @@
                     <i class="fa fa-bell" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
                     </i>
                   </a>&nbsp;
-                  <a ng-class="(notificationIconFlag) ? '' : ''" style="background:grey; cursor: pointer;"
-                    matTooltip="Create Invoice" matTooltipPosition="below" (click)="createInvoice()">
+                  <a ng-class="(notificationIconFlag) ? '' : ''" style="background:grey; cursor: pointer;" matTooltip="Create Invoice"
+                    matTooltipPosition="below" (click)="createInvoice()">
                     <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
                   </a>&nbsp;
                   <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
@@ -873,4 +873,14 @@
 
 
 
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <p><strong>{{warningMsg}}</strong></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss('yes click'); modalAction()">Yes</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">No</button>
+  </div>
 </ng-template>
