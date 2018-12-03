@@ -67,7 +67,7 @@ export class AppointmentComponent implements OnInit {
     public addonCostPerUnit = 0;
     public manualItems: manual_enteries[];
     public addTherapist: therapist[];
-
+    public invoiceURL = '';
     public settings = {
         bigBanner: true,
         timePicker: true,
@@ -411,9 +411,19 @@ export class AppointmentComponent implements OnInit {
         })
     }
 
-    createInvoice(id){
-        console.log('wtf');
-        
-        this.bookMassageService.create_invoice('5bfeae4e911b27335c31f046');
+    createInvoice(){
+        this.bookMassageService.create_invoice('5bfeae4e911b27335c31f046').subscribe(data => {
+            let url = data.ResponseMessage.invoice.filename;
+            
+            // window.open(`file://${url}`, '_blank');
+            var a = document.createElement('a');
+            document.body.appendChild(a);
+            a.setAttribute('style', 'display: none');
+            a.href = `file://${url}`;
+            a.download = 'invoice_demo.pdf';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+        });
     }
 }

@@ -106,10 +106,9 @@
                     </ng-select>
                   </div>
 
-                  <div class="col-12"  *ngIf="!(appointment.customer)">
+                  <div class="col-12" *ngIf="!(appointment.customer)">
                     <ng-select *ngIf="customersData" (change)="onCustomerChange()" [items]="customersData" class="form-control"
-                      [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer"
-                      [ngModelOptions]="{standalone: true}">
+                      [searchable]="false" bindLabel="name" [(ngModel)]="appointment.customer" [ngModelOptions]="{standalone: true}">
                       <ng-template ng-option-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.firstname}} {{item.lastname}}</span>
                       </ng-template>
@@ -252,15 +251,15 @@
                     </button>
                   </div>
                   <div class="col-9">
-                    <ng-select [items]="serviceAddOnData" class="form-control" [searchable]="false"
-                      [(ngModel)]="appointment.service_addons[i]" (change)="onServiceAddonChange(i, $event);manualTotal(); addonCostPerUnit = appointment.service_addons[i].cost"
+                    <ng-select [items]="serviceAddOnData" class="form-control" [searchable]="false" [(ngModel)]="appointment.service_addons[i]"
+                      (change)="onServiceAddonChange(i, $event);manualTotal(); addonCostPerUnit = appointment.service_addons[i].cost"
                       [ngModelOptions]="{standalone: true}">
                       <ng-template ng-option-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.name}}</span>
                       </ng-template>
                       <ng-template ng-label-tmp let-item="item" let-clear="clear">
                         <span class="ng-value-label">{{item.name}}</span>
-                    </ng-template>
+                      </ng-template>
                     </ng-select>
                   </div>
                   <div class="col-1 px-0">
@@ -270,8 +269,8 @@
                   <div class="col-2">
                     <i class="dollar-inside">$</i>
                     <input class="form-control text-right padding-left-20  pr-2" name="serviceaddontotal" tabindex="-1"
-                      placeholder="0.00" [value]="(appointment.service_addons[i].cost * appointment.service_addons[i].qty) | number:'.2-2'" (ngModelChange)="appointment.service_addons[i].cost=$event"
-                      readonly />
+                      placeholder="0.00" [value]="(appointment.service_addons[i].cost * appointment.service_addons[i].qty) | number:'.2-2'"
+                      (ngModelChange)="appointment.service_addons[i].cost=$event" readonly />
                   </div>
                 </div>
                 <div class="px-2 my-auto flex-right-button" [style.right]="'-25px'" *ngIf="appointment.service_addons.length > 1">
@@ -310,7 +309,7 @@
                   <div class="col-2">
                     <i class="dollar-inside">$</i>
                     <input class="form-control text-right padding-left-20" tabindex="-1" type="number" placeholder="0.00"
-                      name="ManualItemtotal"  id="service_cost" (change)="manualTotal()" [(ngModel)]="appointment.manual_enteries[i].cost" />
+                      name="ManualItemtotal" id="service_cost" (change)="manualTotal()" [(ngModel)]="appointment.manual_enteries[i].cost" />
                   </div>
                 </div>
               </div>
@@ -326,8 +325,8 @@
                   </div>
                   <div class="col-2">
                     <i class="dollar-inside">$</i>
-                    <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" placeholder="0.00" name="gratuity" type="number"
-                      (change)="manualTotal()" [ngModel]="tip" (ngModelChange)="tip=$event">
+                    <input class="form-control text-right padding-left-20 pr-2" tabindex="-1" placeholder="0.00" name="gratuity"
+                      type="number" (change)="manualTotal()" [ngModel]="tip" (ngModelChange)="tip=$event">
                   </div>
                 </div>
               </div>
@@ -399,8 +398,8 @@
                     <i class="fa fa-bell" aria-hidden="true" style="font-size: 18px;position: inherit; top: 0px;color: white;margin-left: 0px;">
                     </i>
                   </a>&nbsp;
-                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openInvoiceApp(apt._id)"
-                    style="background:grey; cursor: pointer;" matTooltip="Create Invoice" matTooltipPosition="below">
+                  <a ng-class="(notificationIconFlag) ? '' : ''" style="background:grey; cursor: pointer;"
+                    matTooltip="Create Invoice" matTooltipPosition="below" (click)="createInvoice()">
                     <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
                   </a>&nbsp;
                   <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
