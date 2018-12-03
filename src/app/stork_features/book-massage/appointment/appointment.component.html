@@ -385,10 +385,10 @@
               </div>
               <div class="col-md-6">
                 <div style="padding-top:5px;">
-                  <button type="text" class="button newbtn" (click)="open(content, 'reset')">New</button>
-                  <button type="submit" class="button savebtn" (click)="create_appoinment()">Save</button>
-                  <button class="button canclebtn" (click)="open(content, 'cancel')">Cancel</button>
-                  <button class="button deletebtn" (click)="open(content, 'delete')">Delete</button>
+                  <button type="text" class="button newbtn mr-2" (click)="open(content, 'reset')">New</button>
+                  <button type="submit" class="button savebtn mr-2" (click)="create_appoinment()">Save</button>
+                  <button class="button canclebtn mr-2" (click)="open(content, 'cancel')">Cancel</button>
+                  <button class="button deletebtn" [ngClass]="{'btn-disabled': !appointment._id}" (click)="open(content, 'delete')" [disabled]="!appointment._id">Delete</button>
                 </div>
               </div>
 

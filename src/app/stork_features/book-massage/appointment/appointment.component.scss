@@ -435,7 +435,7 @@ hr {
 
 .button {
   border: none;
-  padding: 9px;
+  // padding: 9px;
 }
 
 .example-tooltip-host {
@@ -665,4 +665,8 @@ hr {
 
 .remove-button {
     right: -55px;
+}
+
+.btn-disabled {
+  opacity: 0.5;
 }
