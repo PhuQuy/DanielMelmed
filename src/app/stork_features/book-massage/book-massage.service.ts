@@ -325,8 +325,6 @@ export class BookMassageService extends BaseService {
     }
     get_all_regions() {
         // let apilink = env.environment.serviceuri + "/region/region";
-        console.log('aaaaa');
-
         return this.http.get<any>(`${this.URL}/region/region`).map(res => res);
     }
     get_all_subregion() {

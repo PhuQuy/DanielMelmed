@@ -18,6 +18,7 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { TokenInterceptor } from './core/services/token.interceptor';
 import { AuthService } from './stork_features/shared/auth.service';
 import { SharedService } from './core/services/shared.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { SharedService } from './core/services/shared.service';
         ConfigurationModule,
         BookMassageModule,
         LoginModule,
+        NgbModule,
         PhoneDirectiveModule,
         AppHeaderModule
     ],

@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { AuthService } from '@app/stork_features/shared/auth.service';
 import { CropperSettings } from 'ng2-img-cropper';
 import { FormBuilder, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-appointment',
@@ -76,9 +77,10 @@ export class AppointmentComponent implements OnInit {
         format: 'MMM-dd-yyyy hh:mm a',
         defaultOpen: false
     }
-
+    warningMsg: String = '';
+    action: String = '';
     constructor(private bookMassageService: BookMassageService, public modalService: BsModalService, private activatedRoute: ActivatedRoute, private sharedService: SharedService,
-        protected authService: AuthService, private formBuilder: FormBuilder, private router: Router) {
+        protected authService: AuthService, private formBuilder: FormBuilder, private router: Router, private ngModalService: NgbModal) {
         this.activatedRoute.params.subscribe((params) => {
             let appointmentId = params['appointmentId'];
             console.log(appointmentId);
@@ -537,5 +539,35 @@ export class AppointmentComponent implements OnInit {
             path = this.replaceAll(path, '\\', '/');
             this.downloadFile(path);
         });
+    }
+
+    open(content, action) {
+        this.action = action
+        switch (this.action) {
+            case 'delete':
+                this.warningMsg = 'Do you want to delete appointment?';
+                break;
+            case 'reset':
+                this.warningMsg = 'Do you want to reset appointment?';
+                break;
+            case 'cancel':
+                this.warningMsg = 'Do you want to cancel appointment?';
+                break;
+        }
+        this.ngModalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'sm' });
+    }
+
+    modalAction() {
+        switch (this.action) {
+            case 'delete':
+                this.deleteAppointment();
+                break;
+            case 'reset':
+                this.reset_appointment();
+                break;
+            case 'cancel':
+                this.cancelAppointment();
+                break;
+        }
     }
 }
