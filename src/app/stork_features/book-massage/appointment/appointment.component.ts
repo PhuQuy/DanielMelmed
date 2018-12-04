@@ -404,6 +404,23 @@ export class AppointmentComponent implements OnInit {
         })
     }
 
+    downloadFile(link) {
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        var that = this;
+        xhr.onload = function (event) {
+            var blob = new Blob([xhr.response], { type: 'application/pdf' });
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'invoice';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+        xhr.open('GET', link);
+        xhr.send();
+    }
+
     // add new customer modal
     public image: any;
     public cropperSettings: CropperSettings;
@@ -511,19 +528,16 @@ export class AppointmentComponent implements OnInit {
         })
     }
 
-    createInvoice() {
-        this.bookMassageService.create_invoice('5bfeae4e911b27335c31f046').subscribe(data => {
-            let url = data.ResponseMessage.invoice.filename;
+    replaceAll(str, find, replace) {
+        return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+    };
 
-            // window.open(`file://${url}`, '_blank');
-            var a = document.createElement('a');
-            document.body.appendChild(a);
-            a.setAttribute('style', 'display: none');
-            a.href = `file://${url}`;
-            a.download = 'invoice_demo.pdf';
-            a.click();
-            window.URL.revokeObjectURL(url);
-            a.remove();
+    createInvoice() {
+        this.bookMassageService.create_invoice(this.appointment['_id']).subscribe(data => {
+            let path = data.filename;
+            path = environment.serviceuri + path.slice(path.indexOf('\\invoice'), path.length);
+            path = this.replaceAll(path, '\\', '/');
+            this.downloadFile(path);
         });
     }
 
