@@ -388,7 +388,8 @@
                   <button type="text" class="button newbtn mr-2" (click)="open(content, 'reset')">New</button>
                   <button type="submit" class="button savebtn mr-2" (click)="create_appoinment()">Save</button>
                   <button class="button canclebtn mr-2" (click)="open(content, 'cancel')">Cancel</button>
-                  <button class="button deletebtn" [ngClass]="{'btn-disabled': !appointment._id}" (click)="open(content, 'delete')" [disabled]="!appointment._id">Delete</button>
+                  <button class="button deletebtn" [ngClass]="{'btn-disabled': !appointment._id}" (click)="open(content, 'delete')"
+                    [disabled]="!appointment._id">Delete</button>
                 </div>
               </div>
 
@@ -405,8 +406,8 @@
                     matTooltipPosition="below" (click)="createInvoice()">
                     <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size: 18px;"></i>
                   </a>&nbsp;
-                  <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" ng-click=" notificationIconFlag === false || openPushApp(apt._id,'true')"
-                    style="background:grey;" matTooltip="Email Invoice" matTooltipPosition="below">
+                  <a ng-class="(notificationIconFlag) ? '' : ''" style="background:grey;" matTooltip="Email Invoice"
+                    matTooltipPosition="below" (click)="emailInvoice()">
                     <i class="fa fa-share" aria-hidden="true" style="font-size: 18px;"></i>
                   </a>&nbsp;
                   <a ng-class="(notificationIconFlag) ? '' : 'disabled change_hover'" style="background:grey;"
