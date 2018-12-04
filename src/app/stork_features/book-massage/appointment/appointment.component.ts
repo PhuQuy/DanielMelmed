@@ -87,7 +87,7 @@ export class AppointmentComponent implements OnInit {
             this.sharedService.appointment.subscribe(appointment => {
                 console.log(appointment);
             })
-            if (appointmentId != undefined) {
+            if (appointmentId && appointmentId != undefined) {
                 this.get_appointment_by_Id(appointmentId);
             } else {
                 this.loadInit();

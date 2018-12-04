@@ -450,8 +450,9 @@ hr {
   background: none;
 }
 
-.servicebtn {
+.appointment .servicebtn {
   border: none;
+  margin-left: 0px !important;
   background: none;
 }
 
@@ -654,17 +655,18 @@ hr {
 }
 
 .multi-line {
-    .col-12 {
-        margin-top: 10px;
-    }
+  .col-12 {
+    margin-top: 10px;
+  }
 
-    .col-12:nth-child(2), .col-12:first-child{
-        margin-top: 0px !important;
-    }
+  .col-12:nth-child(2),
+  .col-12:first-child {
+    margin-top: 0px !important;
+  }
 }
 
 .remove-button {
-    right: -55px;
+  right: -55px;
 }
 
 .btn-disabled {
