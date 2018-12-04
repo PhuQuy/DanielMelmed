@@ -399,8 +399,6 @@ export class BookMassageService extends BaseService {
 
     create_invoice(_id: String){
         let apilink = `${this.URL}/invoice`
-        console.log(apilink);
-        
         return this.http.post<any>(apilink, {_id: _id}).pipe(
             map((res) => {
                 console.log(res);
@@ -409,6 +407,12 @@ export class BookMassageService extends BaseService {
             }),
             catchError(this.handleError)
         );
+    }
 
+    email_invoice(params) {
+        return this.http.post<any>(`${this.URL}/invoice/send_email`, params).pipe(
+            map((res) => res),
+            catchError(this.handleError)
+        );
     }
 }

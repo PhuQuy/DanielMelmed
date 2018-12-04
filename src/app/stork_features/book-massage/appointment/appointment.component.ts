@@ -570,4 +570,11 @@ export class AppointmentComponent implements OnInit {
                 break;
         }
     }
+
+    emailInvoice(){
+        this.bookMassageService.email_invoice({_id: '5c049900ad4db643e4a6c4f1'}).subscribe(email => {
+            console.log(email);
+            
+        })
+    }
 }
